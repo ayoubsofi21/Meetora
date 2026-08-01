@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom';
-import Sidebar from './components/Sidebar';
-import Topbar from './components/Topbar';
-import MobileBottomNav from './components/MobileBottomNav';
+import Sidebar from '../components/Sidebar';
+import Topbar from '../components/Topbar';
+import MobileBottomNav from '../components/MobileBottomNav';
 
 /**
  * Main authenticated shell: Sidebar + Topbar + routed page content.
