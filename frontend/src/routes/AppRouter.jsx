@@ -7,21 +7,18 @@ import ProtectedRoute from './ProtectedRoute';
 import GuestRoute from './GuestRoute';
 import RoleGuard from './RoleGuard';
 
-/** Temporary placeholder so every route renders something meaningful until its real page lands. */
+import LoginPage from '@/pages/auth/LoginPage';
+import RegisterPage from '@/pages/auth/RegisterPage';
+import ForgotPasswordPage from '@/pages/auth/ForgotPasswordPage';
+import ResetPasswordPage from '@/pages/auth/ResetPasswordPage';
+import VerifyEmailPage from '@/pages/auth/VerifyEmailPage';
+
+/** Temporary placeholder so every dashboard route renders something meaningful until its real page lands. */
 function PagePlaceholder({ title }) {
   return (
     <div className="flex min-h-[60vh] flex-col items-center justify-center rounded-2xl border border-dashed border-ink-200 bg-white/60 text-center">
       <h2 className="text-lg font-semibold text-ink-700">{title}</h2>
       <p className="mt-1 text-sm text-ink-400">This page will be built in an upcoming step.</p>
-    </div>
-  );
-}
-
-function AuthPlaceholder({ title }) {
-  return (
-    <div className="rounded-2xl border border-ink-100 bg-white p-8 text-center shadow-card">
-      <h2 className="text-lg font-semibold text-ink-800">{title}</h2>
-      <p className="mt-1 text-sm text-ink-400">Auth form coming in Step 4.</p>
     </div>
   );
 }
@@ -34,12 +31,16 @@ export default function AppRouter() {
       {/* Guest-only auth routes */}
       <Route element={<GuestRoute />}>
         <Route element={<AuthLayout />}>
-          <Route path={ROUTES.LOGIN} element={<AuthPlaceholder title="Login" />} />
-          <Route path={ROUTES.REGISTER} element={<AuthPlaceholder title="Register" />} />
-          <Route path={ROUTES.FORGOT_PASSWORD} element={<AuthPlaceholder title="Forgot Password" />} />
-          <Route path={ROUTES.RESET_PASSWORD} element={<AuthPlaceholder title="Reset Password" />} />
-          <Route path={ROUTES.VERIFY_EMAIL} element={<AuthPlaceholder title="Verify Email" />} />
+          <Route path={ROUTES.LOGIN} element={<LoginPage />} />
+          <Route path={ROUTES.REGISTER} element={<RegisterPage />} />
+          <Route path={ROUTES.FORGOT_PASSWORD} element={<ForgotPasswordPage />} />
+          <Route path={ROUTES.RESET_PASSWORD} element={<ResetPasswordPage />} />
         </Route>
+      </Route>
+
+      {/* Verify email: reachable whether authenticated (post-register) or not (link from inbox) */}
+      <Route element={<AuthLayout />}>
+        <Route path={ROUTES.VERIFY_EMAIL} element={<VerifyEmailPage />} />
       </Route>
 
       {/* Authenticated app */}
