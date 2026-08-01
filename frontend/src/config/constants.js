@@ -41,24 +41,30 @@ export const ROUTES = {
   PATIENT_MEDICAL_RECORDS: '/patient/medical-records',
   PATIENT_PRESCRIPTIONS: '/patient/prescriptions',
   PATIENT_SEARCH_DOCTORS: '/patient/doctors',
+  PATIENT_MESSAGES: '/patient/messages',
   PATIENT_SETTINGS: '/patient/settings',
 
   DOCTOR_DASHBOARD: '/doctor/dashboard',
   DOCTOR_SCHEDULE: '/doctor/schedule',
   DOCTOR_PATIENTS: '/doctor/patients',
   DOCTOR_CONSULTATIONS: '/doctor/consultations',
+  DOCTOR_ANALYTICS: '/doctor/analytics',
+  DOCTOR_MESSAGES: '/doctor/messages',
   DOCTOR_SETTINGS: '/doctor/settings',
 
   SECRETARY_DASHBOARD: '/secretary/dashboard',
   SECRETARY_APPOINTMENTS: '/secretary/appointments',
   SECRETARY_WAITING_ROOM: '/secretary/waiting-room',
   SECRETARY_BILLING: '/secretary/billing',
+  SECRETARY_SETTINGS: '/secretary/settings',
 
   ADMIN_DASHBOARD: '/admin/dashboard',
   ADMIN_USERS: '/admin/users',
   ADMIN_DOCTORS: '/admin/doctors',
   ADMIN_REPORTS: '/admin/reports',
+  ADMIN_ANALYTICS: '/admin/analytics',
   ADMIN_ACTIVITY_LOG: '/admin/activity-log',
+  ADMIN_SETTINGS: '/admin/settings',
 
   NOT_FOUND: '/404',
   FORBIDDEN: '/403',
@@ -69,4 +75,18 @@ export const DASHBOARD_ROUTE_BY_ROLE = {
   [ROLES.DOCTOR]: ROUTES.DOCTOR_DASHBOARD,
   [ROLES.SECRETARY]: ROUTES.SECRETARY_DASHBOARD,
   [ROLES.ADMIN]: ROUTES.ADMIN_DASHBOARD,
+};
+
+export const ROLE_LABELS = {
+  [ROLES.PATIENT]: 'Patient',
+  [ROLES.DOCTOR]: 'Practitioner',
+  [ROLES.SECRETARY]: 'Secretary',
+  [ROLES.ADMIN]: 'System Admin',
+};
+
+export const ROLE_PORTAL_LABELS = {
+  [ROLES.PATIENT]: 'Patient Portal',
+  [ROLES.DOCTOR]: 'Practitioner Portal',
+  [ROLES.SECRETARY]: 'Practitioner Portal',
+  [ROLES.ADMIN]: 'Practitioner Portal',
 };
