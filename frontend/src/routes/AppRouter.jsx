@@ -13,7 +13,9 @@ import ForgotPasswordPage from '@/pages/auth/ForgotPasswordPage';
 import ResetPasswordPage from '@/pages/auth/ResetPasswordPage';
 import VerifyEmailPage from '@/pages/auth/VerifyEmailPage';
 
-/** Temporary placeholder so every dashboard route renders something meaningful until its real page lands. */
+import PatientDashboardPage from '@/pages/patient/DashboardPage';
+
+/** Temporary placeholder so every not-yet-built route renders something meaningful. */
 function PagePlaceholder({ title }) {
   return (
     <div className="flex min-h-[60vh] flex-col items-center justify-center rounded-2xl border border-dashed border-ink-200 bg-white/60 text-center">
@@ -22,6 +24,11 @@ function PagePlaceholder({ title }) {
     </div>
   );
 }
+
+/** Maps a sidebar route path to its real page component, when one exists yet. */
+const PATIENT_PAGE_OVERRIDES = {
+  [ROUTES.PATIENT_DASHBOARD]: PatientDashboardPage,
+};
 
 export default function AppRouter() {
   return (
@@ -38,7 +45,6 @@ export default function AppRouter() {
         </Route>
       </Route>
 
-      {/* Verify email: reachable whether authenticated (post-register) or not (link from inbox) */}
       <Route element={<AuthLayout />}>
         <Route path={ROUTES.VERIFY_EMAIL} element={<VerifyEmailPage />} />
       </Route>
@@ -47,9 +53,10 @@ export default function AppRouter() {
       <Route element={<ProtectedRoute />}>
         <Route element={<DashboardLayout />}>
           <Route element={<RoleGuard allowedRoles={[ROLES.PATIENT]} />}>
-            {SIDEBAR_NAV[ROLES.PATIENT].map((item) => (
-              <Route key={item.to} path={item.to} element={<PagePlaceholder title={item.label} />} />
-            ))}
+            {SIDEBAR_NAV[ROLES.PATIENT].map((item) => {
+              const Page = PATIENT_PAGE_OVERRIDES[item.to] || (() => <PagePlaceholder title={item.label} />);
+              return <Route key={item.to} path={item.to} element={<Page />} />;
+            })}
           </Route>
 
           <Route element={<RoleGuard allowedRoles={[ROLES.DOCTOR]} />}>
