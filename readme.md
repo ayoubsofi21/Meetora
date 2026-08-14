@@ -5,7 +5,7 @@
 ![React](https://img.shields.io/badge/React-18.x-61DAFB?style=for-the-badge&logo=react&logoColor=black)
 ![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
 ![MySQL](https://img.shields.io/badge/MySQL-8.0+-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
-![Sanctum](https://img.shields.io/badge/Laravel_Sanctum-Auth-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)
+![Sanctum](https://img.shields.io/badge/  Laravel_Sanctum-Auth-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)
 ![REST API](https://img.shields.io/badge/REST_API-v1-0055E5?style=for-the-badge&logo=rest&logoColor=white)
 ![Git](https://img.shields.io/badge/Git-Version_Control-F05032?style=for-the-badge&logo=git&logoColor=white)
 
