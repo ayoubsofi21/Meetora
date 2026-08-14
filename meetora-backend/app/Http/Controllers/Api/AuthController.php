@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use App\Enums\UserRole;
 
 class AuthController extends Controller
 {
@@ -20,7 +21,7 @@ class AuthController extends Controller
             'name' => $request->validated('name'),
             'email' => $request->validated('email'),
             'password' => Hash::make($request->validated('password')),
-            'role' => 'patient', // rôle forcé, jamais fourni par le client
+            'role' => UserRole::PATIENT,
         ]);
 
         $token = $user->createToken('auth_token')->plainTextToken;
