@@ -25,3 +25,15 @@ Route::middleware(['auth:sanctum', 'role:admin'])->group(function () {
         return response()->json(['success' => true, 'message' => 'admin ok']);
     });
 });
+use App\Http\Controllers\Api\SpecialtyController;
+
+// Public
+Route::get('/specialties', [SpecialtyController::class, 'index']);
+Route::get('/specialties/{specialty}', [SpecialtyController::class, 'show']);
+
+// Admin only
+Route::middleware(['auth:sanctum', 'role:admin'])->prefix('admin')->group(function () {
+    Route::post('/specialties', [SpecialtyController::class, 'store']);
+    Route::put('/specialties/{specialty}', [SpecialtyController::class, 'update']);
+    Route::delete('/specialties/{specialty}', [SpecialtyController::class, 'destroy']);
+});
