@@ -1,59 +1,122 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🏥 Meetora Backend — Laravel 12 REST API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+![Laravel](https://img.shields.io/badge/Laravel-12.x-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)
+![PHP](https://img.shields.io/badge/PHP-8.2+-777BB4?style=for-the-badge&logo=php&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-8.0+-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
+![Sanctum](https://img.shields.io/badge/Laravel_Sanctum-Auth-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)
+![REST API](https://img.shields.io/badge/REST_API-v1-0055E5?style=for-the-badge&logo=rest&logoColor=white)
+![PHPUnit](https://img.shields.io/badge/PHPUnit-Testing-3C9CD7?style=for-the-badge&logo=php&logoColor=white)
 
-## About Laravel
+Backend REST API de Meetora, une plateforme HealthTech de gestion de cabinet médical. Développé avec Laravel 12, PHP et MySQL, il fournit les services d'authentification, de gestion des patients, médecins, rendez-vous, consultations, ordonnances, dossiers médicaux et dashboards.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 📚 Table des matières
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- [Présentation](#-présentation)
+- [Objectifs](#-objectifs)
+- [Fonctionnalités](#-fonctionnalités)
+- [Architecture](#%EF%B8%8F-architecture)
+- [Stack technique](#-stack-technique)
+- [Structure du backend](#-structure-du-backend)
+- [Prérequis](#-prérequis)
+- [Installation](#-installation)
+- [Configuration](#%EF%B8%8F-configuration)
+- [Base de données](#%EF%B8%8F-base-de-données)
+- [Authentification](#-authentification)
+- [Rôles et permissions](#-rôles-et-permissions)
+- [API REST](#-api-rest)
+- [Format des réponses API](#-format-des-réponses-api)
+- [Validation](#-validation)
+- [API Resources](#-api-resources)
+- [Services](#-services)
+- [Authorization](#-authorization)
+- [Middleware](#-middleware)
+- [Sécurité](#-sécurité)
+- [Tests](#-tests)
+- [Factories & Seeders](#-factories--seeders)
+- [Docker](#-docker)
+- [Documentation API](#-documentation-api)
+- [Documentation technique](#-documentation-technique)
+- [Performance](#-performance)
+- [Déploiement](#-déploiement)
+- [Commandes utiles](#-commandes-utiles)
+- [Git Workflow](#-git-workflow)
+- [Roadmap](#%EF%B8%8F-roadmap)
+- [Limitations](#-limitations)
+- [Données médicales](#%EF%B8%8F-données-médicales)
+- [Auteur](#-auteur)
+- [Licence](#-licence)
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## 📋 Présentation
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Meetora Backend est le cœur applicatif API First d'une plateforme HealthTech conçue pour digitaliser les opérations d'un cabinet médical ou d'une clinique.
 
-## Laravel Sponsors
+Conçu selon les standards RESTful avec **Laravel 12**, ce backend est entièrement découplé du client utilisateur. Il expose des points d'accès sécurisés (Endpoints API JSON) consommés par un frontend **React 18** Single Page Application (SPA).
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+---
 
-### Premium Partners
+## 🎯 Objectifs
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+- **Exposer une API RESTful** : Offrir des endpoints normalisés, prévisibles et sécurisés pour toutes les opérations métier.
+- **Centraliser les données de santé** : Garantir l'intégrité, la cohérence et la traçabilité des dossiers médicaux.
+- **Gestion fine de l'authentification** : Secourir les échanges via jetons porteurs (Tokens) révocables.
+- **Contrôle d'accès basé sur les rôles (RBAC)** : Segmenter les privilèges entre Patients, Médecins et Administrateurs.
+- **Planification des soins** : Prévenir les chevauchements de créneaux et optimiser la prise de rendez-vous.
+- **Suivi clinique** : Enregistrer les comptes-rendus de consultation et générer des ordonnances structurées.
+- **Protection des données médicales** : Appliquer le principe du moindre privilège via des Policies et Form Requests.
+- **Fournir des métriques aux dashboards** : Agglomérer les données statistiques destinées aux tableaux de bord analytiques.
 
-## Contributing
+---
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## ✨ Fonctionnalités
 
-## Code of Conduct
+### 🔑 Authentication
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+- Inscription des usagers (rôle Patient par défaut).
+- Connexion avec génération de jeton API Sanctum (`Bearer Token`).
+- Déconnexion avec révocation et destruction du jeton actif.
+- Récupération du profil de l'utilisateur connecté via `/api/user`.
 
-## Security Vulnerabilities
+### 👥 Users & Roles
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+- Gestion unifiée des utilisateurs (Patients, Doctors, Admins).
+- Isolation des profils utilisateurs selon leur rôle.
 
-## License
+### 🧑‍⚕️ Doctors & Specialties
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+- Consultation de l'annuaire des praticiens et recherche multi-critères.
+- Gestion des profils de spécialités médicales par l'administrateur.
+- Définition et mise à jour des plages horaires de disponibilité par médecin.
+
+### 👤 Patients
+
+- Gestion des fiches d'informations patients (groupe sanguin, contact d'urgence, historique).
+- Recherche et consultation des profils patients par les médecins autorisés.
+
+### 📅 Appointments
+
+- Création et prise de rendez-vous en ligne sur créneaux disponibles.
+- Détection et prévention automatique des conflits d'horaires.
+- Gestion du cycle de vie du RDV : `Pending`, `Confirmed`, `Cancelled`, `Completed`.
+
+### 📝 Consultations & Prescriptions
+
+- Enregistrement des notes de consultation et diagnostics par le médecin.
+- Émission d'ordonnances avec détails multi-lignes de prescriptions (médicaments, posologie, durée, instructions).
+- Accès sécurisé à l'historique d'ordonnances pour le patient.
+
+### 📂 Medical Records
+
+- Consolidation du dossier médical individuel (consultations passées, ordonnances associées).
+- Restriction stricte de la consultation du dossier au patient concerné, au médecin traitant et à l'administrateur.
+
+### 📊 Dashboards & Analytics
+
+- Agrégation des statistiques d'activité (RDV du jour, totaux des patients, volume de consultations).
+
+---
+
+## 🏗️ Architecture
