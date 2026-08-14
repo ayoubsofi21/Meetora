@@ -2,12 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 
-// Authentication
-
-// Public Doctors
-
-// Patient Routes
-
-// Doctor Routes
-
-// Admin Routes
+Route::get('/health', function () {
+    return response()->json([
+        'success' => true,
+        'message' => 'Meetora API is running',
+    ]);
+});
