@@ -37,6 +37,10 @@ Route::middleware(['auth:sanctum', 'role:admin'])->prefix('admin')->group(functi
     Route::post('/specialties', [SpecialtyController::class, 'store']);
     Route::put('/specialties/{specialty}', [SpecialtyController::class, 'update']);
     Route::delete('/specialties/{specialty}', [SpecialtyController::class, 'destroy']);
+
+    Route::post('/doctors', [DoctorController::class, 'store']);
+    Route::put('/doctors/{doctor}', [DoctorController::class, 'update']);
+    Route::delete('/doctors/{doctor}', [DoctorController::class, 'destroy']);
 });
 
 Route::get('/doctors', [DoctorController::class, 'index']);

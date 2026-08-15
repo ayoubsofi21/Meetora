@@ -45,7 +45,7 @@ class DoctorTest extends TestCase
         $response->assertStatus(200)->assertJsonCount(1, 'data');
     }
 
-   public function test_doctor_can_search_by_specialty_name(): void
+ public function test_can_search_doctors_by_specialty_name(): void
 {
     $cardiology = Specialty::factory()->create([
         'name' => 'Cardiologie',
@@ -55,18 +55,17 @@ class DoctorTest extends TestCase
         'specialty_id' => $cardiology->id,
     ]);
 
-    $otherSpecialty = Specialty::factory()->create([
+    $dermatology = Specialty::factory()->create([
         'name' => 'Dermatologie',
     ]);
 
     Doctor::factory()->create([
-        'specialty_id' => $otherSpecialty->id,
+        'specialty_id' => $dermatology->id,
     ]);
 
     $response = $this->getJson('/api/doctors?search=cardio');
 
-    $response
-        ->assertStatus(200)
+    $response->assertStatus(200)
         ->assertJsonCount(1, 'data');
 }
 }
