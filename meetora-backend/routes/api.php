@@ -3,7 +3,7 @@
 use App\Http\Controllers\Api\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\DoctorController;
-
+use App\Http\Controllers\Api\PatientController;
 Route::get('/health', function () {
     return response()->json([
         'success' => true,
@@ -42,7 +42,10 @@ Route::middleware(['auth:sanctum', 'role:admin'])->prefix('admin')->group(functi
     Route::put('/doctors/{doctor}', [DoctorController::class, 'update']);
     Route::delete('/doctors/{doctor}', [DoctorController::class, 'destroy']);
 });
-
+Route::middleware(['auth:sanctum', 'role:patient'])->prefix('patient')->group(function () {
+    Route::get('/profile', [PatientController::class, 'profile']);
+    Route::put('/profile', [PatientController::class, 'updateProfile']);
+});
 Route::get('/doctors', [DoctorController::class, 'index']);
 Route::get('/doctors/{doctor}', [DoctorController::class, 'show']);
 Route::get('/doctors/{doctor}/profile', [DoctorController::class, 'profile']);

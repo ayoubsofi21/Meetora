@@ -70,4 +70,18 @@ class RegisterTest extends TestCase
 
         $response->assertStatus(422)->assertJsonValidationErrors('password');
     }
+    public function test_patient_profile_is_created_automatically_on_register(): void
+    {
+        $response = $this->postJson('/api/auth/register', [
+            'name' => 'Ahmed Ali',
+            'email' => 'ahmed@example.com',
+            'password' => 'Password123!',
+            'password_confirmation' => 'Password123!',
+        ]);
+
+        $response->assertStatus(201);
+
+        $user = \App\Models\User::where('email', 'ahmed@example.com')->first();
+        $this->assertNotNull($user->patient);
+    }
 }
