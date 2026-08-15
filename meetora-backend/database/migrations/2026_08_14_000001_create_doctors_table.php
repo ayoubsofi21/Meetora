@@ -10,7 +10,16 @@ return new class extends Migration
     {
         Schema::create('doctors', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->unique()->constrained()->cascadeOnDelete();
+            $table->foreignId('specialty_id')->constrained()->restrictOnDelete();
+            $table->string('phone')->nullable();
+            $table->string('address')->nullable();
+            $table->text('bio')->nullable();
+            $table->string('license_number')->nullable();
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
+
+            $table->index('specialty_id');
         });
     }
 
