@@ -41,10 +41,20 @@ Route::middleware(['auth:sanctum', 'role:admin'])->prefix('admin')->group(functi
     Route::post('/doctors', [DoctorController::class, 'store']);
     Route::put('/doctors/{doctor}', [DoctorController::class, 'update']);
     Route::delete('/doctors/{doctor}', [DoctorController::class, 'destroy']);
+
+    Route::get('/patients', [PatientController::class, 'adminIndex']);
+    Route::post('/patients', [PatientController::class, 'adminStore']);
+    Route::get('/patients/{patient}', [PatientController::class, 'adminShow']);
+    Route::put('/patients/{patient}', [PatientController::class, 'adminUpdate']);
+    Route::delete('/patients/{patient}', [PatientController::class, 'adminDestroy']);
 });
 Route::middleware(['auth:sanctum', 'role:patient'])->prefix('patient')->group(function () {
     Route::get('/profile', [PatientController::class, 'profile']);
     Route::put('/profile', [PatientController::class, 'updateProfile']);
+});
+Route::middleware(['auth:sanctum', 'role:doctor'])->prefix('doctor')->group(function () {
+    Route::get('/patients', [PatientController::class, 'doctorIndex']);
+    Route::get('/patients/{patient}', [PatientController::class, 'doctorShow']);
 });
 Route::get('/doctors', [DoctorController::class, 'index']);
 Route::get('/doctors/{doctor}', [DoctorController::class, 'show']);

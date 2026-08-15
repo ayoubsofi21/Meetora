@@ -13,6 +13,15 @@ class CreatePatientRequest extends FormRequest
 
     public function rules(): array
     {
-        return [];
+        return [
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
+            'password' => ['required', 'string', 'min:8'],
+            'date_of_birth' => ['nullable', 'date', 'before:today'],
+            'gender' => ['nullable', 'string', 'in:male,female,other'],
+            'phone' => ['nullable', 'string', 'max:30'],
+            'address' => ['nullable', 'string', 'max:255'],
+            'emergency_contact' => ['nullable', 'string', 'max:255'],
+        ];
     }
 }
