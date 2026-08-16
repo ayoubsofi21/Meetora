@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\DoctorController;
 use App\Http\Controllers\Api\PatientController;
+use App\Http\Controllers\Api\AvailabilityController;
 Route::get('/health', function () {
     return response()->json([
         'success' => true,
@@ -55,7 +56,13 @@ Route::middleware(['auth:sanctum', 'role:patient'])->prefix('patient')->group(fu
 Route::middleware(['auth:sanctum', 'role:doctor'])->prefix('doctor')->group(function () {
     Route::get('/patients', [PatientController::class, 'doctorIndex']);
     Route::get('/patients/{patient}', [PatientController::class, 'doctorShow']);
+    Route::get('/availabilities', [AvailabilityController::class, 'index']);
+    Route::post('/availabilities', [AvailabilityController::class, 'store']);
+    Route::put('/availabilities/{availability}', [AvailabilityController::class, 'update']);
+    Route::delete('/availabilities/{availability}', [AvailabilityController::class, 'destroy']);
+
 });
 Route::get('/doctors', [DoctorController::class, 'index']);
 Route::get('/doctors/{doctor}', [DoctorController::class, 'show']);
 Route::get('/doctors/{doctor}/profile', [DoctorController::class, 'profile']);
+Route::get('/doctors/{doctor}/availabilities', [AvailabilityController::class, 'forDoctor']);
