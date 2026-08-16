@@ -9,6 +9,7 @@ use App\Models\Doctor;
 use App\Models\Patient;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Auth;
 
 class AppointmentService
 {
@@ -106,5 +107,46 @@ class AppointmentService
                 'notes' => $data['notes'] ?? null,
             ]);
         });
+    }
+    public function confirm(Appointment $appointment): Appointment
+    {
+        if ($appointment->status !== AppointmentStatus::PENDING) {
+            throw ValidationException::withMessages([
+                'status' => ['Only pending appointments can be confirmed.'],
+            ]);
+        }
+
+        $appointment->update(['status' => AppointmentStatus::CONFIRMED]);
+
+        return $appointment;
+    }
+
+    public function cancel(Appointment $appointment): Appointment
+    {
+        if (in_array($appointment->status, [AppointmentStatus::CANCELLED, AppointmentStatus::COMPLETED], true)) {
+            throw ValidationException::withMessages([
+                'status' => ['This appointment cannot be cancelled anymore.'],
+            ]);
+        }
+
+        $appointment->update(['status' => AppointmentStatus::CANCELLED]);
+
+        return $appointment;
+    }
+
+    public function complete(Appointment $appointment, ?string $notes = null): Appointment
+    {
+        if ($appointment->status !== AppointmentStatus::CONFIRMED) {
+            throw ValidationException::withMessages([
+                'status' => ['Only confirmed appointments can be completed.'],
+            ]);
+        }
+
+        $appointment->update([
+            'status' => AppointmentStatus::COMPLETED,
+            'notes' => $notes ?? $appointment->notes,
+        ]);
+
+        return $appointment;
     }
 }

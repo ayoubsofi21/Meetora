@@ -49,11 +49,21 @@ Route::middleware(['auth:sanctum', 'role:admin'])->prefix('admin')->group(functi
     Route::get('/patients/{patient}', [PatientController::class, 'adminShow']);
     Route::put('/patients/{patient}', [PatientController::class, 'adminUpdate']);
     Route::delete('/patients/{patient}', [PatientController::class, 'adminDestroy']);
+
+    Route::get('/appointments', [AppointmentController::class, 'adminIndex']);
+    Route::get('/appointments/{appointment}', [AppointmentController::class, 'adminShow']);
+
 });
 Route::middleware(['auth:sanctum', 'role:patient'])->group(function () {
+    Route::post('/appointments', [AppointmentController::class, 'store']);
+});
+Route::middleware(['auth:sanctum', 'role:patient'])->prefix('patient')->group(function () {
     Route::get('/profile', [PatientController::class, 'profile']);
     Route::put('/profile', [PatientController::class, 'updateProfile']);
-    Route::post('/appointments', [AppointmentController::class, 'store']);
+
+    Route::get('/appointments', [AppointmentController::class, 'patientIndex']);
+    Route::get('/appointments/{appointment}', [AppointmentController::class, 'patientShow']);
+    Route::patch('/appointments/{appointment}/cancel', [AppointmentController::class, 'patientCancel']);
 });
 Route::middleware(['auth:sanctum', 'role:doctor'])->prefix('doctor')->group(function () {
     Route::get('/patients', [PatientController::class, 'doctorIndex']);
@@ -62,6 +72,12 @@ Route::middleware(['auth:sanctum', 'role:doctor'])->prefix('doctor')->group(func
     Route::post('/availabilities', [AvailabilityController::class, 'store']);
     Route::put('/availabilities/{availability}', [AvailabilityController::class, 'update']);
     Route::delete('/availabilities/{availability}', [AvailabilityController::class, 'destroy']);
+
+    Route::get('/appointments', [AppointmentController::class, 'doctorIndex']);
+    Route::get('/appointments/{appointment}', [AppointmentController::class, 'doctorShow']);
+    Route::patch('/appointments/{appointment}/confirm', [AppointmentController::class, 'doctorConfirm']);
+    Route::patch('/appointments/{appointment}/cancel', [AppointmentController::class, 'doctorCancel']);
+    Route::patch('/appointments/{appointment}/complete', [AppointmentController::class, 'doctorComplete']);
 
 });
 Route::get('/doctors', [DoctorController::class, 'index']);

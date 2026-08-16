@@ -8,11 +8,13 @@ class UpdateAppointmentStatusRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true;
+        return true; // le statut cible vient de la route (confirm/cancel/complete), pas du body
     }
 
     public function rules(): array
     {
-        return [];
+        return [
+            'notes' => ['nullable', 'string'],
+        ];
     }
 }
