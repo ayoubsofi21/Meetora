@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\AvailabilityController;
 use App\Http\Controllers\Api\AppointmentController;
 use App\Http\Controllers\Api\ConsultationController;
 use App\Http\Controllers\Api\SpecialtyController;
+use App\Http\Controllers\Api\PrescriptionController;
 Route::get('/health', function () {
     return response()->json([
         'success' => true,
@@ -65,6 +66,10 @@ Route::middleware(['auth:sanctum', 'role:patient'])->prefix('patient')->group(fu
     Route::get('/appointments', [AppointmentController::class, 'patientIndex']);
     Route::get('/appointments/{appointment}', [AppointmentController::class, 'patientShow']);
     Route::patch('/appointments/{appointment}/cancel', [AppointmentController::class, 'patientCancel']);
+
+    Route::get('/prescriptions', [PrescriptionController::class, 'patientIndex']);
+    Route::get('/prescriptions/{prescription}', [PrescriptionController::class, 'patientShow']);
+
 });
 Route::middleware(['auth:sanctum', 'role:doctor'])->prefix('doctor')->group(function () {
     Route::get('/patients', [PatientController::class, 'doctorIndex']);
@@ -82,6 +87,10 @@ Route::middleware(['auth:sanctum', 'role:doctor'])->prefix('doctor')->group(func
 
     Route::post('/appointments/{appointment}/consultation', [ConsultationController::class, 'store']);
     Route::get('/consultations/{consultation}', [ConsultationController::class, 'show']);
+
+    Route::post('/consultations/{consultation}/prescriptions', [PrescriptionController::class, 'store']);
+    Route::get('/prescriptions/{prescription}', [PrescriptionController::class, 'doctorShow']);
+
 
 
 });

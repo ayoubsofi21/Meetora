@@ -39,4 +39,8 @@ class Patient extends Model
     {
         return $this->hasMany(Consultation::class);
     }
+    public function prescriptions(): HasMany
+    {
+        return $this->hasMany(Prescription::class);
+    }
 }
