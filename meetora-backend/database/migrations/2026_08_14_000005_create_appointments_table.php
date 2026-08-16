@@ -10,7 +10,19 @@ return new class extends Migration
     {
         Schema::create('appointments', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('patient_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('doctor_id')->constrained()->cascadeOnDelete();
+            $table->date('appointment_date');
+            $table->time('start_time');
+            $table->time('end_time');
+            $table->string('status')->default('pending');
+            $table->string('reason')->nullable();
+            $table->text('notes')->nullable();
             $table->timestamps();
+
+            $table->index(['doctor_id', 'appointment_date', 'start_time']);
+            $table->index(['patient_id', 'appointment_date']);
+            $table->index('status');
         });
     }
 
