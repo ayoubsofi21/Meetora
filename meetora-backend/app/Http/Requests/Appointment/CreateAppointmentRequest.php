@@ -13,6 +13,12 @@ class CreateAppointmentRequest extends FormRequest
 
     public function rules(): array
     {
-        return [];
+        return [
+            'doctor_id' => ['required', 'integer', 'exists:doctors,id'],
+            'appointment_date' => ['required', 'date_format:Y-m-d', 'after_or_equal:today'],
+            'start_time' => ['required', 'date_format:H:i'],
+            'end_time' => ['required', 'date_format:H:i', 'after:start_time'],
+            'reason' => ['nullable', 'string', 'max:255'],
+        ];
     }
 }
