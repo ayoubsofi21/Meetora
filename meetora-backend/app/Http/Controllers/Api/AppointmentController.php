@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use App\Enums\AppointmentStatus;
 use App\Http\Requests\Appointment\UpdateAppointmentStatusRequest;
 use App\Models\Appointment;
+use Illuminate\Support\Facades\Auth;
 
 class AppointmentController extends Controller
 {

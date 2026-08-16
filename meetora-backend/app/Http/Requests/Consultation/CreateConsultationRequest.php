@@ -13,6 +13,11 @@ class CreateConsultationRequest extends FormRequest
 
     public function rules(): array
     {
-        return [];
+        return [
+            'diagnosis' => ['required', 'string'],
+            'symptoms' => ['nullable', 'string'],
+            'notes' => ['nullable', 'string'],
+            'treatment' => ['nullable', 'string'],
+        ];
     }
 }
