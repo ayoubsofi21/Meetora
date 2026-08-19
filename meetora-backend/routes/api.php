@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\AppointmentController;
 use App\Http\Controllers\Api\ConsultationController;
 use App\Http\Controllers\Api\SpecialtyController;
 use App\Http\Controllers\Api\PrescriptionController;
+use App\Http\Controllers\Api\MedicalRecordController;
 Route::get('/health', function () {
     return response()->json([
         'success' => true,
@@ -70,6 +71,8 @@ Route::middleware(['auth:sanctum', 'role:patient'])->prefix('patient')->group(fu
     Route::get('/prescriptions', [PrescriptionController::class, 'patientIndex']);
     Route::get('/prescriptions/{prescription}', [PrescriptionController::class, 'patientShow']);
 
+    Route::get('/medical-record', [MedicalRecordController::class, 'myRecord']);
+    Route::put('/medical-record', [MedicalRecordController::class, 'updateMyRecord']);
 });
 Route::middleware(['auth:sanctum', 'role:doctor'])->prefix('doctor')->group(function () {
     Route::get('/patients', [PatientController::class, 'doctorIndex']);
@@ -91,6 +94,7 @@ Route::middleware(['auth:sanctum', 'role:doctor'])->prefix('doctor')->group(func
     Route::post('/consultations/{consultation}/prescriptions', [PrescriptionController::class, 'store']);
     Route::get('/prescriptions/{prescription}', [PrescriptionController::class, 'doctorShow']);
 
+    Route::get('/patients/{patient}/medical-record', [MedicalRecordController::class, 'doctorShow']);
 
 
 });

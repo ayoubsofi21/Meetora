@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string('reason')->nullable();
             $table->text('notes')->nullable();
             $table->timestamps();
-
             $table->index(['doctor_id', 'appointment_date', 'start_time']);
             $table->index(['patient_id', 'appointment_date']);
             $table->index('status');

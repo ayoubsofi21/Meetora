@@ -10,6 +10,11 @@ return new class extends Migration
     {
         Schema::create('medical_records', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('patient_id')->unique()->constrained()->cascadeOnDelete();
+            $table->string('blood_type')->nullable();
+            $table->text('allergies')->nullable();
+            $table->text('chronic_conditions')->nullable();
+            $table->text('medical_history')->nullable();
             $table->timestamps();
         });
     }

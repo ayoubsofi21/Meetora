@@ -8,11 +8,16 @@ class UpdateMedicalRecordRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true;
+        return true; // contrôle réel fait par la Policy dans le controller
     }
 
     public function rules(): array
     {
-        return [];
+        return [
+            'blood_type' => ['sometimes', 'nullable', 'string', 'max:10'],
+            'allergies' => ['sometimes', 'nullable', 'string'],
+            'chronic_conditions' => ['sometimes', 'nullable', 'string'],
+            'medical_history' => ['sometimes', 'nullable', 'string'],
+        ];
     }
 }
