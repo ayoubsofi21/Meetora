@@ -9,6 +9,9 @@ use App\Models\Patient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
+use App\Http\Resources\AppointmentResource;
+use App\Http\Resources\ConsultationResource;
+use App\Http\Resources\PrescriptionResource;
 class MedicalRecordController extends Controller
 {
     public function myRecord(Request $request)
@@ -59,6 +62,37 @@ class MedicalRecordController extends Controller
         return response()->json([
             'success' => true,
             'data' => new MedicalRecordResource($record),
+        ]);
+    }
+    
+
+    public function myHistory(Request $request)
+    {
+        $patient = $request->user()->patient;
+
+        $consultations = $patient->consultations()
+            ->with(['doctor.user', 'doctor.specialty'])
+            ->orderByDesc('consultation_date')
+            ->get();
+
+        $prescriptions = $patient->prescriptions()
+            ->with(['doctor.user', 'items'])
+            ->orderByDesc('prescribed_at')
+            ->get();
+
+        $appointments = $patient->appointments()
+            ->with(['doctor.user', 'doctor.specialty'])
+            ->orderByDesc('appointment_date')
+            ->orderByDesc('start_time')
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'consultations' => ConsultationResource::collection($consultations),
+                'prescriptions' => PrescriptionResource::collection($prescriptions),
+                'appointments' => AppointmentResource::collection($appointments),
+            ],
         ]);
     }
 }

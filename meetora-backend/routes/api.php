@@ -73,6 +73,7 @@ Route::middleware(['auth:sanctum', 'role:patient'])->prefix('patient')->group(fu
 
     Route::get('/medical-record', [MedicalRecordController::class, 'myRecord']);
     Route::put('/medical-record', [MedicalRecordController::class, 'updateMyRecord']);
+    Route::get('/medical-history', [MedicalRecordController::class, 'myHistory']);
 });
 Route::middleware(['auth:sanctum', 'role:doctor'])->prefix('doctor')->group(function () {
     Route::get('/patients', [PatientController::class, 'doctorIndex']);
