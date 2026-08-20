@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\ConsultationController;
 use App\Http\Controllers\Api\SpecialtyController;
 use App\Http\Controllers\Api\PrescriptionController;
 use App\Http\Controllers\Api\MedicalRecordController;
+use App\Http\Controllers\Api\DashboardController;
 Route::get('/health', function () {
     return response()->json([
         'success' => true,
@@ -74,6 +75,7 @@ Route::middleware(['auth:sanctum', 'role:patient'])->prefix('patient')->group(fu
     Route::get('/medical-record', [MedicalRecordController::class, 'myRecord']);
     Route::put('/medical-record', [MedicalRecordController::class, 'updateMyRecord']);
     Route::get('/medical-history', [MedicalRecordController::class, 'myHistory']);
+    Route::get('/dashboard', [DashboardController::class, 'patient']);
 });
 Route::middleware(['auth:sanctum', 'role:doctor'])->prefix('doctor')->group(function () {
     Route::get('/patients', [PatientController::class, 'doctorIndex']);
