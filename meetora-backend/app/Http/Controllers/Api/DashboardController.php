@@ -31,4 +31,18 @@ class DashboardController extends Controller
             ],
         ]);
     }
+    public function doctor(Request $request)
+    {
+        $data = $this->dashboardService->forDoctor($request->user()->doctor);
+
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'today_appointments' => AppointmentResource::collection($data['today_appointments']),
+                'upcoming_appointments' => AppointmentResource::collection($data['upcoming_appointments']),
+                'recent_patients' => \App\Http\Resources\PatientResource::collection($data['recent_patients']),
+                'statistics' => $data['statistics'],
+            ],
+        ]);
+    }
 }
