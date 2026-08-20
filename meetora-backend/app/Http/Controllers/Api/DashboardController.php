@@ -9,6 +9,7 @@ use App\Http\Resources\MedicalRecordResource;
 use App\Http\Resources\PrescriptionResource;
 use App\Services\DashboardService;
 use Illuminate\Http\Request;
+use App\Http\Resources\UserResource;
 
 class DashboardController extends Controller
 {
@@ -42,6 +43,21 @@ class DashboardController extends Controller
                 'upcoming_appointments' => AppointmentResource::collection($data['upcoming_appointments']),
                 'recent_patients' => \App\Http\Resources\PatientResource::collection($data['recent_patients']),
                 'statistics' => $data['statistics'],
+            ],
+        ]);
+    }
+    public function admin()
+    {
+        $data = $this->dashboardService->forAdmin();
+
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'statistics' => $data['statistics'],
+                'recent_appointments' => AppointmentResource::collection($data['recent_appointments']),
+                'recent_users' => UserResource::collection($data['recent_users']),
+                'appointments_by_status' => $data['appointments_by_status'],
+                'appointments_per_day' => $data['appointments_per_day'],
             ],
         ]);
     }

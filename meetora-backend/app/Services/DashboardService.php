@@ -6,8 +6,52 @@ use App\Enums\AppointmentStatus;
 use App\Models\Doctor;
 use App\Models\Patient;
 use Illuminate\Support\Carbon;
+use App\Models\User;
+use Illuminate\Support\Facades\DB;
 class DashboardService
-{
+{   
+    public function forAdmin(): array
+    {
+        $statistics = [
+            'total_patients' => Patient::count(),
+            'total_doctors' => Doctor::count(),
+            'total_appointments' => \App\Models\Appointment::count(),
+            'completed_appointments' => \App\Models\Appointment::where('status', AppointmentStatus::COMPLETED)->count(),
+            'pending_appointments' => \App\Models\Appointment::where('status', AppointmentStatus::PENDING)->count(),
+            'cancelled_appointments' => \App\Models\Appointment::where('status', AppointmentStatus::CANCELLED)->count(),
+        ];
+
+        $recentAppointments = \App\Models\Appointment::query()
+            ->with(['doctor.user', 'patient.user'])
+            ->orderByDesc('created_at')
+            ->limit(10)
+            ->get();
+
+        $recentUsers = User::query()
+            ->orderByDesc('created_at')
+            ->limit(10)
+            ->get();
+
+        $appointmentsByStatus = \App\Models\Appointment::query()
+            ->select('status', DB::raw('count(*) as total'))
+            ->groupBy('status')
+            ->pluck('total', 'status');
+
+        $appointmentsPerDay = \App\Models\Appointment::query()
+            ->where('appointment_date', '>=', now()->subDays(30)->toDateString())
+            ->select('appointment_date', DB::raw('count(*) as total'))
+            ->groupBy('appointment_date')
+            ->orderBy('appointment_date')
+            ->pluck('total', 'appointment_date');
+
+        return [
+            'statistics' => $statistics,
+            'recent_appointments' => $recentAppointments,
+            'recent_users' => $recentUsers,
+            'appointments_by_status' => $appointmentsByStatus,
+            'appointments_per_day' => $appointmentsPerDay,
+        ];
+    }
     public function forPatient(Patient $patient): array
     {
         $upcomingAppointments = $patient->appointments()

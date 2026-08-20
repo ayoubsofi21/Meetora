@@ -57,6 +57,8 @@ Route::middleware(['auth:sanctum', 'role:admin'])->prefix('admin')->group(functi
     Route::get('/appointments', [AppointmentController::class, 'adminIndex']);
     Route::get('/appointments/{appointment}', [AppointmentController::class, 'adminShow']);
 
+    Route::get('/dashboard', [DashboardController::class, 'admin']);
+
 });
 Route::middleware(['auth:sanctum', 'role:patient'])->group(function () {
     Route::post('/appointments', [AppointmentController::class, 'store']);
