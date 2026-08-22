@@ -17,7 +17,6 @@ Route::get('/health', function () {
         'message' => 'Meetora API is running',
     ]);
 });
-
 Route::prefix('auth')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login']);
