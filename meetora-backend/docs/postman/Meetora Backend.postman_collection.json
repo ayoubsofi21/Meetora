@@ -1,0 +1,156 @@
+{
+  "info": {
+    "name": "Meetora Backend API",
+    "description": "Happy-path workflow and role checks for the Meetora Laravel API.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://127.0.0.1:8000/api" },
+    { "key": "adminEmail", "value": "admin@meetora.test" },
+    { "key": "adminPassword", "value": "Password123!" },
+    { "key": "doctorEmail", "value": "doctor@meetora.test" },
+    { "key": "doctorPassword", "value": "Password123!" },
+    { "key": "patientEmail", "value": "patient-{{$timestamp}}@meetora.test" },
+    { "key": "patientPassword", "value": "Password123!" },
+    { "key": "adminToken", "value": "" },
+    { "key": "doctorToken", "value": "" },
+    { "key": "patientToken", "value": "" },
+    { "key": "specialtyId", "value": "" },
+    { "key": "doctorId", "value": "" },
+    { "key": "availabilityId", "value": "" },
+    { "key": "appointmentId", "value": "" },
+    { "key": "consultationId", "value": "" },
+    { "key": "prescriptionId", "value": "" },
+    { "key": "patientId", "value": "" },
+    { "key": "availabilityDay", "value": "1" },
+    { "key": "appointmentDate", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Public",
+      "item": [
+        {
+          "name": "Health",
+          "request": { "method": "GET", "header": [], "url": { "raw": "{{baseUrl}}/health", "host": ["{{baseUrl}}"], "path": ["health"] } },
+          "event": [{ "listen": "test", "script": { "exec": ["pm.test('health is OK', function () { pm.response.to.have.status(200); });"] } }]
+        },
+        {
+          "name": "List Doctors",
+          "request": { "method": "GET", "header": [], "url": { "raw": "{{baseUrl}}/doctors", "host": ["{{baseUrl}}"], "path": ["doctors"] } }
+        },
+        {
+          "name": "List Specialties",
+          "request": { "method": "GET", "header": [], "url": { "raw": "{{baseUrl}}/specialties", "host": ["{{baseUrl}}"], "path": ["specialties"] } }
+        }
+      ]
+    },
+    {
+      "name": "Admin",
+      "item": [
+        {
+          "name": "Admin - Login",
+          "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"email\": \"{{adminEmail}}\",\n  \"password\": \"{{adminPassword}}\"\n}" }, "url": { "raw": "{{baseUrl}}/auth/login", "host": ["{{baseUrl}}"], "path": ["auth", "login"] } },
+          "event": [{ "listen": "test", "script": { "exec": ["pm.response.to.have.status(200);", "pm.collectionVariables.set('adminToken', pm.response.json().data.token);"] } }]
+        },
+        {
+          "name": "Admin - Create Specialty",
+          "request": { "method": "POST", "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }, { "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"name\": \"Cardiology {{$timestamp}}\",\n  \"description\": \"Heart and cardiovascular care\"\n}" }, "url": { "raw": "{{baseUrl}}/admin/specialties", "host": ["{{baseUrl}}"], "path": ["admin", "specialties"] } },
+          "event": [{ "listen": "test", "script": { "exec": ["pm.response.to.have.status(201);", "pm.collectionVariables.set('specialtyId', pm.response.json().data.id);"] } }]
+        },
+        {
+          "name": "Admin - Create Doctor",
+          "request": { "method": "POST", "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }, { "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"name\": \"Meetora Doctor\",\n  \"email\": \"{{doctorEmail}}\",\n  \"password\": \"{{doctorPassword}}\",\n  \"specialty_id\": {{specialtyId}},\n  \"phone\": \"+212600000000\",\n  \"bio\": \"General consultation\",\n  \"license_number\": \"LIC-{{$timestamp}}\"\n}" }, "url": { "raw": "{{baseUrl}}/admin/doctors", "host": ["{{baseUrl}}"], "path": ["admin", "doctors"] } },
+          "event": [{ "listen": "test", "script": { "exec": ["pm.response.to.have.status(201);", "pm.collectionVariables.set('doctorId', pm.response.json().data.id);"] } }]
+        },
+        {
+          "name": "Admin - Dashboard",
+          "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }], "url": { "raw": "{{baseUrl}}/admin/dashboard", "host": ["{{baseUrl}}"], "path": ["admin", "dashboard"] } }
+        }
+      ]
+    },
+    {
+      "name": "Doctor",
+      "item": [
+        {
+          "name": "Doctor - Login",
+          "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"email\": \"{{doctorEmail}}\",\n  \"password\": \"{{doctorPassword}}\"\n}" }, "url": { "raw": "{{baseUrl}}/auth/login", "host": ["{{baseUrl}}"], "path": ["auth", "login"] } },
+          "event": [{ "listen": "test", "script": { "exec": ["pm.response.to.have.status(200);", "pm.collectionVariables.set('doctorToken', pm.response.json().data.token);"] } }]
+        },
+        {
+          "name": "Doctor - Create Availability",
+          "request": { "method": "POST", "header": [{ "key": "Authorization", "value": "Bearer {{doctorToken}}" }, { "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"day_of_week\": {{availabilityDay}},\n  \"start_time\": \"09:00\",\n  \"end_time\": \"17:00\"\n}" }, "url": { "raw": "{{baseUrl}}/doctor/availabilities", "host": ["{{baseUrl}}"], "path": ["doctor", "availabilities"] } },
+          "event": [{ "listen": "test", "script": { "exec": ["pm.response.to.have.status(201);", "pm.collectionVariables.set('availabilityId', pm.response.json().data.id);"] } }]
+        },
+        {
+          "name": "Doctor - Confirm Appointment",
+          "request": { "method": "PATCH", "header": [{ "key": "Authorization", "value": "Bearer {{doctorToken}}" }], "url": { "raw": "{{baseUrl}}/doctor/appointments/{{appointmentId}}/confirm", "host": ["{{baseUrl}}"], "path": ["doctor", "appointments", "{{appointmentId}}", "confirm"] } },
+          "event": [{ "listen": "test", "script": { "exec": ["pm.response.to.have.status(200);"] } }]
+        },
+        {
+          "name": "Doctor - Create Consultation",
+          "request": { "method": "POST", "header": [{ "key": "Authorization", "value": "Bearer {{doctorToken}}" }, { "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"diagnosis\": \"Routine consultation diagnosis\",\n  \"symptoms\": \"Mild symptoms\",\n  \"notes\": \"Follow-up recommended\",\n  \"treatment\": \"Rest and hydration\"\n}" }, "url": { "raw": "{{baseUrl}}/doctor/appointments/{{appointmentId}}/consultation", "host": ["{{baseUrl}}"], "path": ["doctor", "appointments", "{{appointmentId}}", "consultation"] } },
+          "event": [{ "listen": "test", "script": { "exec": ["pm.response.to.have.status(201);", "pm.collectionVariables.set('consultationId', pm.response.json().data.id);"] } }]
+        },
+        {
+          "name": "Doctor - Create Prescription",
+          "request": { "method": "POST", "header": [{ "key": "Authorization", "value": "Bearer {{doctorToken}}" }, { "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"notes\": \"Take as directed\",\n  \"medications\": [\n    {\n      \"medication_name\": \"Example medicine\",\n      \"dosage\": \"500 mg\",\n      \"frequency\": \"Twice daily\",\n      \"duration\": \"5 days\",\n      \"instructions\": \"After meals\"\n    }\n  ]\n}" }, "url": { "raw": "{{baseUrl}}/doctor/consultations/{{consultationId}}/prescriptions", "host": ["{{baseUrl}}"], "path": ["doctor", "consultations", "{{consultationId}}", "prescriptions"] } },
+          "event": [{ "listen": "test", "script": { "exec": ["pm.response.to.have.status(201);", "pm.collectionVariables.set('prescriptionId', pm.response.json().data.id);"] } }]
+        },
+        {
+          "name": "Doctor - Complete Appointment",
+          "request": { "method": "PATCH", "header": [{ "key": "Authorization", "value": "Bearer {{doctorToken}}" }], "url": { "raw": "{{baseUrl}}/doctor/appointments/{{appointmentId}}/complete", "host": ["{{baseUrl}}"], "path": ["doctor", "appointments", "{{appointmentId}}", "complete"] } },
+          "event": [{ "listen": "test", "script": { "exec": ["pm.response.to.have.status(200);"] } }]
+        }
+      ]
+    },
+    {
+      "name": "Patient",
+      "item": [
+        {
+          "name": "Patient - Register",
+          "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"name\": \"Postman Patient\",\n  \"email\": \"{{patientEmail}}\",\n  \"password\": \"{{patientPassword}}\",\n  \"password_confirmation\": \"{{patientPassword}}\"\n}" }, "url": { "raw": "{{baseUrl}}/auth/register", "host": ["{{baseUrl}}"], "path": ["auth", "register"] } },
+          "event": [{ "listen": "test", "script": { "exec": ["pm.response.to.have.status(201);", "pm.collectionVariables.set('patientToken', pm.response.json().data.token);", "pm.collectionVariables.set('patientId', pm.response.json().data.user.id);"] } }]
+        },
+        {
+          "name": "Patient - Get Profile",
+          "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{patientToken}}" }], "url": { "raw": "{{baseUrl}}/patient/profile", "host": ["{{baseUrl}}"], "path": ["patient", "profile"] } }
+        },
+        {
+          "name": "Patient - Create Appointment",
+          "request": { "method": "POST", "header": [{ "key": "Authorization", "value": "Bearer {{patientToken}}" }, { "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"doctor_id\": {{doctorId}},\n  \"appointment_date\": \"{{appointmentDate}}\",\n  \"start_time\": \"09:00\",\n  \"end_time\": \"10:00\",\n  \"reason\": \"Routine consultation\"\n}" }, "url": { "raw": "{{baseUrl}}/appointments", "host": ["{{baseUrl}}"], "path": ["appointments"] } },
+          "event": [{ "listen": "prerequest", "script": { "exec": ["const day = Number(pm.collectionVariables.get('availabilityDay'));", "const date = new Date();", "const delta = (day - date.getDay() + 7) % 7 || 7;", "date.setDate(date.getDate() + delta);", "pm.collectionVariables.set('appointmentDate', date.toISOString().slice(0, 10));"] } }, { "listen": "test", "script": { "exec": ["pm.response.to.have.status(201);", "pm.collectionVariables.set('appointmentId', pm.response.json().data.id);"] } }]
+        },
+        {
+          "name": "Patient - Get Prescriptions",
+          "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{patientToken}}" }], "url": { "raw": "{{baseUrl}}/patient/prescriptions", "host": ["{{baseUrl}}"], "path": ["patient", "prescriptions"] } }
+        },
+        {
+          "name": "Patient - Get Medical Record",
+          "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{patientToken}}" }], "url": { "raw": "{{baseUrl}}/patient/medical-record", "host": ["{{baseUrl}}"], "path": ["patient", "medical-record"] } }
+        },
+        {
+          "name": "Patient - Update Medical Record",
+          "request": { "method": "PUT", "header": [{ "key": "Authorization", "value": "Bearer {{patientToken}}" }, { "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"blood_type\": \"O+\",\n  \"allergies\": \"None known\",\n  \"chronic_conditions\": \"None\",\n  \"medical_history\": \"Routine check-up\"\n}" }, "url": { "raw": "{{baseUrl}}/patient/medical-record", "host": ["{{baseUrl}}"], "path": ["patient", "medical-record"] } }
+        },
+        {
+          "name": "Patient - Get Medical History",
+          "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{patientToken}}" }], "url": { "raw": "{{baseUrl}}/patient/medical-history", "host": ["{{baseUrl}}"], "path": ["patient", "medical-history"] } }
+        },
+        {
+          "name": "Patient - Dashboard",
+          "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{patientToken}}" }], "url": { "raw": "{{baseUrl}}/patient/dashboard", "host": ["{{baseUrl}}"], "path": ["patient", "dashboard"] } }
+        }
+      ]
+    },
+    {
+      "name": "Security",
+      "item": [
+        {
+          "name": "Patient Cannot Access Admin",
+          "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{patientToken}}" }], "url": { "raw": "{{baseUrl}}/admin/dashboard", "host": ["{{baseUrl}}"], "path": ["admin", "dashboard"] } },
+          "event": [{ "listen": "test", "script": { "exec": ["pm.response.to.have.status(403);"] } }]
+        }
+      ]
+    }
+  ]
+}
