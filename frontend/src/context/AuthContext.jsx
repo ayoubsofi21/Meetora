@@ -66,7 +66,6 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // Action de connexion
   const login = async (email, password) => {
     try {
       const response = await apiClient.post('/auth/login', { email, password });

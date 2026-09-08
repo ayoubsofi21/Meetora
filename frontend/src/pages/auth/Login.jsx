@@ -70,8 +70,6 @@ export default function Login() {
                 />
               </div>
             </div>
-
-            {/* Champ Mot de passe */}
             <div>
               <label className="block text-xs font-semibold uppercase tracking-wider text-[#475569] mb-1.5">
                 Mot de passe
@@ -88,8 +86,6 @@ export default function Login() {
                 />
               </div>
             </div>
-
-            {/* Bouton de Soumission */}
             <button
               type="submit"
               disabled={isSubmitting}
