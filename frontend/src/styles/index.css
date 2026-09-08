@@ -1,0 +1,44 @@
+@import "tailwindcss";
+
+@theme {
+  /* Meetora Core Color System */
+  --color-meetora-primary: #2563EB;
+  --color-meetora-primary-hover: #1D4ED8;
+  --color-meetora-secondary: #1E3A8A;
+  --color-meetora-accent: #059669;
+  --color-meetora-bg: #F6F7FB;
+  --color-meetora-surface: #FFFFFF;
+  
+  /* Text Tokens */
+  --color-meetora-text-main: #0F172A;
+  --color-meetora-text-sub: #475569;
+  --color-meetora-text-muted: #94A3B8;
+  --color-meetora-border: #E2E8F0;
+
+  /* Clinical Status Tokens */
+  --color-status-success: #059669;
+  --color-status-success-bg: #D1FAE5;
+  --color-status-warning: #D97706;
+  --color-status-warning-bg: #FEF3C7;
+  --color-status-error: #DC2626;
+  --color-status-error-bg: #FEE2E2;
+  --color-status-info: #2563EB;
+  --color-status-info-bg: #DBEAFE;
+
+  /* Layout Radius Scale */
+  --radius-meetora-card: 16px;
+  --radius-meetora-btn: 10px;
+  --radius-meetora-pill: 9999px;
+
+  /* Shadows */
+  --shadow-meetora-card: 0 1px 3px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
+  --shadow-meetora-elevated: 0 4px 12px rgba(15, 23, 42, 0.10);
+}
+
+/* Base Body Resets */
+body {
+  background-color: var(--color-meetora-bg);
+  color: var(--color-meetora-text-main);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
