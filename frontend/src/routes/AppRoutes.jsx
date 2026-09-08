@@ -8,7 +8,7 @@ import Register from "../pages/auth/Register";
 
 import AdminDashboard from "../pages/admin/AdminDashboard";
 import AdminSpecialties from "../pages/admin/AdminSpecialties";
-
+import AdminDoctors from "../pages/admin/AdminDoctors";
 import DoctorDashboard from "../pages/doctor/DoctorDashboard";
 
 import PatientDashboard from "../pages/patient/PatientDashboard";
@@ -36,6 +36,7 @@ export default function AppRoutes() {
           <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
             <Route path="admin" element={<AdminDashboard />} />
             <Route path="admin/specialties" element={<AdminSpecialties />} />
+            <Route path="admin/doctors" element={<AdminDoctors />} />
           </Route>
           {/* ================= DOCTOR ================= */}
 

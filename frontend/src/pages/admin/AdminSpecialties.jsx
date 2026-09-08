@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { adminApi } from '../../api/adminApi';
-import { Stethoscope, Plus, Loader2, AlertCircle, Trash2, Edit2 } from 'lucide-react';
+import { Stethoscope, Plus, Loader2, AlertCircle, Trash2, Edit } from 'lucide-react';
 
 export default function AdminSpecialties() {
   const [specialties, setSpecialties] = useState([]);
@@ -44,7 +44,23 @@ export default function AdminSpecialties() {
       setIsSubmitting(false);
     }
   };
+  //Handle update
+  const handleUpdate = async (id) => {
+    const specialtyToUpdate = specialties.find((item) => item.id === id);
+    if (!specialtyToUpdate) return;
 
+    const newName = prompt('Enter new name:', specialtyToUpdate.name);
+    const newDescription = prompt('Enter new description:', specialtyToUpdate.description);
+
+    if (newName !== null && newDescription !== null) {
+      try {
+        await adminApi.updateSpecialty(id, { name: newName, description: newDescription });
+        fetchSpecialties(); // Refresh list
+      } catch (err) {
+        setError(err.response?.data?.message || 'Error updating specialty.');
+      }
+    }
+  };
   // Handle deletion
   const handleDelete = async (id) => {
     if (!window.confirm('Are you sure you want to delete this specialty?')) return;
@@ -143,6 +159,12 @@ export default function AdminSpecialties() {
                       </td>
                       <td className="py-3.5 text-[#475569]">{item.description || '—'}</td>
                       <td className="py-3.5 text-right space-x-2">
+                        <button
+                          onClick={() => handleUpdate(item.id)}
+                          className="p-1.5 text-[#2563EB] hover:bg-[#E0F2FE] rounded-lg transition-all"
+                        >
+                          <Edit className="w-4 h-4" />
+                        </button>
                         <button
                           onClick={() => handleDelete(item.id)}
                           className="p-1.5 text-[#DC2626] hover:bg-[#FEE2E2] rounded-lg transition-all"

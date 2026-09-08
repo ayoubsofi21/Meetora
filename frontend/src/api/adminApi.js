@@ -8,7 +8,8 @@ export const adminApi = {
   deleteSpecialty: (id) => apiClient.delete(`/admin/specialties/${id}`),
 
   // Doctors
-  getDoctors: () => apiClient.get('/admin/doctors'),
+  getDoctors: () => apiClient.get('/doctors'),
   createDoctor: (data) => apiClient.post('/admin/doctors', data),
   updateDoctor: (id, data) => apiClient.put(`/admin/doctors/${id}`, data),
+  deleteDoctor: (id)=>apiClient.delete(`/admin/doctors/${id}`),
 };
