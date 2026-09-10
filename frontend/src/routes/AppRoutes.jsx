@@ -14,14 +14,14 @@ import DoctorDashboard from "../pages/doctor/DoctorDashboard";
 import PatientDashboard from "../pages/patient/PatientDashboard";
 import MedicalRecords from "../pages/patient/MedicalRecords";
 import Prescriptions from "../pages/patient/Prescriptions";
-
+import LandingPage from "../pages/LandingPage";
 import NotFound from "../pages/NotFound";
 
 export default function AppRoutes() {
   return (
     <Routes>
       {/* ================= PUBLIC ================= */}
-
+      <Route path="/" element={<LandingPage />} />
       <Route path="/login" element={<Login />} />
 
       <Route path="/register" element={<Register />} />
