@@ -1,0 +1,67 @@
+services:
+  app:
+    build: .
+    container_name: meetora_app
+    ports:
+      - "8000:8000"
+    environment:
+      - APP_NAME=Meetora
+      - APP_ENV=local
+      - APP_KEY=base64:6bZDhtJA2+kEjBHEhdLWM5DVr3bl4yIEffdQRKp/v00=
+      - APP_DEBUG=true
+      - APP_URL=http://localhost:8000
+      - DB_CONNECTION=mysql
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_DATABASE=meetora
+      - DB_USERNAME=meetora
+      - DB_PASSWORD=secret
+      - FRONTEND_URL=http://localhost:5173
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - meetora
+
+  mysql:
+    image: mysql:8.0
+    container_name: meetora_mysql
+    restart: unless-stopped
+    environment:
+      - MYSQL_DATABASE=meetora
+      - MYSQL_USER=meetora
+      - MYSQL_PASSWORD=secret
+      - MYSQL_ROOT_PASSWORD=root
+    ports:
+      - "3306:3306"
+    volumes:
+      - meetora_db_data:/var/lib/mysql
+    healthcheck:
+      test:
+        ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - meetora
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: meetora_phpmyadmin
+    restart: unless-stopped
+    environment:
+      - PMA_HOST=mysql
+      - PMA_USER=root
+      - PMA_PASSWORD=root
+    ports:
+      - "8080:80"
+    depends_on:
+      - mysql
+    networks:
+      - meetora
+
+networks:
+  meetora:
+
+volumes:
+  meetora_db_data:
