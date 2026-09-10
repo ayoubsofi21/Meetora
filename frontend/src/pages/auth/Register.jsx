@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router';
+import { Link, useNavigate } from 'react-router-dom';
 import apiClient from '../../api/axios';
 import { Shield, Lock, Mail, User, AlertCircle, Loader2, CheckCircle2 } from 'lucide-react';
 
