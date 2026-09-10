@@ -1,6 +1,6 @@
 services:
   app:
-    build: .
+    build: ./meetora-backend
     container_name: meetora_app
     ports:
       - "8000:8000"
@@ -37,8 +37,7 @@ services:
     volumes:
       - meetora_db_data:/var/lib/mysql
     healthcheck:
-      test:
-        ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot"]
       interval: 5s
       timeout: 5s
       retries: 10
@@ -57,6 +56,18 @@ services:
       - "8080:80"
     depends_on:
       - mysql
+    networks:
+      - meetora
+
+  frontend:
+    build: ./frontend
+    container_name: meetora_frontend
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_URL=http://localhost:8000/api
+    depends_on:
+      - app
     networks:
       - meetora
 
