@@ -26,6 +26,8 @@ function Navbar() {
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
         <div className="flex items-center gap-10">
           <span className="text-xl font-extrabold text-[#2563EB]">Meetora</span>
+          {/* <a href="">svg</a> */}
+          
           <nav className="hidden md:flex items-center gap-8 text-sm font-medium">
             {NAV_LINKS.map((link, i) => (
               <a
@@ -107,16 +109,6 @@ function Hero() {
             <Stat value="1.2M+" label="Appointments" />
             <Stat value="99.9%" label="Uptime SLA" />
           </dl>
-        </div>
-
-        <div className="relative">
-            <div className="rounded-xl overflow-hidden bg-gradient-to-br from-[#DBEAFE] to-[#EFF3FC] h-[500px]">
-                <img
-                src={doctorImage}
-                alt="Doctor"
-                className="w-full h-full object-cover"
-                />
-            </div>
         </div>
       </div>
     </section>
