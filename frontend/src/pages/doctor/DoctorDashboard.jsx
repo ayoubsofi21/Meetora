@@ -6,8 +6,6 @@ import {
   FileText,
   UserPlus,
   Plus,
-  ChevronLeft,
-  ChevronRight,
   MoreVertical,
   Loader2,
   AlertCircle,
