@@ -2,7 +2,7 @@ import apiClient from './axios';
 
 export const adminApi = {
   //admin dashboard
-    getDashboard: () => apiClient.get('/admin/dashboard'),
+  getDashboard: () => apiClient.get('/admin/dashboard'),
   // Specialties
   getSpecialties: () => apiClient.get('/specialties'),
   createSpecialty: (data) => apiClient.post('/admin/specialties', data),
@@ -15,3 +15,4 @@ export const adminApi = {
   updateDoctor: (id, data) => apiClient.put(`/admin/doctors/${id}`, data),
   deleteDoctor: (id)=>apiClient.delete(`/admin/doctors/${id}`),
 };
+
