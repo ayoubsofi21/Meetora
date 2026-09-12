@@ -84,10 +84,6 @@ export default function AdminDashboard() {
         <div>
           <h1 className="text-3xl font-extrabold text-[#0F172A]">Welcome back, Admin</h1>
           <div className="flex items-center gap-3 mt-2">
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-[#D1FAE5] text-[#059669]">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#059669]" />
-              System Status: Optimal
-            </span>
             <span className="text-sm text-[#475569]">{today}</span>
           </div>
         </div>

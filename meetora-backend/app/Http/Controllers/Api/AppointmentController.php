@@ -19,6 +19,22 @@ class AppointmentController extends Controller
     {
     }
 
+    public function index(Request $request)
+    {
+        $query = Appointment::where('doctor_id', auth()->id());
+        if ($request->has('date')) {
+            $dateParam = $request->query('date');
+            if ($dateParam === 'today') {
+                $dateParam = now()->toDateString(); // Generates "YYYY-MM-DD"
+            }
+            $query->whereDate('appointment_date', $dateParam);
+        }
+        $appointments = $query->get();
+        return response()->json([
+            'status' => 'success',
+            'data' => $appointments
+        ]);
+    }
     public function store(CreateAppointmentRequest $request)
     {
         $appointment = $this->appointmentService->book(

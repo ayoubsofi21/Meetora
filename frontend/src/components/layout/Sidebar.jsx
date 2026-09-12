@@ -24,7 +24,16 @@ const NAV_ITEMS = [
   { to: '/admin/analytics', label: 'Analytics', icon: BarChart3 },
   { to: '/admin/settings', label: 'Settings', icon: Settings },
 ];
-
+const DOCTOR_NAV_ITEMS = [
+  { to: '/doctor', label: 'Dashboard', icon: LayoutDashboard, end: true },
+  { to: '/doctor/schedule', label: 'Schedule', icon: Stethoscope },
+  { to: '/doctor/specialties', label: 'Specialties', icon: Tags },
+  { to: '/doctor/appointments', label: 'Appointments', icon: CalendarDays },
+  { to: '/doctor/patients', label: 'Patients', icon: Users },
+  { to: '/doctor/records', label: 'Records', icon: FileText },
+  { to: '/doctor/analytics', label: 'Analytics', icon: BarChart3 },
+  { to: '/doctor/settings', label: 'Settings', icon: Settings },
+];
 const linkClasses = ({ isActive }) =>
   `flex items-center gap-3 px-4 py-3 rounded-lg text-sm transition-colors duration-150 ${
     isActive
@@ -34,7 +43,8 @@ const linkClasses = ({ isActive }) =>
 
 export default function Sidebar() {
   const { logout } = useAuth();
-
+  const { user } = useAuth();
+  const navItems = user?.role === 'doctor' ? DOCTOR_NAV_ITEMS : NAV_ITEMS;    
   return (
     <aside
       className="hidden lg:flex lg:flex-col fixed left-0 top-0 h-screen w-[240px]
@@ -46,7 +56,7 @@ export default function Sidebar() {
       </div>
 
       <nav className="flex-1 flex flex-col gap-1 overflow-y-auto">
-        {NAV_ITEMS.map(({ to, label, icon: Icon, end }) => (
+        {navItems.map(({ to, label, icon: Icon, end }) => (
           <NavLink key={to} to={to} end={end} className={linkClasses}>
             <Icon className="w-5 h-5" strokeWidth={1.75} />
             {label}

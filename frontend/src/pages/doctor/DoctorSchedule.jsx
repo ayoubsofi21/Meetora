@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { doctorApi } from '../../api/adminApi.js';
+import { doctorApi } from '../../api/doctorApi';
 import { Calendar, Clock, Plus, Trash2, Loader2, AlertCircle } from 'lucide-react';
 const DAYS_OF_WEEK = [
   { value: 1, label: 'Monday' },
