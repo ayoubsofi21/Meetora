@@ -34,6 +34,14 @@ const DOCTOR_NAV_ITEMS = [
   { to: '/doctor/analytics', label: 'Analytics', icon: BarChart3 },
   { to: '/doctor/settings', label: 'Settings', icon: Settings },
 ];
+const Patient_NAV_ITEMS = [
+  { to: '/patient', label: 'Dashboard', icon: LayoutDashboard, end: true },
+  { to: '/patient/records', label: 'Records', icon: FileText },
+  { to: 'patient/prescriptions', label: 'Prescriptions', icon: FileText },
+  { to: '/patient/appointments', label: 'Appointments', icon: CalendarDays },
+  { to: '/patient/analytics', label: 'Analytics', icon: BarChart3 },
+  { to: '/patient/settings', label: 'Settings', icon: Settings },
+];
 const linkClasses = ({ isActive }) =>
   `flex items-center gap-3 px-4 py-3 rounded-lg text-sm transition-colors duration-150 ${
     isActive
@@ -44,7 +52,7 @@ const linkClasses = ({ isActive }) =>
 export default function Sidebar() {
   const { logout } = useAuth();
   const { user } = useAuth();
-  const navItems = user?.role === 'doctor' ? DOCTOR_NAV_ITEMS : NAV_ITEMS;    
+  const navItems = user?.role === 'doctor' ? DOCTOR_NAV_ITEMS : Patient_NAV_ITEMS;    
   return (
     <aside
       className="hidden lg:flex lg:flex-col fixed left-0 top-0 h-screen w-[240px]
