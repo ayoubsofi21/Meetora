@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import apiClient from '../../api/axios';
+import {authApi} from '../../api/authApi';
 
 import {
   Activity,
@@ -64,13 +64,23 @@ export default function Register() {
     setIsSubmitting(true);
 
     try {
-      await apiClient.post('/auth/register', {
-        name: formData.name,
-        email: formData.email,
-        password: formData.password,
-        password_confirmation: formData.password_confirmation,
-        role: 'patient',
-      });
+      // await apiClient.post('/auth/register', {
+      //   name: formData.name,
+      //   email: formData.email,
+      //   password: formData.password,
+      //   password_confirmation: formData.password_confirmation,
+      //   role: 'patient',
+      // });
+      await authApi.register(
+        {
+          name:formData.name,
+          email:formData.email,
+          password:formData.password,
+          password_confirmation:formData.password_confirmation,
+          role: 'patient',
+      }
+      )
+    
 
       setSuccess(true);
 
