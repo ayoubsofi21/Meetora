@@ -6,7 +6,6 @@ import Register from "../pages/auth/Register";
 import AdminDashboard from "../pages/admin/AdminDashboard";
 import AdminSpecialties from "../pages/admin/AdminSpecialties";
 import AdminDoctors from "../pages/admin/AdminDoctors";
-import LandingPage from "../pages/LandingPage";
 import NotFound from "../pages/NotFound";
 import DoctorDashboard from "../pages/doctor/DoctorDashboard";
 import DoctorSchedule from "../pages/doctor/DoctorSchedule";
@@ -14,12 +13,13 @@ import PatientDetail from "../pages/doctor/PatientDetail";
 import PatientDashboard from "../pages/patient/PatientDashboard";
 import MedicalRecords from "../pages/patient/MedicalRecords";
 import Prescriptions from "../pages/patient/Prescriptions";
+import HomePage from "../pages/public/HomePage";
 export default function AppRoutes() {
   return (
     <Routes>
-      <Route path="/" element={<LandingPage />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/" element={<HomePage />} /> 
       <Route element={<ProtectedRoute />}>
         <Route path="/" element={<AppShell />}>
           <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
