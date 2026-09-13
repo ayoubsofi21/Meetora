@@ -14,7 +14,7 @@ export default function FeaturedDoctors() {
       reviews: 178,
       experience: '12 ans',
       nextAvailable: 'Aujourd\'hui à 15:30',
-      image: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=400&q=80',
+      image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMAeb5cWGW6rUyyq23c3otGkGHjvyJ2DLpSgOnP9tskA&s=10',
     },
     {
       id: 2,
@@ -25,7 +25,7 @@ export default function FeaturedDoctors() {
       reviews: 94,
       experience: '15 ans',
       nextAvailable: 'Demain à 09:00',
-      image: 'https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=400&q=80',
+      image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQD5qzbLX6PLzaL2ff07VpIiYE_5Lw1qUrsPwnPBFIP0A&s=10',
     },
     {
       id: 3,
@@ -36,7 +36,7 @@ export default function FeaturedDoctors() {
       reviews: 156,
       experience: '8 ans',
       nextAvailable: 'Jusqu\'à 11:00',
-      image: 'https://images.unsplash.com/photo-1594824813566-78a95357320f?auto=format&fit=crop&w=400&q=80',
+      image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMAeb5cWGW6rUyyq23c3otGkGHjvyJ2DLpSgOnP9tskA&s=10',
     },
     {
       id: 4,
@@ -47,7 +47,7 @@ export default function FeaturedDoctors() {
       reviews: 210,
       experience: '10 ans',
       nextAvailable: 'Aujourd\'hui à 17:00',
-      image: 'https://images.unsplash.com/photo-1537368910025-700350fe46c7?auto=format&fit=crop&w=400&q=80',
+      image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMAeb5cWGW6rUyyq23c3otGkGHjvyJ2DLpSgOnP9tskA&s=10',
     },
   ];
 

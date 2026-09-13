@@ -1,4 +1,3 @@
-// src/pages/public/HomePage.jsx
 import React from 'react';
 import PublicNavbar from '../../components/layout/PublicNavbar';
 import HeroSection from '../../components/home/HeroSection';

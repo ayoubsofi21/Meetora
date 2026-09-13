@@ -1,8 +1,5 @@
-// src/components/home/HeroSection.jsx
-import React from 'react';
-import { TrendingUp } from 'lucide-react';
 import DoctorSearchBar from '../common/DoctorSearchBar';
-import heroImage from '../../assets/images/Hero.png'; // Import the hero image
+import heroImage from '../../assets/images/Hero.png';
 
 export default function HeroSection() {
   return (

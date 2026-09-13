@@ -1,9 +1,30 @@
 // src/components/home/DoctorsSection.jsx
-import React, { useState } from 'react';
-import { Search, MapPin, Filter, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Search, MapPin, Filter, ArrowRight, ChevronLeft, ChevronRight, RefreshCw } from 'lucide-react';
 import DoctorCard from './DoctorCard';
+import { publicApi } from '../../api/publicApi';
+
+// Collection d'images de médecins professionnels HD (Libres de droits)
+const FALLBACK_DOCTOR_IMAGES = [
+  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDhAEfHfBG2vj3yt6umqIg60g4kXaKmATGoaMVYurUNw&s=10"
+];
+
+// Helper pour attribuer une image fixe et cohérente basée sur l'ID du médecin
+const getDoctorImage = (doc) => {
+  if (doc.avatar_url && doc.avatar_url.trim() !== '') return doc.avatar_url;
+  if (doc.image && doc.image.trim() !== '') return doc.image;
+
+  // Calcul du reste pour garder toujours la même image associée au même médecin
+  const idNumber = typeof doc.id === 'number' ? doc.id : (doc.id ? String(doc.id).charCodeAt(0) : 0);
+  const index = Math.abs(idNumber) % FALLBACK_DOCTOR_IMAGES.length;
+  return FALLBACK_DOCTOR_IMAGES[index];
+};
 
 export default function DoctorsSection() {
+  const [doctors, setDoctors] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
   const [selectedSpecialty, setSelectedSpecialty] = useState('All');
   const [searchTerm, setSearchTerm] = useState('');
   const [locationTerm, setLocationTerm] = useState('');
@@ -18,96 +39,50 @@ export default function DoctorsSection() {
     'Ophthalmologist',
   ];
 
-  const doctorsData = [
-    {
-      id: 1,
-      name: 'Dr. Sarah Martin',
-      specialty: 'Cardiologist',
-      city: 'New York, NY',
-      rating: 4.9,
-      reviews: 142,
-      experience: '12 yrs',
-      nextAvailable: 'Today 14:00',
-      teleconsult: true,
-      image: 'https://images.unsplash.com/photo-1594824813566-78a95357320f?auto=format&fit=crop&w=400&q=80',
-    },
-    {
-      id: 2,
-      name: 'Dr. Alexandre Martin',
-      specialty: 'General Practitioner',
-      city: 'Boston, MA',
-      rating: 4.8,
-      reviews: 98,
-      experience: '15 yrs',
-      nextAvailable: 'Tomorrow 09:30',
-      teleconsult: false,
-      image: 'https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=400&q=80',
-    },
-    {
-      id: 3,
-      name: 'Dr. Yasmine El Amrani',
-      specialty: 'Dermatologist',
-      city: 'Chicago, IL',
-      rating: 4.9,
-      reviews: 178,
-      experience: '9 yrs',
-      nextAvailable: 'Today 16:15',
-      teleconsult: true,
-      image: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=400&q=80',
-    },
-    {
-      id: 4,
-      name: 'Dr. Sophie Laurent',
-      specialty: 'Pediatrician',
-      city: 'Seattle, WA',
-      rating: 4.9,
-      reviews: 156,
-      experience: '8 yrs',
-      nextAvailable: 'Oct 15, 11:00',
-      teleconsult: true,
-      image: 'https://images.unsplash.com/photo-1537368910025-700350fe46c7?auto=format&fit=crop&w=400&q=80',
-    },
-    {
-      id: 5,
-      name: 'Dr. David Chen',
-      specialty: 'Neurologist',
-      city: 'San Francisco, CA',
-      rating: 4.7,
-      reviews: 89,
-      experience: '14 yrs',
-      nextAvailable: 'Tomorrow 15:00',
-      teleconsult: false,
-      image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80',
-    },
-    {
-      id: 6,
-      name: 'Dr. Elena Rostova',
-      specialty: 'Ophthalmologist',
-      city: 'Miami, FL',
-      rating: 4.9,
-      reviews: 210,
-      experience: '11 yrs',
-      nextAvailable: 'Today 17:30',
-      teleconsult: true,
-      image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80',
-    },
-  ];
+  // Fetch doctors from backend database API
+  const fetchDoctors = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await publicApi.getDoctors();
+      
+      const data = response.data?.data || response.data || [];
+      setDoctors(data);
+    } catch (err) {
+      console.error('Failed to fetch doctors from API:', err);
+      setError('Unable to load doctors from server. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  // Filter logic
-  const filteredDoctors = doctorsData.filter((doc) => {
+  useEffect(() => {
+    fetchDoctors();
+  }, []);
+
+  // Filter logic across fetched database items
+  const filteredDoctors = doctors.filter((doc) => {
+    const docSpecialty = doc.specialty?.name || doc.specialty_name || doc.specialty || '';
+    const docName = doc.name || (doc.user ? `${doc.user.first_name || ''} ${doc.user.last_name || ''}` : '');
+    const docCity = doc.city || doc.location || doc.address || '';
+
     const matchesSpecialty =
-      selectedSpecialty === 'All' || doc.specialty === selectedSpecialty;
+      selectedSpecialty === 'All' || docSpecialty.toLowerCase() === selectedSpecialty.toLowerCase();
+    
     const matchesSearch =
-      doc.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      doc.specialty.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesLocation = doc.city
-      .toLowerCase()
-      .includes(locationTerm.toLowerCase());
+      docName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      docSpecialty.toLowerCase().includes(searchTerm.toLowerCase());
+
+    const matchesLocation = docCity.toLowerCase().includes(locationTerm.toLowerCase());
+
     return matchesSpecialty && matchesSearch && matchesLocation;
   });
+
   return (
-    <section id="doctors" className="bg-[#F4F8FD]">
+    <section id="doctors" className="bg-[#F4F8FD] py-16">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
+        
+        {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-10">
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#EBF3FF] border border-[#BFDBFE] text-xs font-semibold text-[#2563EB] mb-3">
@@ -128,8 +103,12 @@ export default function DoctorsSection() {
             <ArrowRight className="w-4 h-4" />
           </a>
         </div>
+
+        {/* Search & Filter Toolbar */}
         <div className="bg-white rounded-2xl p-4 shadow-sm border border-slate-200/80 mb-8 space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-3">
+            
+            {/* Search Input */}
             <div className="md:col-span-6 flex items-center bg-[#F8FAFC] px-3.5 py-2.5 rounded-xl border border-slate-200 focus-within:border-[#2563EB] transition-all">
               <Search className="w-4 h-4 text-slate-400 mr-2.5 shrink-0" />
               <input
@@ -141,6 +120,7 @@ export default function DoctorsSection() {
               />
             </div>
 
+            {/* Location Input */}
             <div className="md:col-span-4 flex items-center bg-[#F8FAFC] px-3.5 py-2.5 rounded-xl border border-slate-200 focus-within:border-[#2563EB] transition-all">
               <MapPin className="w-4 h-4 text-slate-400 mr-2.5 shrink-0" />
               <input
@@ -152,6 +132,7 @@ export default function DoctorsSection() {
               />
             </div>
 
+            {/* Reset Button */}
             <div className="md:col-span-2 flex items-center justify-center">
               <button
                 type="button"
@@ -168,7 +149,7 @@ export default function DoctorsSection() {
             </div>
           </div>
 
-          {/* Specialty Filter Tabs */}
+          {/* Specialty Tabs */}
           <div className="flex items-center gap-2 overflow-x-auto pb-1 pt-1 no-scrollbar">
             {specialties.map((spec) => (
               <button
@@ -184,17 +165,65 @@ export default function DoctorsSection() {
               </button>
             ))}
           </div>
-
         </div>
 
-        {/* Doctors Grid */}
-        {filteredDoctors.length > 0 ? (
+        {/* Loading Skeletons */}
+        {loading && (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredDoctors.map((doctor) => (
-              <DoctorCard key={doctor.id} doctor={doctor} />
+            {[1, 2, 3, 4, 5, 6].map((n) => (
+              <div key={n} className="bg-white rounded-3xl p-5 border border-slate-200/80 animate-pulse space-y-4">
+                <div className="w-full h-48 bg-slate-200 rounded-2xl" />
+                <div className="h-4 bg-slate-200 rounded w-3/4" />
+                <div className="h-3 bg-slate-200 rounded w-1/2" />
+                <div className="h-8 bg-slate-100 rounded-xl" />
+                <div className="grid grid-cols-2 gap-2 pt-2">
+                  <div className="h-10 bg-slate-200 rounded-xl" />
+                  <div className="h-10 bg-slate-200 rounded-xl" />
+                </div>
+              </div>
             ))}
           </div>
-        ) : (
+        )}
+
+        {/* Error State */}
+        {!loading && error && (
+          <div className="bg-white rounded-2xl p-12 text-center border border-rose-200 shadow-sm max-w-lg mx-auto">
+            <p className="text-sm font-semibold text-rose-600 mb-4">{error}</p>
+            <button
+              onClick={fetchDoctors}
+              className="inline-flex items-center gap-2 px-4 py-2 bg-[#2563EB] text-white text-xs font-bold rounded-xl shadow hover:bg-[#1D4ED8] transition-colors"
+            >
+              <RefreshCw className="w-3.5 h-3.5" />
+              <span>Retry</span>
+            </button>
+          </div>
+        )}
+
+        {/* Doctors Grid */}
+        {!loading && !error && filteredDoctors.length > 0 && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredDoctors.map((doc) => {
+              const formattedDoctor = {
+                id: doc.id,
+                name: doc.name || (doc.user ? `Dr. ${doc.user.first_name} ${doc.user.last_name}` : 'Dr. Medical Expert'),
+                specialty: doc.specialty?.name || doc.specialty_name || doc.specialty || 'General Practitioner',
+                city: doc.city || doc.location || 'Consultation Center',
+                rating: doc.rating || 4.9,
+                reviews: doc.reviews_count || doc.reviews || 120,
+                experience: doc.experience_years ? `${doc.experience_years} yrs` : doc.experience || '5+ yrs',
+                nextAvailable: doc.next_available || doc.nextAvailable || 'Today Available',
+                teleconsult: doc.teleconsult ?? true,
+                // Image gérée dynamiquement
+                image: getDoctorImage(doc),
+              };
+
+              return <DoctorCard key={doc.id} doctor={formattedDoctor} />;
+            })}
+          </div>
+        )}
+
+        {/* Empty Search Results */}
+        {!loading && !error && filteredDoctors.length === 0 && (
           <div className="bg-white rounded-2xl p-12 text-center border border-slate-200/80">
             <h3 className="text-lg font-bold text-slate-800">No doctors found</h3>
             <p className="text-slate-500 text-xs mt-1">
@@ -204,26 +233,25 @@ export default function DoctorsSection() {
         )}
 
         {/* Pagination Bar */}
-        <div className="mt-12 flex items-center justify-between bg-white px-6 py-4 rounded-2xl border border-slate-200/80 shadow-sm text-xs font-medium text-slate-600">
-          <span>Showing <strong>{filteredDoctors.length}</strong> of <strong>{doctorsData.length}</strong> doctors</span>
-          <div className="flex items-center gap-2">
-            <button
-              disabled
-              className="p-2 rounded-lg border border-slate-200 text-slate-400 cursor-not-allowed"
-            >
-              <ChevronLeft className="w-4 h-4" />
-            </button>
-            <button className="w-8 h-8 rounded-lg bg-[#2563EB] text-white font-bold flex items-center justify-center shadow-sm">
-              1
-            </button>
-            <button className="w-8 h-8 rounded-lg border border-slate-200 text-slate-700 hover:bg-slate-50 flex items-center justify-center">
-              2
-            </button>
-            <button className="p-2 rounded-lg border border-slate-200 text-slate-700 hover:bg-slate-50">
-              <ChevronRight className="w-4 h-4" />
-            </button>
+        {!loading && !error && doctors.length > 0 && (
+          <div className="mt-12 flex items-center justify-between bg-white px-6 py-4 rounded-2xl border border-slate-200/80 shadow-sm text-xs font-medium text-slate-600">
+            <span>Showing <strong>{filteredDoctors.length}</strong> of <strong>{doctors.length}</strong> doctors</span>
+            <div className="flex items-center gap-2">
+              <button
+                disabled
+                className="p-2 rounded-lg border border-slate-200 text-slate-400 cursor-not-allowed"
+              >
+                <ChevronLeft className="w-4 h-4" />
+              </button>
+              <button className="w-8 h-8 rounded-lg bg-[#2563EB] text-white font-bold flex items-center justify-center shadow-sm">
+                1
+              </button>
+              <button className="p-2 rounded-lg border border-slate-200 text-slate-700 hover:bg-slate-50">
+                <ChevronRight className="w-4 h-4" />
+              </button>
+            </div>
           </div>
-        </div>
+        )}
 
       </div>
     </section>
