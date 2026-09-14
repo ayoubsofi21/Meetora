@@ -103,7 +103,7 @@ export default function TopBar() {
 
             <p className="text-xs font-medium text-[#94A3B8] mt-1">
               System Admin
-            </p>
+            </p>-
           </div>
 
           {/* Avatar */}
