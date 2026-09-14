@@ -106,7 +106,7 @@ export default function AdminDashboard() {
 
       {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 bg-white rounded-2xl border border-[#E2E8F0] p-6 shadow-sm">
+        <div className="lg:col-span-3 bg-white rounded-2xl border border-[#E2E8F0] p-6 shadow-sm">
           <h2 className="text-lg font-bold text-[#0F172A]">Appointments — Last 30 Days</h2>
           <p className="text-sm text-[#475569] mb-4">Daily appointment volume</p>
           <ResponsiveContainer width="100%" height={280}>
@@ -125,40 +125,11 @@ export default function AdminDashboard() {
             </AreaChart>
           </ResponsiveContainer>
         </div>
-
-        <div className="bg-white rounded-2xl border border-[#E2E8F0] p-6 shadow-sm">
-          <h2 className="text-lg font-bold text-[#0F172A]">Appointments by Status</h2>
-          <p className="text-sm text-[#475569] mb-4">Current distribution</p>
-          <ResponsiveContainer width="100%" height={200}>
-            <PieChart>
-              <Pie data={statusData} dataKey="value" nameKey="name" innerRadius={55} outerRadius={80} paddingAngle={2}>
-                {statusData.map((entry) => (
-                  <Cell key={entry.name} fill={STATUS_COLORS[entry.name] || '#94A3B8'} />
-                ))}
-              </Pie>
-              <Tooltip />
-            </PieChart>
-          </ResponsiveContainer>
-          <div className="space-y-2 mt-2">
-            {statusData.map((entry) => (
-              <div key={entry.name} className="flex items-center justify-between text-sm">
-                <span className="flex items-center gap-2 text-[#475569] capitalize">
-                  <span
-                    className="w-2.5 h-2.5 rounded-full"
-                    style={{ backgroundColor: STATUS_COLORS[entry.name] || '#94A3B8' }}
-                  />
-                  {entry.name}
-                </span>
-                <span className="font-semibold text-[#0F172A]">{entry.value}</span>
-              </div>
-            ))}
-          </div>
-        </div>
       </div>
 
       {/* Recent activity + quick links */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 bg-white rounded-2xl border border-[#E2E8F0] p-6 shadow-sm">
+        <div className="lg:col-span-3 bg-white rounded-2xl border border-[#E2E8F0] p-6 shadow-sm">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-bold text-[#0F172A]">Recent Appointments</h2>
             <a href="/admin/appointments" className="text-sm font-medium text-[#2563EB] hover:text-[#1D4ED8]">
@@ -202,28 +173,6 @@ export default function AdminDashboard() {
               </table>
             </div>
           )}
-        </div>
-
-        <div className="space-y-4">
-          <QuickLinkCard
-            href="/admin/patients"
-            icon={UserCog}
-            title="User Management"
-            description="Manage patients, doctors & access"
-            variant="solid"
-          />
-          <QuickLinkCard
-            href="/admin/specialties"
-            icon={Settings}
-            title="Clinic Settings"
-            description="Specialties & configuration"
-          />
-          <QuickLinkCard
-            href="/admin/doctors"
-            icon={ScrollText}
-            title="Recent Signups"
-            description={`${recent_users.length} new accounts`}
-          />
         </div>
       </div>
     </div>

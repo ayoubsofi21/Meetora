@@ -42,6 +42,16 @@ const Patient_NAV_ITEMS = [
   { to: '/patient/analytics', label: 'Analytics', icon: BarChart3 },
   { to: '/patient/settings', label: 'Settings', icon: Settings },
 ];
+const ADMIN_NAV_ITEMS = [
+  { to: '/admin', label: 'Dashboard', icon: LayoutDashboard, end: true },
+  { to: '/admin/doctors', label: 'Doctors', icon: Stethoscope },
+  { to: '/admin/specialties', label: 'Specialties', icon: Tags },
+  { to: '/admin/appointments', label: 'Appointments', icon: CalendarDays },
+  { to: '/admin/patients', label: 'Patients', icon: Users },
+  { to: '/admin/records', label: 'Records', icon: FileText },
+  { to: '/admin/analytics', label: 'Analytics', icon: BarChart3 },
+  { to: '/admin/settings', label: 'Settings', icon: Settings },
+];
 const linkClasses = ({ isActive }) =>
   `flex items-center gap-3 px-4 py-3 rounded-lg text-sm transition-colors duration-150 ${
     isActive
@@ -52,7 +62,7 @@ const linkClasses = ({ isActive }) =>
 export default function Sidebar() {
   const { logout } = useAuth();
   const { user } = useAuth();
-  const navItems = user?.role === 'doctor' ? DOCTOR_NAV_ITEMS : Patient_NAV_ITEMS;    
+  const navItems = user?.role === 'doctor' ? DOCTOR_NAV_ITEMS : user?.role === 'admin' ? ADMIN_NAV_ITEMS : Patient_NAV_ITEMS;
   return (
     <aside
       className="hidden lg:flex lg:flex-col fixed left-0 top-0 h-screen w-[240px]
