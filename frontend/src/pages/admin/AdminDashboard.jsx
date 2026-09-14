@@ -137,7 +137,6 @@ export default function AdminDashboard() {
         value={`${completionRate}%`}
       />
     </div>
-      /* Charts */      
       <div className="lg:col-span-3 bg-white rounded-2xl border border-[#E2E8F0] p-6 shadow-sm">
           <div className="mb-5">
             <h2 className="text-xl font-bold text-[#0F172A]">
