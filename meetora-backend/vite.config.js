@@ -40,6 +40,8 @@ export default defineConfig({
 
     server: {
         host: '0.0.0.0',
-        allowedHosts: true,
+        allowedHosts: [
+            'meetora-nu9q.onrender.com',
+        ],
     },
 });
