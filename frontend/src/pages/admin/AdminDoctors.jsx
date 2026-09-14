@@ -125,7 +125,7 @@ export default function AdminDoctors() {
 
         <button
           onClick={() => setIsFormOpen(!isFormOpen)}
-          className="h-11 px-4 bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-semibold rounded-xl text-sm transition-all flex items-center justify-center gap-2 shadow-sm shrink-0"
+          className="h-11 px-4 bg-[#3F38CA] hover:bg-[#312E81] text-white font-semibold rounded-xl text-sm transition-all flex items-center justify-center gap-2 shadow-sm shrink-0"
         >
           <Plus className="w-4 h-4" />
           <span>{isFormOpen ? 'Close Form' : 'Register New Doctor'}</span>
@@ -138,19 +138,19 @@ export default function AdminDoctors() {
           <span>{error}</span>
         </div>
       )}
-
-      {/* Registration Form Collapsible Card */}
       {isFormOpen && (
         <div className="bg-white rounded-2xl border border-[#E2E8F0] p-6 shadow-sm">
-          <h2 className="text-lg font-bold text-[#0F172A] mb-4 flex items-center gap-2">
-            <UserPlus className="w-5 h-5 text-[#2563EB]" />
+          <h2 className="text-xl font-bold text-[#0F172A] mb-5 flex items-center gap-2.5">
+            <UserPlus className="w-6 h-6 text-[#3F38CA]" />
             Register Practitioner
           </h2>
 
-          <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* Full Name */}
+          <form
+            onSubmit={handleSubmit}
+            className="grid grid-cols-1 md:grid-cols-2 gap-5"
+          >
             <div>
-              <label className="block text-xs font-semibold uppercase text-[#475569] mb-1">
+              <label className="block text-sm font-semibold text-[#475569] mb-2">
                 Full Name *
               </label>
               <input
@@ -158,14 +158,12 @@ export default function AdminDoctors() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Dr. Aris Vance"
-                className="w-full h-11 px-4 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl text-sm focus:outline-none focus:border-[#2563EB]"
+                className="w-full h-12 px-4 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl text-sm text-[#0F172A] placeholder:text-[#94A3B8] focus:outline-none focus:border-[#3F38CA] focus:ring-2 focus:ring-[#3F38CA]/10 transition-all"
                 required
               />
             </div>
-
-            {/* Email */}
             <div>
-              <label className="block text-xs font-semibold uppercase text-[#475569] mb-1">
+              <label className="block text-sm font-semibold text-[#475569] mb-2">
                 Email Address *
               </label>
               <input
@@ -173,14 +171,12 @@ export default function AdminDoctors() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="aris.vance@meetora.health"
-                className="w-full h-11 px-4 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl text-sm focus:outline-none focus:border-[#2563EB]"
+                className="w-full h-12 px-4 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl text-sm text-[#0F172A] placeholder:text-[#94A3B8] focus:outline-none focus:border-[#3F38CA] focus:ring-2 focus:ring-[#3F38CA]/10 transition-all"
                 required
               />
             </div>
-
-            {/* Password */}
             <div>
-              <label className="block text-xs font-semibold uppercase text-[#475569] mb-1">
+              <label className="block text-sm font-semibold text-[#475569] mb-2">
                 Password *
               </label>
               <input
@@ -188,20 +184,18 @@ export default function AdminDoctors() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full h-11 px-4 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl text-sm focus:outline-none focus:border-[#2563EB]"
+                className="w-full h-12 px-4 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl text-sm text-[#0F172A] placeholder:text-[#94A3B8] focus:outline-none focus:border-[#3F38CA] focus:ring-2 focus:ring-[#3F38CA]/10 transition-all"
                 required
               />
             </div>
-
-            {/* Medical Specialty */}
             <div>
-              <label className="block text-xs font-semibold uppercase text-[#475569] mb-1">
+              <label className="block text-sm font-semibold text-[#475569] mb-2">
                 Medical Specialty *
               </label>
               <select
                 value={specialtyId}
                 onChange={(e) => setSpecialtyId(e.target.value)}
-                className="w-full h-11 px-4 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl text-sm focus:outline-none focus:border-[#2563EB]"
+                className="w-full h-12 px-4 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl text-sm text-[#0F172A] focus:outline-none focus:border-[#3F38CA] focus:ring-2 focus:ring-[#3F38CA]/10 transition-all"
                 required
               >
                 <option value="">Select Specialty</option>
@@ -212,10 +206,8 @@ export default function AdminDoctors() {
                 ))}
               </select>
             </div>
-
-            {/* License Number */}
             <div className="md:col-span-2">
-              <label className="block text-xs font-semibold uppercase text-[#475569] mb-1">
+              <label className="block text-sm font-semibold text-[#475569] mb-2">
                 Medical License Number *
               </label>
               <input
@@ -223,26 +215,28 @@ export default function AdminDoctors() {
                 value={licenseNumber}
                 onChange={(e) => setLicenseNumber(e.target.value)}
                 placeholder="LIC-2026-9904"
-                className="w-full h-11 px-4 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl text-sm focus:outline-none focus:border-[#2563EB]"
+                className="w-full h-12 px-4 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl text-sm text-[#0F172A] placeholder:text-[#94A3B8] focus:outline-none focus:border-[#3F38CA] focus:ring-2 focus:ring-[#3F38CA]/10 transition-all"
                 required
               />
             </div>
-
-            {/* Submit Action */}
-            <div className="md:col-span-2 flex justify-end gap-3 mt-2">
+            <div className="md:col-span-2 flex justify-end gap-3 mt-3">
               <button
                 type="button"
                 onClick={() => setIsFormOpen(false)}
-                className="h-11 px-5 border border-[#E2E8F0] hover:bg-[#F8FAFC] text-[#0F172A] font-semibold rounded-xl text-sm transition-all"
+                className="h-12 px-6 border border-[#E2E8F0] hover:bg-[#F8FAFC] text-[#0F172A] font-semibold rounded-xl text-sm transition-all"
               >
                 Cancel
               </button>
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="h-11 px-6 bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-semibold rounded-xl text-sm transition-all flex items-center gap-2 disabled:opacity-50"
+                className="h-12 px-6 bg-[#3F38CA] hover:bg-[#312E81] text-white font-semibold rounded-xl text-sm transition-all flex items-center justify-center gap-2.5 disabled:opacity-50"
               >
-                {isSubmitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <UserCheck className="w-4 h-4" />}
+                {isSubmitting ? (
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                ) : (
+                  <UserCheck className="w-5 h-5" />
+                )}
                 <span>Save Doctor</span>
               </button>
             </div>
@@ -250,9 +244,7 @@ export default function AdminDoctors() {
         </div>
       )}
 
-      {/* Filter and Table Card */}
       <div className="bg-white rounded-2xl border border-[#E2E8F0] p-6 shadow-sm space-y-4">
-        {/* Search Bar */}
         <div className="relative max-w-md">
           <Search className="w-5 h-5 text-[#94A3B8] absolute left-3 top-1/2 -translate-y-1/2" />
           <input
@@ -260,76 +252,94 @@ export default function AdminDoctors() {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="Search doctors by name, email, or specialty..."
-            className="w-full h-11 pl-10 pr-4 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl text-sm text-[#0F172A] placeholder-[#94A3B8] focus:outline-none focus:border-[#2563EB]"
+            className="w-full h-11 pl-10 pr-4 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl text-sm text-[#0F172A] placeholder-[#94A3B8] focus:outline-none focus:border-[#3F38CA]"
           />
         </div>
-
-        {/* Doctor List */}
         {loading ? (
           <div className="flex justify-center py-12">
-            <Loader2 className="w-8 h-8 text-[#2563EB] animate-spin" />
+            <Loader2 className="w-8 h-8 text-[#3F38CA] animate-spin" />
           </div>
         ) : filteredDoctors.length === 0 ? (
           <p className="text-sm text-[#94A3B8] text-center py-8">No registered doctors found.</p>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm">
+            <table className="w-full text-left">
               <thead>
-                <tr className="border-b border-[#E2E8F0] text-[#64748B] uppercase text-xs">
-                  <th className="pb-3">Doctor</th>
-                  <th className="pb-3">Specialty</th>
-                  <th className="pb-3">License Number</th>
-                  <th className="pb-3">Contact</th>
-                  <th className="pb-3">Actions</th>
+                <tr className="border-b border-[#E2E8F0] text-[#64748B] uppercase text-sm">
+                  <th className="pb-4 font-semibold">Doctor</th>
+                  <th className="pb-4 font-semibold">Specialty</th>
+                  <th className="pb-4 font-semibold">License Number</th>
+                  <th className="pb-4 font-semibold">Contact</th>
+                  <th className="pb-4 font-semibold">Actions</th>
                 </tr>
               </thead>
+
               <tbody className="divide-y divide-[#E2E8F0]">
                 {filteredDoctors.map((doc) => (
-                  <tr key={doc.id} className="hover:bg-[#F8FAFC]">
-                    {/* Name + Avatar */}
-                    <td className="py-3.5 font-semibold text-[#0F172A] flex items-center gap-3">
-                      <div className="w-9 h-9 rounded-full bg-[#DBEAFE] text-[#2563EB] font-bold flex items-center justify-center text-xs shrink-0">
-                        {doc.name?.charAt(0) || 'D'}
-                      </div>
-                      <div>
-                        <p className="font-semibold text-[#0F172A]">{doc.name}</p>
-                        <p className="text-xs text-[#94A3B8]">ID: #{doc.id}</p>
+                  <tr
+                    key={doc.id}
+                    className="hover:bg-[#F8FAFC] transition-colors duration-200"
+                  >
+                    {/* Doctor */}
+                    <td className="py-4">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-full bg-[#DBEAFE] text-[#3F38CA] font-bold flex items-center justify-center text-sm shrink-0">
+                          {doc.name?.charAt(0) || 'D'}
+                        </div>
+
+                        <div>
+                          <p className="font-semibold text-sm text-[#0F172A]">
+                            {doc.name}
+                          </p>
+
+                          <p className="text-xs text-[#94A3B8] mt-0.5">
+                            ID: #{doc.id}
+                          </p>
+                        </div>
                       </div>
                     </td>
 
                     {/* Specialty */}
-                    <td className="py-3.5 text-[#475569]">
-                      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-[#EFF3FC] text-[#2563EB]">
-                        <Stethoscope className="w-3.5 h-3.5" />
-                        {doc.specialty?.name || doc.doctor_profile?.specialty?.name || 'General'}
+                    <td className="py-4 text-[#475569]">
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium bg-[#EFF3FC] text-[#3F38CA]">
+                        {doc.specialty?.name ||
+                          doc.doctor_profile?.specialty?.name ||
+                          'General'}
                       </span>
                     </td>
 
-                    {/* License Number */}
-                    <td className="py-3.5 text-[#475569] font-mono text-xs">
-                      {doc.license_number || doc.doctor_profile?.license_number || 'N/A'}
+                    {/* License */}
+                    <td className="py-4 text-[#475569] font-mono text-sm">
+                      {doc.license_number ||
+                        doc.doctor_profile?.license_number ||
+                        'N/A'}
                     </td>
 
-                    {/* Email */}
-                    <td className="py-3.5 text-[#475569]">
-                      <span className="flex items-center gap-1.5 text-xs">
-                        <Mail className="w-3.5 h-3.5 text-[#94A3B8]" />
+                    {/* Contact */}
+                    <td className="py-4 text-[#475569]">
+                      <span className="flex items-center gap-2 text-sm">
+                        <Mail className="w-4 h-4 text-[#94A3B8]" />
                         {doc.email}
                       </span>
                     </td>
 
                     {/* Actions */}
-                    <td className="py-3.5">
-                      <div className="flex items-center gap-2">
-                        <button className="text-[#2563EB] hover:text-[#1D4ED8]" 
-                        onClick={()=>handleUpdateDoctor(doc.id)}
+                    <td className="py-4">
+                      <div className="flex items-center gap-3">
+                        <button
+                          className="text-[#3F38CA] hover:text-[#1D4ED8] transition-colors"
+                          onClick={() => handleUpdateDoctor(doc.id)}
+                          title="Edit doctor"
                         >
-                          <Edit className="w-4 h-4" />
+                          <Edit className="w-6 h-6" />
                         </button>
-                        <button className="text-[#EF4444] hover:text-[#DC2626]" 
-                          onClick={()=>handleDeleteDoctor(doc.id)}
-                        > 
-                          <Trash className="w-4 h-4" />
+
+                        <button
+                          className="text-[#EF4444] hover:text-[#DC2626] transition-colors"
+                          onClick={() => handleDeleteDoctor(doc.id)}
+                          title="Delete doctor"
+                        >
+                          <Trash className="w-6 h-6" />
                         </button>
                       </div>
                     </td>

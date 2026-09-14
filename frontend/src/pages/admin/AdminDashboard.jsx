@@ -1,28 +1,37 @@
 import { useState, useEffect } from 'react';
 import { adminApi } from '../../api/adminApi';
 import {
-  Users, Stethoscope, CalendarCheck, TrendingUp, Loader2, AlertCircle,
-  UserCog, Settings, ScrollText, ArrowUpRight,
+  Users,
+  Stethoscope,
+  CalendarCheck,
+  TrendingUp,
+  Loader2,
+  AlertCircle,
 } from 'lucide-react';
+
 import {
-  AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
-  PieChart, Pie, Cell,
+  AreaChart,
+  Area,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
 } from 'recharts';
 
 const STATUS_COLORS = {
   pending: '#D97706',
-  confirmed: '#2563EB',
+  confirmed: '#3F38CA',
   completed: '#059669',
   cancelled: '#DC2626',
 };
 
 const STATUS_BADGE = {
   pending: 'bg-[#FEF3C7] text-[#D97706]',
-  confirmed: 'bg-[#DBEAFE] text-[#2563EB]',
+  confirmed: 'bg-[#EEF2FF] text-[#3F38CA]',
   completed: 'bg-[#D1FAE5] text-[#059669]',
   cancelled: 'bg-[#FEE2E2] text-[#DC2626]',
 };
-
 export default function AdminDashboard() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -36,13 +45,13 @@ export default function AdminDashboard() {
       .finally(() => setLoading(false));
   }, []);
 
-  if (loading) {
-    return (
-      <div className="flex justify-center py-24">
-        <Loader2 className="w-8 h-8 text-[#2563EB] animate-spin" />
-      </div>
-    );
-  }
+ if (loading) {
+  return (
+    <div className="flex justify-center py-24">
+      <Loader2 className="w-9 h-9 text-[#3F38CA] animate-spin" />
+    </div>
+  );
+}
 
   if (error) {
     return (
@@ -79,53 +88,135 @@ export default function AdminDashboard() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-extrabold text-[#0F172A]">Welcome back, Admin</h1>
-          <div className="flex items-center gap-3 mt-2">
-            <span className="text-sm text-[#475569]">{today}</span>
-          </div>
+          <h1 className="text-3xl font-bold text-[#0F172A]">
+            Welcome back, Admin
+          </h1>
+
+          <p className="text-sm text-[#64748B] mt-2">
+            {today}
+          </p>
         </div>
-        <button className="h-11 px-4 border border-[#E2E8F0] hover:bg-[#F8FAFC] text-[#0F172A] font-semibold rounded-xl text-sm transition-all">
+
+        <button className="h-12 px-6 border border-[#E2E8F0] hover:bg-[#F8FAFC] text-[#0F172A] font-semibold rounded-xl text-sm transition-all">
           Export Report
         </button>
       </div>
 
-      {/* Stat cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-        <StatCard icon={Users} iconBg="bg-[#DBEAFE]" iconColor="text-[#2563EB]"
-          label="Total Patients" value={statistics.total_patients} />
-        <StatCard icon={Stethoscope} iconBg="bg-[#D1FAE5]" iconColor="text-[#059669]"
-          label="Active Doctors" value={statistics.total_doctors} />
-        <StatCard icon={CalendarCheck} iconBg="bg-[#EFF3FC]" iconColor="text-[#2563EB]"
-          label="Total Appointments" value={statistics.total_appointments} />
-        <StatCard icon={TrendingUp} iconBg="bg-[#D1FAE5]" iconColor="text-[#059669]"
-          label="Completion Rate" value={`${completionRate}%`} />
-      </div>
+     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      <StatCard
+        icon={Users}
+        iconBg="bg-[#EEF2FF]"
+        iconColor="text-[#3F38CA]"
+        label="Total Patients"
+        value={statistics.total_patients}
+      />
 
-      {/* Charts */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-3 bg-white rounded-2xl border border-[#E2E8F0] p-6 shadow-sm">
-          <h2 className="text-lg font-bold text-[#0F172A]">Appointments — Last 30 Days</h2>
-          <p className="text-sm text-[#475569] mb-4">Daily appointment volume</p>
-          <ResponsiveContainer width="100%" height={280}>
+      <StatCard
+        icon={Stethoscope}
+        iconBg="bg-[#D1FAE5]"
+        iconColor="text-[#059669]"
+        label="Active Doctors"
+        value={statistics.total_doctors}
+      />
+
+      <StatCard
+        icon={CalendarCheck}
+        iconBg="bg-[#EEF2FF]"
+        iconColor="text-[#3F38CA]"
+        label="Total Appointments"
+        value={statistics.total_appointments}
+      />
+
+      <StatCard
+        icon={TrendingUp}
+        iconBg="bg-[#D1FAE5]"
+        iconColor="text-[#059669]"
+        label="Completion Rate"
+        value={`${completionRate}%`}
+      />
+    </div>
+      /* Charts */      
+      <div className="lg:col-span-3 bg-white rounded-2xl border border-[#E2E8F0] p-6 shadow-sm">
+          <div className="mb-5">
+            <h2 className="text-xl font-bold text-[#0F172A]">
+              Appointments — Last 30 Days
+            </h2>
+
+            <p className="text-sm text-[#64748B] mt-1">
+              Daily appointment volume
+            </p>
+          </div>
+
+          <ResponsiveContainer width="100%" height={300}>
             <AreaChart data={chartData}>
               <defs>
-                <linearGradient id="colorTotal" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#2563EB" stopOpacity={0.25} />
-                  <stop offset="95%" stopColor="#2563EB" stopOpacity={0} />
+                <linearGradient
+                  id="colorTotal"
+                  x1="0"
+                  y1="0"
+                  x2="0"
+                  y2="1"
+                >
+                  <stop
+                    offset="5%"
+                    stopColor="#3F38CA"
+                    stopOpacity={0.25}
+                  />
+
+                  <stop
+                    offset="95%"
+                    stopColor="#3F38CA"
+                    stopOpacity={0}
+                  />
                 </linearGradient>
               </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke="#E2E8F0" vertical={false} />
-              <XAxis dataKey="date" tick={{ fontSize: 12, fill: '#94A3B8' }} axisLine={false} tickLine={false} />
-              <YAxis tick={{ fontSize: 12, fill: '#94A3B8' }} axisLine={false} tickLine={false} allowDecimals={false} />
-              <Tooltip contentStyle={{ borderRadius: 10, border: '1px solid #E2E8F0' }} />
-              <Area type="monotone" dataKey="total" stroke="#2563EB" strokeWidth={2} fill="url(#colorTotal)" />
+
+              <CartesianGrid
+                strokeDasharray="3 3"
+                stroke="#E2E8F0"
+                vertical={false}
+              />
+
+              <XAxis
+                dataKey="date"
+                tick={{
+                  fontSize: 13,
+                  fill: '#94A3B8',
+                }}
+                axisLine={false}
+                tickLine={false}
+              />
+
+              <YAxis
+                tick={{
+                  fontSize: 13,
+                  fill: '#94A3B8',
+                }}
+                axisLine={false}
+                tickLine={false}
+                allowDecimals={false}
+              />
+
+              <Tooltip
+                contentStyle={{
+                  borderRadius: 12,
+                  border: '1px solid #E2E8F0',
+                  fontSize: 14,
+                }}
+              />
+
+              <Area
+                type="monotone"
+                dataKey="total"
+                stroke="#3F38CA"
+                strokeWidth={3}
+                fill="url(#colorTotal)"
+              />
             </AreaChart>
           </ResponsiveContainer>
         </div>
-      </div>
 
       {/* Recent activity + quick links */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
