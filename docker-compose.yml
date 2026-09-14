@@ -17,6 +17,7 @@ services:
       - DB_USERNAME=meetora
       - DB_PASSWORD=secret
       - FRONTEND_URL=http://localhost:5173
+      - VITE_API_BASE_URL=https://meetora-nu9q.onrender.com/api
     depends_on:
       mysql:
         condition: service_healthy
