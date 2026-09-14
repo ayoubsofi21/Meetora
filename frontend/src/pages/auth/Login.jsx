@@ -3,26 +3,21 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { Mail, Lock, Eye, EyeOff, AlertCircle, Loader2 } from 'lucide-react';
 import hospitalImage from '../../assets/images/hospital-login.jpg';
-
 export default function Login() {
   const { login } = useAuth();
   const navigate = useNavigate();
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-
     if (!email || !password) {
       setError('Please fill in all fields.');
       return;
     }
-
     try {
       setIsSubmitting(true);
       const result = await login(email, password);
@@ -40,40 +35,16 @@ export default function Login() {
       setIsSubmitting(false);
     }
   };
-
   return (
     <div className="min-h-screen w-full bg-white grid grid-cols-1 lg:grid-cols-2">
-      {/* ========================================== */}
-      {/* LEFT SECTION: HOSPITAL IMAGE & OVERLAY     */}
-      {/* ========================================== */}
       <div className="relative hidden lg:block h-full w-full overflow-hidden select-none">
-        {/* Background Image */}
         <img
           src={hospitalImage}
           alt="Modern healthcare facility corridor"
           className="absolute inset-0 h-full w-full object-cover"
         />
-
-        {/* Gradient Overlay for Text Legibility */}
         <div className="absolute inset-0 bg-gradient-to-t from-[#0A1120]/85 via-[#111827]/40 to-transparent" />
-
-        {/* Marketing / Brand Panel Content */}
         <div className="absolute left-12 xl:left-16 bottom-16 max-w-[480px] z-10 text-white pr-6">
-          {/* Medical Icon Box */}
-          <div className="w-12 h-12 rounded-lg bg-[#0F56D9] flex items-center justify-center mb-8 shadow-md">
-            <svg
-              className="w-6 h-6 text-white"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
-            </svg>
-          </div>
-
           {/* Headline */}
           <h1 className="text-[44px] xl:text-[52px] font-bold leading-[1.12] tracking-tight text-white mb-6">
             Empowering
@@ -82,20 +53,13 @@ export default function Login() {
             <br />
             Providers
           </h1>
-
-          {/* Subtitle / Description */}
           <p className="text-white/90 text-base xl:text-lg leading-relaxed font-normal">
             Secure, scalable, and intelligent solutions for modern medical enterprises.
             Streamline patient care and operational efficiency.
           </p>
         </div>
       </div>
-
-      {/* ========================================== */}
-      {/* RIGHT SECTION: LOGIN FORM CONTAINER       */}
-      {/* ========================================== */}
       <div className="flex flex-col justify-center items-center px-6 sm:px-12 lg:px-16 py-12 bg-white">
-        {/* Compact Brand Header (Mobile View Only) */}
         <div className="lg:hidden w-full max-w-[440px] mb-8 text-center sm:text-left">
           <div className="inline-flex items-center gap-2">
             <div className="w-8 h-8 rounded-md bg-[#0F56D9] flex items-center justify-center text-white">
@@ -112,10 +76,7 @@ export default function Login() {
             <span className="text-xl font-bold tracking-tight text-[#111827]">MEETORA</span>
           </div>
         </div>
-
-        {/* Form Container */}
         <div className="w-full max-w-[440px]">
-          {/* Header */}
           <div className="text-center mb-10">
             <h2 className="text-3xl sm:text-[38px] font-bold text-[#111827] tracking-tight">
               Welcome Back
@@ -133,9 +94,7 @@ export default function Login() {
             </div>
           )}
 
-          {/* Login Form */}
           <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Email Field */}
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-[#111827] mb-2">
                 Email Address
@@ -156,8 +115,6 @@ export default function Login() {
                 />
               </div>
             </div>
-
-            {/* Password Field */}
             <div>
               <div className="flex items-center justify-between mb-2">
                 <label htmlFor="password" className="block text-sm font-medium text-[#111827]">
@@ -194,8 +151,6 @@ export default function Login() {
                 </button>
               </div>
             </div>
-
-            {/* Submit Button */}
             <button
               type="submit"
               disabled={isSubmitting}
@@ -211,15 +166,11 @@ export default function Login() {
               )}
             </button>
           </form>
-
-          {/* Social Login Divider */}
           <div className="my-8 flex items-center">
             <div className="flex-1 h-[1px] bg-[#CBD5E1]" />
             <span className="px-4 text-sm text-[#475569] font-normal">Or continue with</span>
             <div className="flex-1 h-[1px] bg-[#CBD5E1]" />
           </div>
-
-          {/* Social Buttons */}
           <div className="grid grid-cols-2 gap-4">
             <button
               type="button"
@@ -256,8 +207,6 @@ export default function Login() {
               <span>Apple</span>
             </button>
           </div>
-
-          {/* Footer Link */}
           <p className="mt-8 text-center text-sm text-[#475569]">
             Don't have an account?{' '}
             <Link to="/register" className="text-[#0F56D9] font-medium hover:underline">
