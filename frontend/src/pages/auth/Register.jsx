@@ -100,28 +100,14 @@ export default function Register() {
 
   return (
     <div className="min-h-screen w-full bg-white grid grid-cols-1 lg:grid-cols-2">
-      {/* =========================================================
-          LEFT — HOSPITAL IMAGE & OVERLAY (DESKTOP)
-      ========================================================== */}
       <div className="relative hidden lg:block h-full w-full overflow-hidden select-none bg-[#0F172A]">
-        {/* Background Image */}
         <img
           src={hospitalImage}
           alt="Modern healthcare facility corridor"
           className="absolute inset-0 h-full w-full object-cover pointer-events-none"
         />
-
-        {/* Dark Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-[#0A1120]/85 via-[#111827]/40 to-transparent" />
-
-        {/* Marketing / Brand Panel Content */}
         <div className="absolute left-12 xl:left-16 bottom-16 max-w-[480px] z-10 text-white pr-6">
-          {/* Medical Icon Box */}
-          <div className="w-12 h-12 rounded-lg bg-[#0F56D9] flex items-center justify-center mb-8 shadow-md">
-            <Activity className="w-6 h-6 text-white" />
-          </div>
-
-          {/* Headline */}
           <h1 className="text-[44px] xl:text-[52px] font-bold leading-[1.12] tracking-tight text-white mb-6">
             Healthcare
             <br />
@@ -129,18 +115,12 @@ export default function Register() {
             <br />
             Better Access
           </h1>
-
-          {/* Subtitle / Description */}
           <p className="text-white/90 text-base xl:text-lg leading-relaxed font-normal">
             Create your patient account and access appointments, medical records,
             prescriptions, and healthcare services from one secure platform.
           </p>
         </div>
       </div>
-
-      {/* =========================================================
-          RIGHT — REGISTER FORM CONTAINER
-      ========================================================== */}
       <div className="flex flex-col justify-center items-center px-6 sm:px-12 lg:px-16 py-12 bg-white">
         {/* Mobile-Only Brand Header */}
         <div className="lg:hidden w-full max-w-[440px] mb-8 text-center sm:text-left">
@@ -151,8 +131,6 @@ export default function Register() {
             <span className="text-xl font-bold tracking-tight text-[#111827]">MEETORA</span>
           </div>
         </div>
-
-        {/* Form Container */}
         <div className="w-full max-w-[440px]">
           {/* Header */}
           <div className="text-center mb-8">
@@ -163,26 +141,19 @@ export default function Register() {
               Create your Meetora patient account to get started.
             </p>
           </div>
-
-          {/* Success Notification Alert */}
           {success && (
             <div className="mb-6 p-3.5 rounded-lg bg-[#ECFDF5] border border-[#A7F3D0] flex items-start gap-3 text-[#047857] text-sm">
               <CheckCircle2 className="w-5 h-5 shrink-0 mt-0.5" />
               <span>Account created successfully. Redirecting to login...</span>
             </div>
           )}
-
-          {/* Inline Error Alert */}
           {error && !success && (
             <div className="mb-6 p-3.5 rounded-lg bg-[#FEF2F2] border border-[#FECACA] flex items-start gap-3 text-[#DC2626] text-sm">
               <AlertCircle className="w-5 h-5 shrink-0 mt-0.5" />
               <span>{error}</span>
             </div>
           )}
-
-          {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-5">
-            {/* Full Name */}
             <div>
               <label htmlFor="name" className="block text-sm font-medium text-[#111827] mb-2">
                 Full Name
@@ -204,8 +175,6 @@ export default function Register() {
                 />
               </div>
             </div>
-
-            {/* Email Address */}
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-[#111827] mb-2">
                 Email Address
@@ -227,8 +196,6 @@ export default function Register() {
                 />
               </div>
             </div>
-
-            {/* Password */}
             <div>
               <label htmlFor="password" className="block text-sm font-medium text-[#111827] mb-2">
                 Password
@@ -261,8 +228,6 @@ export default function Register() {
                 Minimum 8 characters
               </p>
             </div>
-
-            {/* Confirm Password */}
             <div>
               <label htmlFor="password_confirmation" className="block text-sm font-medium text-[#111827] mb-2">
                 Confirm Password
@@ -292,8 +257,6 @@ export default function Register() {
                 </button>
               </div>
             </div>
-
-            {/* Terms */}
             <div className="pt-1">
               <label className="flex items-start gap-3 cursor-pointer select-none">
                 <input
@@ -315,8 +278,6 @@ export default function Register() {
                 </span>
               </label>
             </div>
-
-            {/* Submit Button */}
             <button
               type="submit"
               disabled={isSubmitting || success}
@@ -332,15 +293,11 @@ export default function Register() {
               )}
             </button>
           </form>
-
-          {/* Social Auth Divider */}
           <div className="my-6 flex items-center">
             <div className="flex-1 h-[1px] bg-[#CBD5E1]" />
             <span className="px-4 text-sm text-[#475569] font-normal">Or continue with</span>
             <div className="flex-1 h-[1px] bg-[#CBD5E1]" />
           </div>
-
-          {/* Social Buttons */}
           <div className="grid grid-cols-2 gap-4">
             <button
               type="button"
@@ -377,16 +334,12 @@ export default function Register() {
               <span>Apple</span>
             </button>
           </div>
-
-          {/* Login Link */}
           <p className="mt-7 text-center text-sm text-[#475569]">
             Already have an account?{' '}
             <Link to="/login" className="text-[#0F56D9] font-medium hover:underline">
               Log In
             </Link>
           </p>
-
-          {/* Security Trust Badge */}
           <div className="mt-6 flex items-center justify-center gap-2 text-xs text-[#64748B]">
             <ShieldCheck className="w-4 h-4 text-emerald-600" />
             <span>Your information is protected and securely processed.</span>
