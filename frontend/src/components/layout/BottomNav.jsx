@@ -10,8 +10,8 @@ const ITEMS = [
 ];
 
 const linkClasses = ({ isActive }) =>
-  `flex flex-col items-center justify-center gap-1 text-[11px] font-medium
-   ${isActive ? 'text-[#2563EB]' : 'text-[#94A3B8]'}`;
+  `flex flex-col items-center justify-center gap-1 transition-all
+  ${isActive ? 'text-[#3F37C9] text-sm' : 'text-[#94A3B8] text-[11px]'}`;
 
 export default function BottomNav() {
   return (
