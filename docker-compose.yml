@@ -6,20 +6,20 @@ services:
       - "8000:8000"
     environment:
       - APP_NAME=Meetora
-      # - APP_ENV=local
-      - APP_ENV=production
+      - APP_ENV=local
+      # - APP_ENV=production
       - APP_KEY=base64:6bZDhtJA2+kEjBHEhdLWM5DVr3bl4yIEffdQRKp/v00=
       - APP_DEBUG=true
-      # - APP_URL=http://localhost:8000
-      - APP_URL=https://meetora-nu9q.onrender.com
+      - APP_URL=http://localhost:8000
+      # - APP_URL=https://meetora-nu9q.onrender.com
       - DB_CONNECTION=mysql
       - DB_HOST=mysql
       - DB_PORT=3306
       - DB_DATABASE=meetora
       - DB_USERNAME=meetora
       - DB_PASSWORD=secret
-      # - FRONTEND_URL=http://localhost:5173
-      - FRONTEND_URL=https://meetora-frontend.onrender.com
+      - FRONTEND_URL=http://localhost:5173
+      # - FRONTEND_URL=https://meetora-frontend.onrender.com
     depends_on:
       mysql:
         condition: service_healthy
