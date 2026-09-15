@@ -1,105 +1,208 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Home, ArrowLeft, Search, Stethoscope, HelpCircle } from 'lucide-react';
+import {
+  Home,
+  ArrowLeft,
+  Search,
+  Stethoscope,
+  HelpCircle,
+} from 'lucide-react';
 
 export default function NotFound() {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-[#F4F8FD] font-sans text-slate-800 antialiased flex flex-col justify-between">
+    <div className="min-h-screen bg-[#F8FAFC] text-[#0F172A] antialiased flex flex-col">
       
-      {/* Top Header Brand Minimal */}
-      <header className="w-full bg-[#F4F8FD] border-b border-slate-200/50">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12 h-20 flex items-center justify-between">
+      {/* Header */}
+      <header className="h-20 bg-white border-b border-[#E2E8F0] px-4 lg:px-6 flex items-center">
+        <div className="max-w-7xl w-full mx-auto flex items-center justify-between">
+          
+          {/* Brand */}
           <Link to="/" className="flex items-center">
-            <span className="font-extrabold text-2xl text-[#2563EB] tracking-tight">
+            <span className="font-extrabold text-xl text-[#3F38CA] tracking-tight">
               Meetora
             </span>
           </Link>
+
+          {/* Back */}
           <button
             onClick={() => navigate(-1)}
-            className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-600 hover:text-[#2563EB] transition-colors"
+            className="h-10 px-4 inline-flex items-center justify-center gap-2
+              text-sm font-semibold text-[#475569]
+              hover:text-[#3F38CA] hover:bg-[#F8FAFC]
+              rounded-xl transition-all"
           >
-            <ArrowLeft className="w-4 h-4" />
+            <ArrowLeft className="w-5 h-5" />
             <span>Go Back</span>
           </button>
         </div>
       </header>
 
-      {/* Main 404 Hero Section */}
-      <main className="flex-grow flex items-center justify-center py-16 px-6">
+      {/* Main */}
+      <main className="flex-1 flex items-center justify-center px-4 sm:px-6 py-16">
         <div className="max-w-xl w-full text-center">
-          
-          {/* Visual Badge Card */}
+
+          {/* Icon */}
           <div className="relative inline-block mb-8">
-            <div className="w-28 h-28 rounded-3xl bg-white shadow-xl shadow-slate-200/70 border border-slate-200/80 flex items-center justify-center mx-auto text-[#2563EB]">
-              <Stethoscope className="w-14 h-14 stroke-[1.75]" />
+            <div
+              className="w-28 h-28 rounded-3xl bg-white
+                border border-[#E2E8F0] shadow-sm
+                flex items-center justify-center mx-auto"
+            >
+              <Stethoscope
+                className="w-14 h-14 text-[#3F38CA]"
+                strokeWidth={1.75}
+              />
             </div>
-            
-            {/* Floating Error Badge */}
-            <span className="absolute -top-2 -right-2 bg-[#2563EB] text-white text-xs font-extrabold px-3 py-1 rounded-full shadow-md border-2 border-white">
+
+            {/* 404 Badge */}
+            <span
+              className="absolute -top-2 -right-4
+                bg-[#3F38CA] text-white
+                text-xs font-bold px-3 py-1.5
+                rounded-full border-2 border-white shadow-sm"
+            >
               404 ERROR
             </span>
           </div>
 
-          {/* Heading */}
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-[#0F172A] tracking-tight">
+          {/* Title */}
+          <h1 className="text-3xl sm:text-4xl font-bold text-[#0F172A] tracking-tight">
             Page Not Found
           </h1>
 
-          {/* Subtext */}
-          <p className="text-slate-600 text-sm sm:text-base mt-3 max-w-md mx-auto leading-relaxed">
-            The page or consultation record you are looking for might have been moved, removed, or is temporarily unavailable.
+          {/* Description */}
+          <p className="text-sm sm:text-base text-[#64748B] mt-4 max-w-md mx-auto leading-relaxed">
+            The page or consultation record you are looking for might
+            have been moved, removed, or is temporarily unavailable.
           </p>
 
-          {/* Action Buttons */}
+          {/* Actions */}
           <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
+
+            {/* Primary */}
             <Link
               to="/"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#2563EB] hover:bg-[#1D4ED8] text-white text-sm font-semibold px-6 py-3 rounded-xl shadow-sm hover:shadow transition-all"
+              className="w-full sm:w-auto h-12 px-6
+                inline-flex items-center justify-center gap-2.5
+                bg-[#3F38CA] hover:bg-[#312E81]
+                text-white text-sm font-semibold
+                rounded-xl transition-all"
             >
-              <Home className="w-4 h-4" />
+              <Home className="w-5 h-5" />
               <span>Back to Homepage</span>
             </Link>
 
+            {/* Secondary */}
             <Link
               to="/doctors"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 text-sm font-semibold px-6 py-3 rounded-xl shadow-sm transition-all"
+              className="w-full sm:w-auto h-12 px-6
+                inline-flex items-center justify-center gap-2.5
+                bg-white hover:bg-[#F8FAFC]
+                text-[#475569] hover:text-[#0F172A]
+                border border-[#E2E8F0]
+                text-sm font-semibold rounded-xl
+                transition-all"
             >
-              <Search className="w-4 h-4 text-slate-400" />
+              <Search className="w-5 h-5 text-[#64748B]" />
               <span>Find a Doctor</span>
             </Link>
           </div>
 
-          {/* Helpful Shortcuts Box */}
-          <div className="mt-12 bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm text-left">
-            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">
-              <HelpCircle className="w-4 h-4 text-[#2563EB]" />
-              <span>Quick Navigation</span>
+          {/* Quick Navigation */}
+          <div
+            className="mt-12 bg-white rounded-2xl p-6
+              border border-[#E2E8F0] shadow-sm text-left"
+          >
+            {/* Section Header */}
+            <div className="flex items-center gap-2.5 mb-5">
+              <div
+                className="w-10 h-10 rounded-xl bg-[#EEF2FF]
+                  flex items-center justify-center"
+              >
+                <HelpCircle className="w-5 h-5 text-[#3F38CA]" />
+              </div>
+
+              <div>
+                <h2 className="text-base font-bold text-[#0F172A]">
+                  Quick Navigation
+                </h2>
+
+                <p className="text-xs text-[#94A3B8] mt-0.5">
+                  Find what you're looking for
+                </p>
+              </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-3 text-xs font-semibold text-slate-700">
-              <Link to="/#platform" className="p-2.5 rounded-lg bg-[#F8FAFC] hover:bg-[#EBF3FF] hover:text-[#2563EB] transition-colors">
+            {/* Links */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              
+              <Link
+                to="/#platform"
+                className="min-h-12 px-4 flex items-center
+                  rounded-xl bg-[#F8FAFC]
+                  border border-transparent
+                  text-sm font-medium text-[#475569]
+                  hover:text-[#3F38CA]
+                  hover:bg-[#EEF2FF]
+                  hover:border-[#E0E7FF]
+                  transition-all"
+              >
                 Platform Overview
               </Link>
-              <Link to="/#solutions" className="p-2.5 rounded-lg bg-[#F8FAFC] hover:bg-[#EBF3FF] hover:text-[#2563EB] transition-colors">
+
+              <Link
+                to="/#solutions"
+                className="min-h-12 px-4 flex items-center
+                  rounded-xl bg-[#F8FAFC]
+                  border border-transparent
+                  text-sm font-medium text-[#475569]
+                  hover:text-[#3F38CA]
+                  hover:bg-[#EEF2FF]
+                  hover:border-[#E0E7FF]
+                  transition-all"
+              >
                 Clinical Solutions
               </Link>
-              <Link to="/login" className="p-2.5 rounded-lg bg-[#F8FAFC] hover:bg-[#EBF3FF] hover:text-[#2563EB] transition-colors">
+
+              <Link
+                to="/login"
+                className="min-h-12 px-4 flex items-center
+                  rounded-xl bg-[#F8FAFC]
+                  border border-transparent
+                  text-sm font-medium text-[#475569]
+                  hover:text-[#3F38CA]
+                  hover:bg-[#EEF2FF]
+                  hover:border-[#E0E7FF]
+                  transition-all"
+              >
                 Patient Log In
               </Link>
-              <Link to="/register" className="p-2.5 rounded-lg bg-[#F8FAFC] hover:bg-[#EBF3FF] hover:text-[#2563EB] transition-colors">
+
+              <Link
+                to="/register"
+                className="min-h-12 px-4 flex items-center
+                  rounded-xl bg-[#F8FAFC]
+                  border border-transparent
+                  text-sm font-medium text-[#475569]
+                  hover:text-[#3F38CA]
+                  hover:bg-[#EEF2FF]
+                  hover:border-[#E0E7FF]
+                  transition-all"
+              >
                 Doctor Registration
               </Link>
             </div>
           </div>
-
         </div>
       </main>
 
-      {/* Footer minimal sub-bar */}
-      <footer className="py-6 border-t border-slate-200/60 text-center text-xs text-slate-400">
-        © 2026 Meetora Inc. All rights reserved.
+      {/* Footer */}
+      <footer className="py-6 px-4 bg-white border-t border-[#E2E8F0] text-center">
+        <p className="text-xs text-[#94A3B8]">
+          © 2026 Meetora Inc. All rights reserved.
+        </p>
       </footer>
     </div>
   );
