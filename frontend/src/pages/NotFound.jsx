@@ -43,31 +43,19 @@ export default function NotFound() {
       <main className="flex-1 flex items-center justify-center px-4 sm:px-6 py-16">
         <div className="max-w-xl w-full text-center">
 
-          {/* Icon */}
-          <div className="relative inline-block mb-8">
-            <div
-              className="w-28 h-28 rounded-3xl bg-white
-                border border-[#E2E8F0] shadow-sm
-                flex items-center justify-center mx-auto"
-            >
-              <Stethoscope
-                className="w-14 h-14 text-[#3F38CA]"
-                strokeWidth={1.75}
-              />
-            </div>
-
+         {/* Icon */}
+          <div className="flex justify-center items-center mb-4">
             {/* 404 Badge */}
             <span
-              className="absolute -top-2 -right-4
-                bg-[#3F38CA] text-white
-                text-xs font-bold px-3 py-1.5
-                rounded-full border-2 border-white shadow-sm"
+              className="
+                bg-[#3F38CA] text-white text-center
+                text-xs font-bold px-10 py-2
+                rounded-full border-2 border-white shadow-sm
+              "
             >
               404 ERROR
             </span>
           </div>
-
-          {/* Title */}
           <h1 className="text-3xl sm:text-4xl font-bold text-[#0F172A] tracking-tight">
             Page Not Found
           </h1>
@@ -108,92 +96,6 @@ export default function NotFound() {
               <Search className="w-5 h-5 text-[#64748B]" />
               <span>Find a Doctor</span>
             </Link>
-          </div>
-
-          {/* Quick Navigation */}
-          <div
-            className="mt-12 bg-white rounded-2xl p-6
-              border border-[#E2E8F0] shadow-sm text-left"
-          >
-            {/* Section Header */}
-            <div className="flex items-center gap-2.5 mb-5">
-              <div
-                className="w-10 h-10 rounded-xl bg-[#EEF2FF]
-                  flex items-center justify-center"
-              >
-                <HelpCircle className="w-5 h-5 text-[#3F38CA]" />
-              </div>
-
-              <div>
-                <h2 className="text-base font-bold text-[#0F172A]">
-                  Quick Navigation
-                </h2>
-
-                <p className="text-xs text-[#94A3B8] mt-0.5">
-                  Find what you're looking for
-                </p>
-              </div>
-            </div>
-
-            {/* Links */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              
-              <Link
-                to="/#platform"
-                className="min-h-12 px-4 flex items-center
-                  rounded-xl bg-[#F8FAFC]
-                  border border-transparent
-                  text-sm font-medium text-[#475569]
-                  hover:text-[#3F38CA]
-                  hover:bg-[#EEF2FF]
-                  hover:border-[#E0E7FF]
-                  transition-all"
-              >
-                Platform Overview
-              </Link>
-
-              <Link
-                to="/#solutions"
-                className="min-h-12 px-4 flex items-center
-                  rounded-xl bg-[#F8FAFC]
-                  border border-transparent
-                  text-sm font-medium text-[#475569]
-                  hover:text-[#3F38CA]
-                  hover:bg-[#EEF2FF]
-                  hover:border-[#E0E7FF]
-                  transition-all"
-              >
-                Clinical Solutions
-              </Link>
-
-              <Link
-                to="/login"
-                className="min-h-12 px-4 flex items-center
-                  rounded-xl bg-[#F8FAFC]
-                  border border-transparent
-                  text-sm font-medium text-[#475569]
-                  hover:text-[#3F38CA]
-                  hover:bg-[#EEF2FF]
-                  hover:border-[#E0E7FF]
-                  transition-all"
-              >
-                Patient Log In
-              </Link>
-
-              <Link
-                to="/register"
-                className="min-h-12 px-4 flex items-center
-                  rounded-xl bg-[#F8FAFC]
-                  border border-transparent
-                  text-sm font-medium text-[#475569]
-                  hover:text-[#3F38CA]
-                  hover:bg-[#EEF2FF]
-                  hover:border-[#E0E7FF]
-                  transition-all"
-              >
-                Doctor Registration
-              </Link>
-            </div>
           </div>
         </div>
       </main>
