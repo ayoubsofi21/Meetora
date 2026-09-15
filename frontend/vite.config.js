@@ -9,7 +9,10 @@ export default defineConfig({
     host: '0.0.0.0',
     port: 5173,
     allowedHosts: [
+      'meettora.tech',
+      'www.meettora.tech',
       'meetora-frontend.onrender.com',
+      'localhost',
     ],
   },
 })
