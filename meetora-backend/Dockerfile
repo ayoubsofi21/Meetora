@@ -8,6 +8,7 @@ RUN apt-get update && apt-get install -y \
     libonig-dev \
     libpq-dev \
     && docker-php-ext-install \
+    pdo \
     pdo_mysql \
     pdo_pgsql \
     mbstring \
@@ -25,6 +26,7 @@ RUN composer install \
     --no-dev \
     --no-interaction \
     --prefer-dist \
+    --optimize-autoloader \
     --no-scripts
 
 COPY . .
