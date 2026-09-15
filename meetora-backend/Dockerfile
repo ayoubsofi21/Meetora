@@ -8,7 +8,6 @@ RUN apt-get update && apt-get install -y \
     libonig-dev \
     libpq-dev \
     && docker-php-ext-install \
-    pdo \
     pdo_mysql \
     pdo_pgsql \
     mbstring \
@@ -26,7 +25,6 @@ RUN composer install \
     --no-dev \
     --no-interaction \
     --prefer-dist \
-    --optimize-autoloader \
     --no-scripts
 
 COPY . .
@@ -35,4 +33,4 @@ RUN composer dump-autoload --optimize
 
 EXPOSE 8000
 
-CMD ["sh", "-c", "php artisan optimize:clear && php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=${PORT:-8000}"]
+CMD ["sh", "-c", "php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=${PORT:-8000}"]
