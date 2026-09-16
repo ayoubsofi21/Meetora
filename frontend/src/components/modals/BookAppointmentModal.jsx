@@ -67,12 +67,23 @@ export default function BookAppointmentModal({ isOpen, onClose, onSuccess }) {
     setError('');
 
     try {
-      await patientApi.createAppointment({
-        doctor_id: selectedDoctor,
-        availability_id: selectedSlot,
-        appointment_date: appointmentDate,
-      });
+     const selectedAvailability = availabilities.find(
+        (slot) => String(slot.id) === String(selectedSlot)
+      );
 
+      if (!selectedAvailability) {
+        setError('Please select a valid time slot.');
+        setIsSubmitting(false);
+        return;
+      }
+
+      await patientApi.createAppointment({
+        doctor_id: Number(selectedDoctor),
+        availability_id: Number(selectedSlot),
+        appointment_date: appointmentDate,
+        start_time: selectedAvailability.start_time,
+        end_time: selectedAvailability.end_time,
+      });
       setSuccessMsg('Appointment booked successfully!');
       setTimeout(() => {
         setSuccessMsg('');
