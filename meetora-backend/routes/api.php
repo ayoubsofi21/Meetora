@@ -59,13 +59,13 @@ Route::middleware(['auth:sanctum', 'role:admin'])->prefix('admin')->group(functi
     Route::get('/dashboard', [DashboardController::class, 'admin']);
 
 });
-Route::middleware(['auth:sanctum', 'role:patient'])->group(function () {
-    Route::post('/appointments', [AppointmentController::class, 'store']);
-});
+// Route::middleware(['auth:sanctum', 'role:patient'])->group(function () {
+//     Route::post('/appointments', [AppointmentController::class, 'store']);
+// });
 Route::middleware(['auth:sanctum', 'role:patient'])->prefix('patient')->group(function () {
     Route::get('/profile', [PatientController::class, 'profile']);
     Route::put('/profile', [PatientController::class, 'updateProfile']);
-
+    Route::post('/appointments', [AppointmentController::class, 'store']);
     Route::get('/appointments', [AppointmentController::class, 'patientIndex']);
     Route::get('/appointments/{appointment}', [AppointmentController::class, 'patientShow']);
     Route::patch('/appointments/{appointment}/cancel', [AppointmentController::class, 'patientCancel']);
