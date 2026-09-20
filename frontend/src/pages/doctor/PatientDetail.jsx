@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { doctorApi } from '../../api/doctorApi';
+import { useState, useEffect } from "react";
+import { useParams, useNavigate, useSearchParams } from "react-router-dom";
+import { doctorApi } from "../../api/doctorApi";
 import {
   Activity,
   Pill,
@@ -12,111 +12,131 @@ import {
   User,
   ShieldAlert,
   HeartPulse,
-} from 'lucide-react';
+} from "lucide-react";
 
 export default function PatientDetail() {
-  const { id } = useParams();
+  const { id: patientId } = useParams();
   const navigate = useNavigate();
+
+  const [searchParams] = useSearchParams();
+  const appointmentId = searchParams.get("appointment_id");
 
   const [patient, setPatient] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
-  const [successMsg, setSuccessMsg] = useState('');
+  const [error, setError] = useState("");
+  const [successMsg, setSuccessMsg] = useState("");
 
-  const [diagnosis, setDiagnosis] = useState('');
-  const [notes, setNotes] = useState('');
+  const [diagnosis, setDiagnosis] = useState("");
+  const [notes, setNotes] = useState("");
 
-  const [medicationName, setMedicationName] = useState('');
-  const [dosage, setDosage] = useState('');
-  const [instructions, setInstructions] = useState('');
+  const [medicationName, setMedicationName] = useState("");
+  const [dosage, setDosage] = useState("");
+  const [instructions, setInstructions] = useState("");
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // =========================
+  // Fetch patient
+  // =========================
   useEffect(() => {
     const fetchPatientData = async () => {
       try {
         setLoading(true);
-        setError('');
+        setError("");
 
-        const response = await doctorApi.getAppointments({
-          patient_id: id,
-        });
+        const response = await doctorApi.getPatientDetail(patientId);
 
-        const data =
-          response.data.data ||
-          response.data ||
-          {};
+        console.log("PATIENT RESPONSE:", response.data);
+
+        const data = response.data.data ?? response.data ?? {};
 
         setPatient(data);
       } catch (err) {
+        console.error("PATIENT FETCH ERROR:", err.response?.data || err);
+
         setError(
-          err.response?.data?.message ||
-            'Failed to load patient profile.'
+          err.response?.data?.message || "Failed to load patient profile.",
         );
       } finally {
         setLoading(false);
       }
     };
 
-    fetchPatientData();
-  }, [id]);
-
-  const handleSaveConsultation = async (e) => {
+    if (patientId) {
+      fetchPatientData();
+    }
+  }, [patientId]);
+const handleSaveConsultation = async (e) => {
     e.preventDefault();
 
-    if (!diagnosis) {
-      setError(
-        'Diagnosis is required to submit a consultation record.'
-      );
+    if (!diagnosis.trim()) {
+      setError('Diagnosis is required.');
       return;
     }
 
-    setIsSubmitting(true);
-    setError('');
-    setSuccessMsg('');
-
     try {
-      await doctorApi.completeAppointment(id, {
-        patient_id: id,
-        diagnosis,
-        notes,
+      setIsSubmitting(true);
+      setError('');
+      setSuccessMsg('');
 
-        prescription: medicationName
-          ? {
-              medication_name: medicationName,
-              dosage,
-              instructions,
-            }
-          : null,
-      });
+      // 1. Create consultation
+      const response = await doctorApi.createConsultation(
+        appointmentId,
+        {
+          diagnosis: diagnosis.trim(),
+          notes: notes.trim() || null,
+        }
+      );
 
+      const consultation =
+        response.data?.data ?? response.data;
+
+      const consultationId = consultation?.id;
+
+      // 2. Create prescription if medication exists
+      if (medicationName.trim()) {
+        await doctorApi.createPrescription(
+          consultationId,
+          {
+            medications: [
+              {
+                medication_name: medicationName.trim(),
+                dosage: dosage.trim() || null,
+                instructions: instructions.trim() || null,
+              },
+            ],
+          }
+        );
+      }
+
+      // ConsultationService already marks appointment as completed
       setSuccessMsg(
-        'Consultation and prescription recorded successfully!'
+        'Consultation completed successfully!'
       );
 
       setTimeout(() => {
-        setSuccessMsg('');
         navigate('/doctor');
       }, 1500);
+
     } catch (err) {
+      console.error(err.response?.data || err);
+
       setError(
         err.response?.data?.message ||
-          'Failed to save consultation details.'
+        Object.values(err.response?.data?.errors || {})
+          .flat()
+          .join(' ') ||
+        'Failed to save consultation.'
       );
     } finally {
       setIsSubmitting(false);
     }
   };
-
   return (
     <div className="space-y-6">
-
-      {/* =========================
-          Header
-      ========================== */}
       <div className="flex items-center gap-4">
         <button
-          onClick={() => navigate('/doctor')}
+          onClick={() => navigate("/doctor")}
           className="w-11 h-11 shrink-0
             flex items-center justify-center
             bg-white border border-[#E2E8F0]
@@ -135,14 +155,11 @@ export default function PatientDetail() {
           </h1>
 
           <p className="text-sm text-[#64748B] mt-1">
-            Patient #{id} — Record clinical findings and prescribe treatment
+            Patient #{patientId} — Record clinical findings and prescribe
+            treatment
           </p>
         </div>
       </div>
-
-      {/* =========================
-          Error
-      ========================== */}
       {error && (
         <div
           className="p-4 rounded-xl
@@ -183,7 +200,6 @@ export default function PatientDetail() {
         </div>
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-
           {/* =========================
               Patient Overview
           ========================== */}
@@ -205,7 +221,7 @@ export default function PatientDetail() {
                   flex items-center justify-center
                   shrink-0"
               >
-                {patient?.name?.charAt(0)?.toUpperCase() || 'P'}
+                {patient?.name?.charAt(0)?.toUpperCase() || "P"}
               </div>
 
               <div className="min-w-0">
@@ -214,7 +230,7 @@ export default function PatientDetail() {
                     text-[#0F172A]
                     text-lg truncate"
                 >
-                  {patient?.name || `Patient #${id}`}
+                  {patient?.name || `Patient #${patientId}`}
                 </h2>
 
                 <p
@@ -222,14 +238,13 @@ export default function PatientDetail() {
                     text-[#64748B]
                     mt-1 truncate"
                 >
-                  {patient?.email || 'Registered Patient'}
+                  {patient?.email || "Registered Patient"}
                 </p>
               </div>
             </div>
 
             {/* Information */}
             <div className="space-y-5 mt-5">
-
               {/* Patient ID */}
               <div className="flex items-start gap-3">
                 <div
@@ -242,12 +257,10 @@ export default function PatientDetail() {
                 </div>
 
                 <div>
-                  <p className="text-xs text-[#94A3B8]">
-                    Patient ID
-                  </p>
+                  <p className="text-xs text-[#94A3B8]">Patient ID</p>
 
                   <p className="text-sm font-semibold text-[#0F172A] mt-0.5">
-                    #{id}
+                    #{patientId}
                   </p>
                 </div>
               </div>
@@ -264,12 +277,10 @@ export default function PatientDetail() {
                 </div>
 
                 <div>
-                  <p className="text-xs text-[#94A3B8]">
-                    Known Allergies
-                  </p>
+                  <p className="text-xs text-[#94A3B8]">Known Allergies</p>
 
                   <p className="text-sm font-semibold text-[#DC2626] mt-0.5">
-                    {patient?.allergies || 'None recorded'}
+                    {patient?.allergies || "None recorded"}
                   </p>
                 </div>
               </div>
@@ -286,12 +297,10 @@ export default function PatientDetail() {
                 </div>
 
                 <div>
-                  <p className="text-xs text-[#94A3B8]">
-                    Chronic Conditions
-                  </p>
+                  <p className="text-xs text-[#94A3B8]">Chronic Conditions</p>
 
                   <p className="text-sm font-semibold text-[#0F172A] mt-0.5">
-                    {patient?.chronic_conditions || 'None recorded'}
+                    {patient?.chronic_conditions || "None recorded"}
                   </p>
                 </div>
               </div>
@@ -305,7 +314,6 @@ export default function PatientDetail() {
             onSubmit={handleSaveConsultation}
             className="lg:col-span-2 space-y-6"
           >
-
             {/* =========================
                 Diagnosis
             ========================== */}
@@ -337,7 +345,6 @@ export default function PatientDetail() {
               </div>
 
               <div className="space-y-5">
-
                 {/* Diagnosis */}
                 <div>
                   <label className="block text-sm font-semibold text-[#475569] mb-2">
@@ -347,9 +354,7 @@ export default function PatientDetail() {
                   <input
                     type="text"
                     value={diagnosis}
-                    onChange={(e) =>
-                      setDiagnosis(e.target.value)
-                    }
+                    onChange={(e) => setDiagnosis(e.target.value)}
                     placeholder="e.g. Acute Upper Respiratory Tract Infection"
                     className="w-full h-12 px-4
                       bg-[#F8FAFC]
@@ -374,9 +379,7 @@ export default function PatientDetail() {
                   <textarea
                     rows={5}
                     value={notes}
-                    onChange={(e) =>
-                      setNotes(e.target.value)
-                    }
+                    onChange={(e) => setNotes(e.target.value)}
                     placeholder="Document examination observations, patient symptoms, and follow-up plan..."
                     className="w-full px-4 py-3
                       bg-[#F8FAFC]
@@ -424,7 +427,6 @@ export default function PatientDetail() {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-
                 {/* Medication */}
                 <div>
                   <label className="block text-sm font-semibold text-[#475569] mb-2">
@@ -434,9 +436,7 @@ export default function PatientDetail() {
                   <input
                     type="text"
                     value={medicationName}
-                    onChange={(e) =>
-                      setMedicationName(e.target.value)
-                    }
+                    onChange={(e) => setMedicationName(e.target.value)}
                     placeholder="e.g. Amoxicillin 500mg"
                     className="w-full h-12 px-4
                       bg-[#F8FAFC]
@@ -460,9 +460,7 @@ export default function PatientDetail() {
                   <input
                     type="text"
                     value={dosage}
-                    onChange={(e) =>
-                      setDosage(e.target.value)
-                    }
+                    onChange={(e) => setDosage(e.target.value)}
                     placeholder="e.g. 1 tablet 3x daily after meals"
                     className="w-full h-12 px-4
                       bg-[#F8FAFC]
@@ -486,9 +484,7 @@ export default function PatientDetail() {
                   <input
                     type="text"
                     value={instructions}
-                    onChange={(e) =>
-                      setInstructions(e.target.value)
-                    }
+                    onChange={(e) => setInstructions(e.target.value)}
                     placeholder="e.g. Take for 7 days continuously. Drink plenty of water."
                     className="w-full h-12 px-4
                       bg-[#F8FAFC]
@@ -509,10 +505,9 @@ export default function PatientDetail() {
                 Actions
             ========================== */}
             <div className="flex flex-col-reverse sm:flex-row justify-end gap-3">
-
               <button
                 type="button"
-                onClick={() => navigate('/doctor')}
+                onClick={() => navigate("/doctor")}
                 className="h-12 px-6
                   border border-[#E2E8F0]
                   hover:bg-[#F8FAFC]
