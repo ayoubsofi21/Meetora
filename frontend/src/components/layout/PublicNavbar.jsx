@@ -16,20 +16,18 @@ export default function PublicNavbar() {
   return (
     <header className="w-full h-20 bg-white border-b border-[#E2E8F0] sticky top-0 z-50">
       <div className="mx-auto h-full max-w-7xl px-6 lg:px-12 flex items-center justify-between">
-
-        {/* Logo */}
         <Link
           to="/"
-          className="group flex items-center gap-2"
+          className="group inline-flex items-center gap-0"
           aria-label="Meetora homepage"
         >
           <img
             src={logo}
             alt="Meetora"
-            className="h-11 w-11 object-contain transition-transform group-hover:scale-105"
+            className="h-11 w-11 object-contain transition-transform duration-300 group-hover:scale-105"
           />
 
-          <span className="text-xl font-extrabold tracking-tight text-[#3F38CA]">
+          <span className="-ml-1 text-xl font-extrabold tracking-tight text-[#3F38CA]">
             eetora
           </span>
         </Link>
