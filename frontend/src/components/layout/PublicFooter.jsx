@@ -1,134 +1,97 @@
-// src/components/layout/PublicFooter.jsx
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ShieldCheck, Lock, Globe } from 'lucide-react';
 
 export default function PublicFooter() {
   return (
-    <footer className="bg-[#0F172A] text-slate-300 pt-16 pb-8 border-t border-slate-800">
-      <div className="max-w-7xl mx-auto px-6 lg:px-12">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 pb-12 border-b border-slate-800/80">
-          
-          {/* Brand & Mission Column */}
-          <div className="md:col-span-5 space-y-4">
-            <Link to="/" className="flex items-center">
-              <span className="font-extrabold text-2xl text-white tracking-tight">
-                Meetora
-              </span>
+    <footer className="bg-[#0F172A] text-[#CBD5E1] border-t border-[#1E293B]">
+      <div className="max-w-7xl mx-auto px-6 lg:px-12 pt-14 pb-8">
+
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 pb-12 border-b border-[#1E293B]">
+
+          {/* Brand */}
+          <div className="md:col-span-5">
+            <Link
+              to="/"
+              className="text-2xl font-extrabold tracking-tight text-white"
+            >
+              Meetora
             </Link>
 
-            <p className="text-xs text-slate-400 leading-relaxed max-w-sm font-normal">
-              A unified healthcare management platform designed for modern medical professionals and patients. Streamline scheduling, access medical records, and elevate care delivery.
+            <p className="mt-4 text-sm text-[#94A3B8] leading-relaxed max-w-sm">
+              A unified healthcare management platform designed for
+              modern medical professionals and patients.
             </p>
 
-            <div className="inline-flex items-center gap-2 bg-slate-800/60 px-3 py-1.5 rounded-xl border border-slate-700/60 text-[11px] font-semibold text-[#BFDBFE]">
-              <ShieldCheck className="w-4 h-4 text-[#2563EB]" />
-              <span>HIPAA & GDPR Compliant Security</span>
+            <div className="mt-5 inline-flex items-center gap-2 px-3 py-2
+              rounded-xl bg-[#1E293B] border border-[#334155]
+              text-xs font-medium text-[#C7D2FE]"
+            >
+              <ShieldCheck className="w-4 h-4 text-[#818CF8]" />
+              HIPAA & GDPR Compliant Security
             </div>
           </div>
 
-          {/* Column 2: Platform Links */}
-          <div className="md:col-span-2 space-y-3">
-            <h4 className="text-xs font-extrabold uppercase tracking-wider text-white">
-              Platform
-            </h4>
-            <ul className="space-y-2 text-xs font-medium text-slate-400">
-              <li>
-                <a href="#platform" className="hover:text-white transition-colors">
-                  Overview
-                </a>
-              </li>
-              <li>
-                <a href="#solutions" className="hover:text-white transition-colors">
-                  Solutions
-                </a>
-              </li>
-              <li>
-                <Link to="/doctors" className="hover:text-white transition-colors">
-                  Find Doctors
-                </Link>
-              </li>
-              <li>
-                <a href="#pricing" className="hover:text-white transition-colors">
-                  Pricing
-                </a>
-              </li>
-            </ul>
-          </div>
+          {/* Platform */}
+          <FooterColumn title="Platform">
+            <a href="#platform">Overview</a>
+            <a href="#solutions">Solutions</a>
+            <Link to="/doctors">Find Doctors</Link>
+            <a href="#pricing">Pricing</a>
+          </FooterColumn>
 
-          {/* Column 3: Resources */}
-          <div className="md:col-span-2 space-y-3">
-            <h4 className="text-xs font-extrabold uppercase tracking-wider text-white">
-              Resources
-            </h4>
-            <ul className="space-y-2 text-xs font-medium text-slate-400">
-              <li>
-                <a href="#docs" className="hover:text-white transition-colors">
-                  Documentation
-                </a>
-              </li>
-              <li>
-                <a href="#help" className="hover:text-white transition-colors">
-                  Help Center
-                </a>
-              </li>
-              <li>
-                <a href="#guides" className="hover:text-white transition-colors">
-                  Practice Guides
-                </a>
-              </li>
-              <li>
-                <a href="#api" className="hover:text-white transition-colors">
-                  API Status
-                </a>
-              </li>
-            </ul>
-          </div>
+          {/* Resources */}
+          <FooterColumn title="Resources">
+            <a href="#docs">Documentation</a>
+            <a href="#help">Help Center</a>
+            <a href="#guides">Practice Guides</a>
+            <a href="#api">API Status</a>
+          </FooterColumn>
 
-          {/* Column 4: Account & Legal */}
-          <div className="md:col-span-3 space-y-3">
-            <h4 className="text-xs font-extrabold uppercase tracking-wider text-white">
-              Account & Legal
-            </h4>
-            <ul className="space-y-2 text-xs font-medium text-slate-400">
-              <li>
-                <Link to="/login" className="hover:text-white transition-colors">
-                  Log In
-                </Link>
-              </li>
-              <li>
-                <Link to="/register" className="hover:text-white transition-colors">
-                  Get Started
-                </Link>
-              </li>
-              <li>
-                <a href="#privacy" className="hover:text-white transition-colors">
-                  Privacy Policy
-                </a>
-              </li>
-              <li>
-                <a href="#terms" className="hover:text-white transition-colors">
-                  Terms of Service
-                </a>
-              </li>
-            </ul>
+          {/* Account */}
+          <div className="md:col-span-3">
+            <FooterColumn title="Account & Legal">
+              <Link to="/login">Log In</Link>
+              <Link to="/register">Get Started</Link>
+              <a href="#privacy">Privacy Policy</a>
+              <a href="#terms">Terms of Service</a>
+            </FooterColumn>
           </div>
-
         </div>
 
-        {/* Bottom Sub-footer */}
-        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
+        {/* Bottom */}
+        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#64748B]">
           <p>© 2026 Meetora Inc. All rights reserved.</p>
-          <div className="flex items-center gap-6">
-            <span className="flex items-center gap-1.5 hover:text-slate-300 transition-colors">
-              <Globe className="w-3.5 h-3.5 text-slate-400" /> English (US)
+
+          <div className="flex flex-wrap items-center justify-center gap-5">
+            <span className="flex items-center gap-1.5">
+              <Globe className="w-3.5 h-3.5" />
+              English (US)
             </span>
-            <span className="flex items-center gap-1.5 hover:text-slate-300 transition-colors">
-              <Lock className="w-3.5 h-3.5 text-slate-400" /> 256-Bit SSL Encryption
+
+            <span className="flex items-center gap-1.5">
+              <Lock className="w-3.5 h-3.5" />
+              256-Bit SSL Encryption
             </span>
           </div>
         </div>
       </div>
     </footer>
+  );
+}
+
+function FooterColumn({ title, children }) {
+  return (
+    <div className="md:col-span-2">
+      <h4 className="text-xs font-bold uppercase tracking-wider text-white mb-4">
+        {title}
+      </h4>
+
+      <div className="flex flex-col gap-2.5 text-sm text-[#94A3B8]
+        [&>*]:transition-colors [&>*]:hover:text-white"
+      >
+        {children}
+      </div>
+    </div>
   );
 }

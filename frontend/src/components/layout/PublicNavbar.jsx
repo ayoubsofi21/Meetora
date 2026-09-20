@@ -1,7 +1,7 @@
-// src/components/layout/PublicNavbar.jsx
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
+import logo from '../../assets/images/logo.png';
 
 export default function PublicNavbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -14,83 +14,112 @@ export default function PublicNavbar() {
   ];
 
   return (
-    <header className="w-full bg-[#F4F8FD] shadow-sm shadow-slate-200/60 border-b border-slate-200/80 sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-6 lg:px-12 h-20 flex items-center justify-between">
-        
-        {/* Brand Logo */}
-        <Link to="/" className="flex items-center">
-          <span className="font-extrabold text-2xl text-[#2B6CB0] tracking-tight">
-            Meetora
+    <header className="w-full h-20 bg-white border-b border-[#E2E8F0] sticky top-0 z-50">
+      <div className="mx-auto h-full max-w-7xl px-6 lg:px-12 flex items-center justify-between">
+        <Link
+          to="/"
+          className="group inline-flex items-center gap-0"
+          aria-label="Meetora homepage"
+        >
+          <img
+            src={logo}
+            alt="Meetora"
+            className="h-11 w-11 object-contain transition-transform duration-300 group-hover:scale-105"
+          />
+
+          <span className="-ml-1 text-xl font-extrabold tracking-tight text-[#3F38CA]">
+            eetora
           </span>
         </Link>
 
-        {/* Desktop Navigation Links */}
+        {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
             <a
               key={link.name}
               href={link.path}
-              className="text-sm font-semibold text-slate-700 hover:text-[#2563EB] transition-colors"
+              className="relative py-2 text-sm font-medium text-[#475569]
+                hover:text-[#3F38CA] transition-colors
+                after:absolute after:left-0 after:bottom-0 after:h-0.5
+                after:w-0 after:bg-[#3F38CA] after:rounded-full
+                after:transition-all hover:after:w-full"
             >
               {link.name}
             </a>
           ))}
         </nav>
 
-        {/* Right Action Buttons */}
-        <div className="hidden md:flex items-center gap-6">
+        {/* Desktop Actions */}
+        <div className="hidden md:flex items-center gap-4">
           <Link
             to="/login"
-            className="text-sm font-bold text-[#2563EB] hover:text-[#1D4ED8] transition-colors"
+            className="text-sm font-semibold text-[#475569] hover:text-[#3F38CA] transition-colors"
           >
             Log In
           </Link>
 
           <Link
             to="/register"
-            className="bg-[#2563EB] hover:bg-[#1D4ED8] text-white px-5 py-2.5 rounded-xl text-sm font-semibold transition-all shadow-sm hover:shadow"
+            className="h-11 px-5 inline-flex items-center justify-center
+              bg-[#3F38CA] hover:bg-[#312E81] text-white
+              text-sm font-semibold rounded-xl shadow-sm transition-all"
           >
             Get Started
           </Link>
         </div>
 
-        {/* Mobile Menu Button */}
+        {/* Mobile Button */}
         <button
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="md:hidden p-2 text-slate-700 hover:bg-slate-100 rounded-lg"
-          aria-label="Toggle Navigation"
+          type="button"
+          onClick={() => setIsMobileMenuOpen((current) => !current)}
+          className="md:hidden w-10 h-10 flex items-center justify-center
+            rounded-xl text-[#475569] hover:text-[#3F38CA]
+            hover:bg-[#F8FAFC] transition-all"
+          aria-label="Toggle navigation"
         >
-          {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          {isMobileMenuOpen ? (
+            <X className="w-6 h-6" />
+          ) : (
+            <Menu className="w-6 h-6" />
+          )}
         </button>
       </div>
 
-      {/* Mobile Dropdown */}
+      {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="md:hidden bg-white border-b border-slate-200 px-6 pt-3 pb-6 space-y-3 shadow-lg">
-          <nav className="flex flex-col space-y-2">
+        <div className="md:hidden bg-white border-t border-[#E2E8F0] px-6 py-5 shadow-sm">
+          <nav className="flex flex-col gap-1">
             {navLinks.map((link) => (
               <a
                 key={link.name}
                 href={link.path}
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="py-2 text-base font-semibold text-slate-700 hover:text-[#2563EB]"
+                className="px-3 py-2.5 rounded-lg text-sm font-medium
+                  text-[#475569] hover:text-[#3F38CA]
+                  hover:bg-[#F8FAFC] transition-all"
               >
                 {link.name}
               </a>
             ))}
           </nav>
-          <div className="pt-4 border-t border-slate-100 flex flex-col gap-3">
+
+          <div className="mt-4 pt-4 border-t border-[#E2E8F0] flex flex-col gap-3">
             <Link
               to="/login"
               onClick={() => setIsMobileMenuOpen(false)}
-              className="w-full text-center py-2.5 text-base font-bold text-[#2563EB] bg-slate-50 rounded-xl"
+              className="h-11 flex items-center justify-center border
+                border-[#E2E8F0] text-[#0F172A]
+                font-semibold rounded-xl text-sm"
             >
               Log In
             </Link>
+
             <Link
               to="/register"
               onClick={() => setIsMobileMenuOpen(false)}
-              className="w-full text-center py-3 text-base font-semibold text-white bg-[#2563EB] rounded-xl shadow-sm"
+              className="h-11 flex items-center justify-center
+                bg-[#3F38CA] hover:bg-[#312E81]
+                text-white font-semibold rounded-xl text-sm"
             >
               Get Started
             </Link>
