@@ -5,7 +5,6 @@ import { useAuth } from '../../context/AuthContext';
 function initials(name = '') {
   return name
     .split(' ')
-    .filter(Boolean)
     .map((part) => part[0])
     .slice(0, 2)
     .join('')
@@ -27,36 +26,32 @@ export default function TopBar() {
 
         <input
           type="search"
-          placeholder="Search patients, appointments..."
-          className="
-            w-full h-11 pl-12 pr-4
-            bg-[#F8FAFC]
-            border border-[#E2E8F0]
-            rounded-xl
-            text-sm text-[#0F172A]
+          placeholder="Search patients, events, or reports..."
+          className="w-full h-11 pl-12 pr-4
+            bg-[#F8FAFC] border border-[#E2E8F0]
+            rounded-xl text-sm text-[#0F172A]
             placeholder:text-[#94A3B8]
-            focus:outline-none
-            focus:border-[#1764E8]
-            focus:ring-2 focus:ring-[#1764E8]/10
-            transition-all
-          "
+            focus:outline-none focus:border-[#3F38CA]
+            focus:ring-2 focus:ring-[#3F38CA]/10
+            transition-all"
         />
       </div>
 
-      {/* Mobile */}
-      <p className="sm:hidden text-lg font-extrabold text-[#1764E8]">
+      {/* Mobile Brand */}
+      <p className="sm:hidden text-lg font-extrabold text-[#3F38CA]">
         Meetora
       </p>
 
-      <div className="flex items-center gap-3 lg:gap-5">
+      {/* Right */}
+      <div className="flex items-center gap-3 lg:gap-4">
 
         <NavLink
           to="/admin/patients"
           className={({ isActive }) =>
             `hidden lg:inline text-sm font-medium transition-colors ${
               isActive
-                ? 'text-[#1764E8]'
-                : 'text-[#475569] hover:text-[#1764E8]'
+                ? 'text-[#3F38CA]'
+                : 'text-[#475569] hover:text-[#0F172A]'
             }`
           }
         >
@@ -68,8 +63,8 @@ export default function TopBar() {
           className={({ isActive }) =>
             `hidden lg:inline text-sm font-medium transition-colors ${
               isActive
-                ? 'text-[#1764E8]'
-                : 'text-[#475569] hover:text-[#1764E8]'
+                ? 'text-[#3F38CA]'
+                : 'text-[#475569] hover:text-[#0F172A]'
             }`
           }
         >
@@ -78,36 +73,23 @@ export default function TopBar() {
 
         <button
           aria-label="Notifications"
-          className="
-            relative w-10 h-10 rounded-xl
-            flex items-center justify-center
-            text-[#64748B]
-            hover:text-[#1764E8]
-            hover:bg-[#F8FAFC]
-            transition-all
-          "
+          className="relative w-10 h-10 rounded-xl flex items-center justify-center
+            text-[#475569] hover:text-[#3F38CA]
+            hover:bg-[#F8FAFC] transition-all"
         >
           <Bell className="w-5 h-5" strokeWidth={1.75} />
 
-          <span className="
-            absolute top-2 right-2
-            w-2 h-2 rounded-full
-            bg-[#EF4444]
-            ring-2 ring-white
-          " />
+          <span className="absolute top-2 right-2 w-2 h-2
+            bg-[#EF4444] rounded-full ring-2 ring-white"
+          />
         </button>
 
         <button
           aria-label="Help"
-          className="
-            hidden sm:flex
-            w-10 h-10 rounded-xl
-            items-center justify-center
-            text-[#64748B]
-            hover:text-[#1764E8]
-            hover:bg-[#F8FAFC]
-            transition-all
-          "
+          className="hidden sm:flex w-10 h-10 rounded-xl
+            items-center justify-center text-[#475569]
+            hover:text-[#3F38CA] hover:bg-[#F8FAFC]
+            transition-all"
         >
           <CircleHelp className="w-5 h-5" strokeWidth={1.75} />
         </button>
@@ -121,7 +103,7 @@ export default function TopBar() {
               {user?.name || 'Administrator'}
             </p>
 
-            <p className="text-xs text-[#94A3B8] mt-0.5">
+            <p className="text-xs font-medium text-[#94A3B8] mt-0.5">
               {user?.role === 'doctor'
                 ? 'Medical Practitioner'
                 : user?.role === 'patient'
@@ -130,14 +112,12 @@ export default function TopBar() {
             </p>
           </div>
 
-          <div className="
-            w-11 h-11 rounded-full
-            bg-[#EEF4FF]
-            border border-[#DBEAFE]
-            text-[#1764E8]
+          <div className="w-11 h-11 rounded-full
+            bg-[#EEF2FF] text-[#3F38CA]
+            border border-[#E0E7FF]
             font-bold text-sm
-            flex items-center justify-center
-          ">
+            flex items-center justify-center shrink-0"
+          >
             {initials(user?.name) || 'A'}
           </div>
         </div>

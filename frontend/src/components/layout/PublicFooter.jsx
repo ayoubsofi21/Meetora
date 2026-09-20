@@ -1,82 +1,69 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ShieldCheck, Lock, Globe } from 'lucide-react';
-import logo from '../../assets/images/logo.png';
 
 export default function PublicFooter() {
   return (
-    <footer className="bg-[#212E31] text-white border-t border-white/10">
-      <div className="max-w-7xl mx-auto px-6 lg:px-12 pt-16 pb-8">
+    <footer className="bg-[#0F172A] text-[#CBD5E1] border-t border-[#1E293B]">
+      <div className="max-w-7xl mx-auto px-6 lg:px-12 pt-14 pb-8">
 
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 pb-12 border-b border-white/10">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 pb-12 border-b border-[#1E293B]">
 
           {/* Brand */}
           <div className="md:col-span-5">
-            <Link to="/" className="inline-flex items-center gap-2.5">
-              <img
-                src={logo}
-                alt="Meetora"
-                className="w-11 h-11 object-contain"
-              />
-
-              <span className="text-2xl font-extrabold tracking-tight text-white">
-                Meetora
-              </span>
+            <Link
+              to="/"
+              className="text-2xl font-extrabold tracking-tight text-white"
+            >
+              Meetora
             </Link>
 
-            <p className="mt-4 text-sm text-white/60 leading-relaxed max-w-sm">
+            <p className="mt-4 text-sm text-[#94A3B8] leading-relaxed max-w-sm">
               A unified healthcare management platform designed for
               modern medical professionals and patients.
             </p>
 
-            <div className="
-              mt-5 inline-flex items-center gap-2
-              px-3 py-2 rounded-xl
-              bg-white/5 border border-white/10
-              text-xs font-medium text-[#93C5FD]
-            ">
-              <ShieldCheck className="w-4 h-4 text-[#1687F8]" />
-              Secure Healthcare Platform
+            <div className="mt-5 inline-flex items-center gap-2 px-3 py-2
+              rounded-xl bg-[#1E293B] border border-[#334155]
+              text-xs font-medium text-[#C7D2FE]"
+            >
+              <ShieldCheck className="w-4 h-4 text-[#818CF8]" />
+              HIPAA & GDPR Compliant Security
             </div>
           </div>
 
-          <FooterColumn
-            title="Platform"
-            links={[
-              ['Overview', '#platform'],
-              ['Solutions', '#solutions'],
-              ['Find Doctors', '/doctors'],
-              ['Pricing', '#pricing'],
-            ]}
-          />
+          {/* Platform */}
+          <FooterColumn title="Platform">
+            <a href="#platform">Overview</a>
+            <a href="#solutions">Solutions</a>
+            <Link to="/doctors">Find Doctors</Link>
+            <a href="#pricing">Pricing</a>
+          </FooterColumn>
 
-          <FooterColumn
-            title="Resources"
-            links={[
-              ['Documentation', '#docs'],
-              ['Help Center', '#help'],
-              ['Practice Guides', '#guides'],
-              ['API Status', '#api'],
-            ]}
-          />
+          {/* Resources */}
+          <FooterColumn title="Resources">
+            <a href="#docs">Documentation</a>
+            <a href="#help">Help Center</a>
+            <a href="#guides">Practice Guides</a>
+            <a href="#api">API Status</a>
+          </FooterColumn>
 
-          <FooterColumn
-            title="Account & Legal"
-            wide
-            links={[
-              ['Log In', '/login'],
-              ['Get Started', '/register'],
-              ['Privacy Policy', '#privacy'],
-              ['Terms of Service', '#terms'],
-            ]}
-          />
+          {/* Account */}
+          <div className="md:col-span-3">
+            <FooterColumn title="Account & Legal">
+              <Link to="/login">Log In</Link>
+              <Link to="/register">Get Started</Link>
+              <a href="#privacy">Privacy Policy</a>
+              <a href="#terms">Terms of Service</a>
+            </FooterColumn>
+          </div>
         </div>
 
         {/* Bottom */}
-        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-white/40">
-          <p>© 2026 Meetora. All rights reserved.</p>
+        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#64748B]">
+          <p>© 2026 Meetora Inc. All rights reserved.</p>
 
-          <div className="flex items-center gap-6">
+          <div className="flex flex-wrap items-center justify-center gap-5">
             <span className="flex items-center gap-1.5">
               <Globe className="w-3.5 h-3.5" />
               English (US)
@@ -84,7 +71,7 @@ export default function PublicFooter() {
 
             <span className="flex items-center gap-1.5">
               <Lock className="w-3.5 h-3.5" />
-              Secure Connection
+              256-Bit SSL Encryption
             </span>
           </div>
         </div>
@@ -93,34 +80,18 @@ export default function PublicFooter() {
   );
 }
 
-function FooterColumn({ title, links, wide = false }) {
+function FooterColumn({ title, children }) {
   return (
-    <div className={wide ? 'md:col-span-3' : 'md:col-span-2'}>
-      <h4 className="text-xs font-bold uppercase tracking-wider text-white">
+    <div className="md:col-span-2">
+      <h4 className="text-xs font-bold uppercase tracking-wider text-white mb-4">
         {title}
       </h4>
 
-      <ul className="mt-4 space-y-2.5">
-        {links.map(([label, path]) => (
-          <li key={label}>
-            {path.startsWith('/') ? (
-              <Link
-                to={path}
-                className="text-xs font-medium text-white/50 hover:text-[#60A5FA] transition-colors"
-              >
-                {label}
-              </Link>
-            ) : (
-              <a
-                href={path}
-                className="text-xs font-medium text-white/50 hover:text-[#60A5FA] transition-colors"
-              >
-                {label}
-              </a>
-            )}
-          </li>
-        ))}
-      </ul>
+      <div className="flex flex-col gap-2.5 text-sm text-[#94A3B8]
+        [&>*]:transition-colors [&>*]:hover:text-white"
+      >
+        {children}
+      </div>
     </div>
   );
 }
