@@ -22,7 +22,6 @@ class ConsultationController extends Controller
 
         $consultation = $this->consultationService->create($appointment, $request->validated());
         $consultation->load(['doctor.user', 'patient.user']);
-
         return response()->json([
             'success' => true,
             'message' => 'Consultation created successfully',
