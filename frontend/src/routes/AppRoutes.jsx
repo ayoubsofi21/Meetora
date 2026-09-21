@@ -14,6 +14,7 @@ import PatientDashboard from "../pages/patient/PatientDashboard";
 import MedicalRecords from "../pages/patient/MedicalRecords";
 import Prescriptions from "../pages/patient/Prescriptions";
 import HomePage from "../pages/public/HomePage";
+import AdminPatients from "../pages/admin/AdminPatients";
 export default function AppRoutes() {
   return (
     <Routes>
@@ -26,6 +27,7 @@ export default function AppRoutes() {
             <Route path="admin" element={<AdminDashboard />} />
             <Route path="admin/specialties" element={<AdminSpecialties />} />
             <Route path="admin/doctors" element={<AdminDoctors />} />
+            <Route path="admin/patients" element={<AdminPatients />} />
           </Route>
           <Route element={<ProtectedRoute allowedRoles={["doctor"]} />}>
             <Route path="doctor" element={<DoctorDashboard />} />
