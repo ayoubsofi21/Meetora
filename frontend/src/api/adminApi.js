@@ -1,18 +1,24 @@
-import apiClient from './axios';
+import apiClient from "./axios";
 
 export const adminApi = {
   //admin dashboard
-  getDashboard: () => apiClient.get('/admin/dashboard'),
+  getDashboard: () => apiClient.get("/admin/dashboard"),
   // Specialties
-  getSpecialties: () => apiClient.get('/specialties'),
-  createSpecialty: (data) => apiClient.post('/admin/specialties', data),
-  updateSpecialty: (id, data) => apiClient.put(`/admin/specialties/${id}`, data),
+  getSpecialties: () => apiClient.get("/specialties"),
+  createSpecialty: (data) => apiClient.post("/admin/specialties", data),
+  updateSpecialty: (id, data) =>
+    apiClient.put(`/admin/specialties/${id}`, data),
   deleteSpecialty: (id) => apiClient.delete(`/admin/specialties/${id}`),
 
   // Doctors
-  getDoctors: () => apiClient.get('/doctors'),
-  createDoctor: (data) => apiClient.post('/admin/doctors', data),
+  getDoctors: () => apiClient.get("/doctors"),
+  createDoctor: (data) => apiClient.post("/admin/doctors", data),
   updateDoctor: (id, data) => apiClient.put(`/admin/doctors/${id}`, data),
-  deleteDoctor: (id)=>apiClient.delete(`/admin/doctors/${id}`),
-};
+  deleteDoctor: (id) => apiClient.delete(`/admin/doctors/${id}`),
 
+  getPatients: () => apiClient.get("/admin/patients"),
+  getPatientById: (id) => apiClient.get(`/admin/patients/${id}`),
+  createPatient: (data) => apiClient.post("/admin/patients", data),
+  updatePatient: (id, data) => apiClient.put(`/admin/patients/${id}`, data),
+  deletePatient: (id) => apiClient.delete(`/admin/patients/${id}`),
+};
