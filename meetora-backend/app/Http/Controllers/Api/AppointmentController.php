@@ -92,14 +92,17 @@ class AppointmentController extends Controller
 
     public function doctorIndex(Request $request)
     {
-        $appointments = $request->user()->doctor->appointments()
-            ->with(['patient.user'])
-            ->when($request->filled('status'), fn ($q) => $q->where('status', $request->string('status')))
-            ->when($request->filled('date'), fn ($q) => $q->where('appointment_date', $request->string('date')))
-            ->orderBy('appointment_date')
-            ->orderBy('start_time')
-            ->paginate($request->integer('per_page', 10));
-
+        $query = $request->user()
+            ->doctor
+            ->appointments()
+            ->with('patient.user');
+        if ($request->status) {
+            $query->where('status', $request->status);
+        }
+        if ($request->date) {
+            $query->where('appointment_date', $request->date);
+        }
+        $appointments = $query->orderBy('appointment_date')->orderBy('start_time')->paginate(10);
         return response()->json([
             'success' => true,
             'data' => AppointmentResource::collection($appointments),

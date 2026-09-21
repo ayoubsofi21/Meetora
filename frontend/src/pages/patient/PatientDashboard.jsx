@@ -1,15 +1,7 @@
 import { useState, useEffect } from 'react';
 import { patientApi } from '../../api/patientApi';
 import BookAppointmentModal from '../../components/modals/BookAppointmentModal';
-import {
-  Calendar,
-  Plus,
-  Clock,
-  UserCheck,
-  AlertCircle,
-  Loader2,
-  XCircle,
-} from 'lucide-react';
+import {  Calendar,  Plus,  Clock,  UserCheck,  AlertCircle,  Loader2,  XCircle,} from 'lucide-react';
 
 export default function PatientDashboard() {
   const [dashboardData, setDashboardData] = useState(null);
@@ -17,8 +9,6 @@ export default function PatientDashboard() {
   const [error, setError] = useState('');
   const [cancelLoading, setCancelLoading] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  // Fetch patient dashboard data
   const fetchDashboard = async () => {
     try {
       setLoading(true);
@@ -41,8 +31,6 @@ export default function PatientDashboard() {
   useEffect(() => {
     fetchDashboard();
   }, []);
-
-  // Cancel appointment
   const handleCancelAppointment = async (id) => {
     if (
       !window.confirm(
@@ -106,19 +94,15 @@ export default function PatientDashboard() {
 
   return (
     <div className="space-y-6">
-
-      {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold text-[#0F172A]">
             Patient Overview
           </h1>
-
           <p className="text-sm text-[#64748B] mt-1">
             Manage your upcoming visits and healthcare reservations
           </p>
         </div>
-
         <button
           onClick={() => setIsModalOpen(true)}
           className="h-12 px-6 bg-[#3F38CA] hover:bg-[#312E81]
@@ -127,12 +111,9 @@ export default function PatientDashboard() {
             gap-2.5 shrink-0"
         >
           <Plus className="w-5 h-5" />
-
           <span>Book Appointment</span>
         </button>
       </div>
-
-      {/* Error */}
       {error && (
         <div
           className="p-4 rounded-xl bg-[#FEE2E2]
@@ -144,19 +125,13 @@ export default function PatientDashboard() {
           <span>{error}</span>
         </div>
       )}
-
-      {/* Loading */}
       {loading ? (
         <div className="flex justify-center py-16">
           <Loader2 className="w-9 h-9 text-[#3F38CA] animate-spin" />
         </div>
       ) : (
         <div className="space-y-6">
-
-          {/* Stats */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-
-            {/* Total Appointments */}
             <StatCard
               icon={Calendar}
               iconBg="bg-[#EEF2FF]"
@@ -164,8 +139,6 @@ export default function PatientDashboard() {
               label="Total Appointments"
               value={totalAppointments}
             />
-
-            {/* Pending */}
             <StatCard
               icon={Clock}
               iconBg="bg-[#FEF3C7]"
@@ -173,8 +146,6 @@ export default function PatientDashboard() {
               label="Pending Requests"
               value={pendingAppointments}
             />
-
-            {/* Confirmed */}
             <StatCard
               icon={UserCheck}
               iconBg="bg-[#D1FAE5]"
@@ -183,19 +154,15 @@ export default function PatientDashboard() {
               value={confirmedAppointments}
             />
           </div>
-
-          {/* Appointments */}
           <div
             className="bg-white rounded-2xl
               border border-[#E2E8F0]
               p-6 shadow-sm"
           >
-            {/* Section Header */}
             <div className="mb-5">
               <h2 className="text-xl font-bold text-[#0F172A]">
                 Your Appointments Queue
               </h2>
-
               <p className="text-sm text-[#64748B] mt-1">
                 View and manage your scheduled medical appointments
               </p>
@@ -210,20 +177,13 @@ export default function PatientDashboard() {
                 >
                   <Calendar className="w-6 h-6 text-[#3F38CA]" />
                 </div>
-
                 <p className="text-sm font-semibold text-[#475569]">
                   No appointments found
-                </p>
-
-                <p className="text-sm text-[#94A3B8] mt-1">
-                  Your scheduled appointments will appear here.
                 </p>
               </div>
             ) : (
               <div className="overflow-x-auto">
                 <table className="w-full text-left">
-
-                  {/* Table Header */}
                   <thead>
                     <tr
                       className="border-b border-[#E2E8F0]
@@ -232,7 +192,6 @@ export default function PatientDashboard() {
                       <th className="pb-4 font-semibold">
                         Doctor
                       </th>
-
                       <th className="pb-4 font-semibold">
                         Date & Time
                       </th>
@@ -240,18 +199,14 @@ export default function PatientDashboard() {
                       <th className="pb-4 font-semibold">
                         Reason
                       </th>
-
                       <th className="pb-4 font-semibold">
                         Status
                       </th>
-
                       <th className="pb-4 font-semibold text-right">
                         Actions
                       </th>
                     </tr>
                   </thead>
-
-                  {/* Table Body */}
                   <tbody className="divide-y divide-[#E2E8F0]">
                     {appointmentsList.map((apt) => {
                       const doctorName =
@@ -269,7 +224,6 @@ export default function PatientDashboard() {
                           className="hover:bg-[#F8FAFC]
                             transition-colors duration-200"
                         >
-                          {/* Doctor */}
                           <td className="py-4">
                             <div className="flex items-center gap-3">
                               <div
@@ -282,31 +236,24 @@ export default function PatientDashboard() {
                               >
                                 {doctorName.charAt(0).toUpperCase()}
                               </div>
-
                               <div>
                                 <p className="text-sm font-semibold text-[#0F172A]">
                                   {doctorName}
                                 </p>
-
                                 <p className="text-xs text-[#94A3B8] mt-0.5">
                                   Practitioner
                                 </p>
                               </div>
                             </div>
                           </td>
-
-                          {/* Date */}
                           <td className="py-4">
                             <p className="text-sm font-medium text-[#0F172A]">
                               {apt.appointment_date}
                             </p>
-
                             <p className="text-xs text-[#64748B] mt-1">
                               {apt.start_time} - {apt.end_time}
                             </p>
                           </td>
-
-                          {/* Reason */}
                           <td
                             className="py-4 text-sm
                               text-[#475569]
@@ -314,8 +261,6 @@ export default function PatientDashboard() {
                           >
                             {apt.reason || 'General Consultation'}
                           </td>
-
-                          {/* Status */}
                           <td className="py-4">
                             <span
                               className={`inline-flex px-3 py-1.5
@@ -325,8 +270,6 @@ export default function PatientDashboard() {
                               {status}
                             </span>
                           </td>
-
-                          {/* Actions */}
                           <td className="py-4 text-right">
                             {status === 'pending' && (
                               <button
@@ -350,7 +293,6 @@ export default function PatientDashboard() {
                                 ) : (
                                   <XCircle className="w-5 h-5" />
                                 )}
-
                                 <span>Cancel</span>
                               </button>
                             )}
@@ -365,8 +307,6 @@ export default function PatientDashboard() {
           </div>
         </div>
       )}
-
-      {/* Appointment Modal */}
       <BookAppointmentModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
@@ -375,11 +315,6 @@ export default function PatientDashboard() {
     </div>
   );
 }
-
-
-/* ================================
-   Reusable Stat Card
-================================ */
 
 function StatCard({
   icon: Icon,
@@ -402,11 +337,9 @@ function StatCard({
       >
         <Icon className={`w-6 h-6 ${iconColor}`} />
       </div>
-
       <p className="text-sm font-medium text-[#64748B]">
         {label}
       </p>
-
       <p className="text-3xl font-bold text-[#0F172A] mt-1">
         {value}
       </p>

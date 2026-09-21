@@ -95,4 +95,26 @@ class MedicalRecordController extends Controller
             ],
         ]);
     }
+    public function doctorUpdate(Request $request, Patient $patient)
+    {
+        $validated = $request->validate([
+            'blood_type' => ['nullable', 'string', 'max:10'],
+            'allergies' => ['nullable', 'string'],
+            'chronic_conditions' => ['nullable', 'string'],
+            'medical_history' => ['nullable', 'string'],
+        ]);
+        $record = $patient->medicalRecord;
+        if (!$record) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Medical record not found.',
+            ], 404);
+        }
+        $record->update($validated);
+        return response()->json([
+            'success' => true,
+            'message' => 'Medical record updated successfully.',
+            'data' => $record->fresh(),
+        ]);
+    }
 }

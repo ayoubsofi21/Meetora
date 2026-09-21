@@ -7,7 +7,7 @@ use App\Models\Patient;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-
+use App\Models\MedicalRecord;
 class AuthService
 {
     public function register(array $data): User
@@ -20,8 +20,14 @@ class AuthService
                 'role' => UserRole::PATIENT,
             ]);
 
-            Patient::create([
+            // Patient::create([
+            //     'user_id' => $user->id,
+            // ]);
+            $patient = Patient::create([
                 'user_id' => $user->id,
+            ]);
+            MedicalRecord::create([
+                'patient_id' => $patient->id,
             ]);
 
             return $user;

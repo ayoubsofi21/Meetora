@@ -99,6 +99,7 @@ Route::middleware(['auth:sanctum', 'role:doctor'])->prefix('doctor')->group(func
     Route::get('/prescriptions/{prescription}', [PrescriptionController::class, 'doctorShow']);
 
     Route::get('/patients/{patient}/medical-record', [MedicalRecordController::class, 'doctorShow']);
+    Route::put('/patients/{patient}/medical-record',[MedicalRecordController::class, 'doctorUpdate']);
     Route::get('/dashboard', [DashboardController::class, 'doctor']);
 });
 Route::middleware(['auth:sanctum'])->group(function () {

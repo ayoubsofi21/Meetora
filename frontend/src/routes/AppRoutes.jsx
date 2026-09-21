@@ -15,6 +15,7 @@ import MedicalRecords from "../pages/patient/MedicalRecords";
 import Prescriptions from "../pages/patient/Prescriptions";
 import HomePage from "../pages/public/HomePage";
 import AdminPatients from "../pages/admin/AdminPatients";
+import DoctorMedicalRecord from "../pages/doctor/DoctorMedicalRecord";
 export default function AppRoutes() {
   return (
     <Routes>
@@ -33,6 +34,7 @@ export default function AppRoutes() {
             <Route path="doctor" element={<DoctorDashboard />} />
             <Route path="doctor/schedule" element={<DoctorSchedule />} />
             <Route path="doctor/patient/:id" element={<PatientDetail />} />
+            <Route path="/doctor/records" element={<DoctorMedicalRecord />}/>
           </Route>
 
           <Route element={<ProtectedRoute allowedRoles={["patient"]} />}>

@@ -19,7 +19,13 @@ export const doctorApi = {
   // Patient & Consultation
   getPatients: () => apiClient.get('/doctor/patients'),
   getPatientDetail: (patientId) => apiClient.get(`/doctor/patients/${patientId}`),
-  getPatientMedicalRecord: (patientId) => apiClient.get(`/doctor/patients/${patientId}/medical-record`),
+  
+  getPatients: () =>
+  apiClient.get('/doctor/patients'),
+
+getPatientMedicalRecord: (patientId) =>apiClient.get(`/doctor/patients/${patientId}/medical-record`),
+updatePatientMedicalRecord: (patientId, data) =>apiClient.put(`/doctor/patients/${patientId}/medical-record`,data),
+
   createConsultation: (appointmentId, data) => apiClient.post(`/doctor/appointments/${appointmentId}/consultation`, data),
   createPrescription: (consultationId, data) => apiClient.post(`/doctor/consultations/${consultationId}/prescriptions`, data),
 };
