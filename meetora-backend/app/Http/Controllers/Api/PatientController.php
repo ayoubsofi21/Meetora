@@ -102,26 +102,18 @@ class PatientController extends Controller
 
     public function doctorIndex(Request $request)
     {
-        // Pour l'instant : tous les patients, avec recherche.
-        // Sera restreint aux patients réellement liés à ce médecin
-        // (via appointments) une fois STEP Appointments fait — voir note ci-dessous.
-        $patients = Patient::query()
-            ->with('user')
-            ->when($request->filled('search'), function ($query) use ($request) {
-                $search = $request->string('search');
-                $query->whereHas('user', fn ($q) => $q->where('name', 'like', "%{$search}%"));
+        $doctorId = $request->user()->doctor->id;
+
+        $patients = Patient::with('user')
+            ->whereHas('appointments', function ($query) use ($doctorId) {
+                $query->where('doctor_id', $doctorId)
+                    ->whereIn('status', ['confirmed', 'completed']);
             })
-            ->paginate($request->integer('per_page', 10));
+            ->get();
 
         return response()->json([
             'success' => true,
-            'data' => PatientResource::collection($patients),
-            'meta' => [
-                'current_page' => $patients->currentPage(),
-                'last_page' => $patients->lastPage(),
-                'per_page' => $patients->perPage(),
-                'total' => $patients->total(),
-            ],
+            'data' => $patients,
         ]);
     }
 

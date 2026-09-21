@@ -1,13 +1,18 @@
-import apiClient from './axios';
+import apiClient from "./axios";
+
 export const patientApi = {
-  getPublicDoctors: () => apiClient.get('/doctors'),
-  getDoctorAvailabilities: (doctorId) => apiClient.get(`/doctors/${doctorId}/availabilities`),
+  getPublicDoctors: () => apiClient.get("/doctors"),
+  getDoctorAvailabilities: (doctorId) =>apiClient.get(`/doctors/${doctorId}/availabilities`),
 
-  getDashboard: () => apiClient.get('/patient/dashboard'),
-  createAppointment: (data) => apiClient.post('/patient/appointments', data),
+  getDashboard: () => apiClient.get("/patient/dashboard"),
+  // Appointments
+  createAppointment: (data) => apiClient.post("/patient/appointments", data),
   cancelAppointment: (id) =>apiClient.patch(`/patient/appointments/${id}/cancel`),
-
-  getMedicalRecord: () => apiClient.get('/patient/medical-record'),
-  getPrescriptions: () => apiClient.get('/patient/prescriptions'),
-  reissuePrescription: (id) => apiClient.post(`/patient/prescriptions/${id}/reissue`),
+  // Medical Records
+  getMedicalRecord: () => apiClient.get("/patient/medical-record"),
+  getMedicalHistory: () => apiClient.get("/patient/medical-history"),
+  updateMedicalRecord: (data) => apiClient.put("/patient/medical-record", data),
+  // Prescriptions
+  getPrescriptions: () => apiClient.get("/patient/prescriptions"),
+  reissuePrescription: (id) =>apiClient.post(`/patient/prescriptions/${id}/reissue`),
 };

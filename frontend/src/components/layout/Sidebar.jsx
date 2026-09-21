@@ -28,10 +28,10 @@ const NAV_ITEMS = [
 const DOCTOR_NAV_ITEMS = [
   { to: "/doctor", label: "Dashboard", icon: LayoutDashboard, end: true },
   { to: "/doctor/schedule", label: "Schedule", icon: Stethoscope },
+  { to: "/doctor/records", label: "Records", icon: FileText },
   { to: "/doctor/specialties", label: "Specialties", icon: Tags },
   { to: "/doctor/appointments", label: "Appointments", icon: CalendarDays },
   { to: "/doctor/patients", label: "Patients", icon: Users },
-  { to: "/doctor/records", label: "Records", icon: FileText },
   { to: "/doctor/analytics", label: "Analytics", icon: BarChart3 },
   { to: "/doctor/settings", label: "Settings", icon: Settings },
 ];
