@@ -18,6 +18,10 @@ export default function DoctorsSection() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [lastPage, setLastPage] = useState(1);
+  const [totalDoctors, setTotalDoctors] = useState(0);
+
   const [selectedSpecialty, setSelectedSpecialty] = useState("All");
   const [searchTerm, setSearchTerm] = useState("");
   const [locationTerm, setLocationTerm] = useState("");
@@ -32,35 +36,37 @@ export default function DoctorsSection() {
     "Ophthalmologist",
   ];
 
-  // ==========================================
-  // Fetch Doctors
-  // ==========================================
-  const fetchDoctors = async () => {
+  const fetchDoctors = async (page = 1) => {
     try {
-      setLoading(true);
-      setError(null);
+        setLoading(true);
+        setError(null);
 
-      const response = await publicApi.getDoctors();
+        const response = await publicApi.getDoctors(page);
 
-      const data =
-        response.data?.data ||
-        response.data ||
-        [];
+        console.log("DOCTORS RESPONSE:", response.data);
 
-      console.log("DOCTORS API:", data);
+        const data = response.data?.data || [];
+        const meta = response.data?.meta;
 
-      setDoctors(data);
-    } catch (err) {
-      console.error("Failed to fetch doctors:", err);
+        setDoctors(data);
 
-      setError(
-        "Unable to load doctors from server. Please try again."
-      );
-    } finally {
-      setLoading(false);
-    }
-  };
+        if (meta) {
+          setCurrentPage(meta.current_page);
+          setLastPage(meta.last_page);
+          setTotalDoctors(meta.total);
+        }
+      } catch (err) {
+        console.error("Failed to fetch doctors:", err);
+        console.error("API ERROR:", err.response?.data);
 
+        setError(
+          err.response?.data?.message ||
+          "Unable to load doctors from server. Please try again."
+        );
+      } finally {
+        setLoading(false);
+      }
+    };
   useEffect(() => {
     fetchDoctors();
   }, []);
@@ -70,47 +76,29 @@ export default function DoctorsSection() {
   // ==========================================
   const filteredDoctors = doctors.filter((doc) => {
     const docSpecialty =
-      doc.specialty?.name ||
-      doc.specialty_name ||
-      doc.specialty ||
-      "";
+      doc.specialty?.name || doc.specialty_name || doc.specialty || "";
 
     const docName =
       doc.name ||
       (doc.user
-        ? `${doc.user.first_name || ""} ${
-            doc.user.last_name || ""
-          }`
+        ? `${doc.user.first_name || ""} ${doc.user.last_name || ""}`
         : "");
 
-    const docCity =
-      doc.city ||
-      doc.location ||
-      doc.address ||
-      "";
+    const docCity = doc.city || doc.location || doc.address || "";
 
     const matchesSpecialty =
       selectedSpecialty === "All" ||
-      docSpecialty.toLowerCase() ===
-        selectedSpecialty.toLowerCase();
+      docSpecialty.toLowerCase() === selectedSpecialty.toLowerCase();
 
     const matchesSearch =
-      docName
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase()) ||
-      docSpecialty
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase());
+      docName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      docSpecialty.toLowerCase().includes(searchTerm.toLowerCase());
 
     const matchesLocation = docCity
       .toLowerCase()
       .includes(locationTerm.toLowerCase());
 
-    return (
-      matchesSpecialty &&
-      matchesSearch &&
-      matchesLocation
-    );
+    return matchesSpecialty && matchesSearch && matchesLocation;
   });
 
   // ==========================================
@@ -121,14 +109,21 @@ export default function DoctorsSection() {
     setLocationTerm("");
     setSelectedSpecialty("All");
   };
+  const handlePageChange = (page) => {
+    if (page < 1 || page > lastPage || page === currentPage) {
+      return;
+    }
 
+    fetchDoctors(page);
+
+    document.getElementById("doctors")?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  };
   return (
-    <section
-      id="doctors"
-      className="bg-[#F8FAFC] py-16"
-    >
+    <section id="doctors" className="bg-[#F8FAFC] py-16">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
-
         {/* ==========================================
             HEADER
         ========================================== */}
@@ -170,9 +165,8 @@ export default function DoctorsSection() {
                 leading-relaxed
               "
             >
-              Connect with certified healthcare experts.
-              Filter by specialty, search by name, and
-              schedule consultations.
+              Connect with certified healthcare experts. Filter by specialty,
+              search by name, and schedule consultations.
             </p>
           </div>
 
@@ -188,7 +182,6 @@ export default function DoctorsSection() {
             "
           >
             Browse All Doctors
-
             <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
@@ -209,7 +202,6 @@ export default function DoctorsSection() {
           "
         >
           <div className="grid grid-cols-1 md:grid-cols-12 gap-3">
-
             {/* Search */}
             <div
               className="
@@ -239,9 +231,7 @@ export default function DoctorsSection() {
                 type="text"
                 placeholder="Search by doctor name or specialty..."
                 value={searchTerm}
-                onChange={(e) =>
-                  setSearchTerm(e.target.value)
-                }
+                onChange={(e) => setSearchTerm(e.target.value)}
                 className="
                   w-full
                   bg-transparent
@@ -282,9 +272,7 @@ export default function DoctorsSection() {
                 type="text"
                 placeholder="City or state..."
                 value={locationTerm}
-                onChange={(e) =>
-                  setLocationTerm(e.target.value)
-                }
+                onChange={(e) => setLocationTerm(e.target.value)}
                 className="
                   w-full
                   bg-transparent
@@ -317,7 +305,6 @@ export default function DoctorsSection() {
                 "
               >
                 <Filter className="w-4 h-4" />
-
                 Reset Filters
               </button>
             </div>
@@ -339,9 +326,7 @@ export default function DoctorsSection() {
               <button
                 key={spec}
                 type="button"
-                onClick={() =>
-                  setSelectedSpecialty(spec)
-                }
+                onClick={() => setSelectedSpecialty(spec)}
                 className={`
                   px-4 h-9
                   rounded-xl
@@ -379,81 +364,132 @@ export default function DoctorsSection() {
             LOADING
         ========================================== */}
 
-        {loading && (
+        {!loading && !error && totalDoctors > 0 && (
           <div
             className="
-              grid grid-cols-1
-              sm:grid-cols-2
-              lg:grid-cols-3
-              gap-6
-            "
-          >
-            {[1, 2, 3, 4, 5, 6].map((n) => (
-              <div
-                key={n}
-                className="
+                  mt-10
+                  flex flex-col
+                  sm:flex-row
+                  sm:items-center
+                  sm:justify-between
+                  gap-4
                   bg-white
+                  px-5 py-4
                   rounded-2xl
-                  p-5
                   border border-[#E2E8F0]
                   shadow-sm
-                  animate-pulse
-                  space-y-4
                 "
+          >
+            {/* Info */}
+            <span className="text-xs text-[#64748B]">
+              Showing{" "}
+              <strong className="text-[#0F172A]">{doctors.length}</strong> of{" "}
+              <strong className="text-[#0F172A]">{totalDoctors}</strong> doctors
+            </span>
+
+            {/* Pagination */}
+            <div className="flex items-center gap-2">
+              {/* Previous */}
+              <button
+                type="button"
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+                className={`
+                      w-9 h-9
+                      rounded-lg
+                      border
+                      flex items-center
+                      justify-center
+                      transition-all
+                      ${
+                        currentPage === 1
+                          ? `
+                            border-[#E2E8F0]
+                            text-[#CBD5E1]
+                            cursor-not-allowed
+                          `
+                          : `
+                            border-[#E2E8F0]
+                            text-[#475569]
+                            hover:text-[#3F38CA]
+                            hover:bg-[#F8FAFC]
+                            hover:border-[#C7D2FE]
+                          `
+                      }
+                    `}
               >
-                <div
-                  className="
-                    w-full h-48
-                    bg-[#E2E8F0]
-                    rounded-xl
-                  "
-                />
+                <ChevronLeft className="w-4 h-4" />
+              </button>
 
-                <div
-                  className="
-                    h-4
-                    bg-[#E2E8F0]
-                    rounded
-                    w-3/4
-                  "
-                />
+              {/* Page Numbers */}
+              {Array.from({ length: lastPage }, (_, index) => index + 1).map(
+                (page) => (
+                  <button
+                    key={page}
+                    type="button"
+                    onClick={() => handlePageChange(page)}
+                    className={`
+                        min-w-9 h-9 px-2
+                        rounded-lg
+                        font-semibold
+                        text-sm
+                        flex items-center
+                        justify-center
+                        transition-all
+                        ${
+                          currentPage === page
+                            ? `
+                              bg-[#3F38CA]
+                              text-white
+                              shadow-sm
+                            `
+                            : `
+                              border border-[#E2E8F0]
+                              text-[#475569]
+                              hover:text-[#3F38CA]
+                              hover:bg-[#F8FAFC]
+                              hover:border-[#C7D2FE]
+                            `
+                        }
+                      `}
+                  >
+                    {page}
+                  </button>
+                ),
+              )}
 
-                <div
-                  className="
-                    h-3
-                    bg-[#E2E8F0]
-                    rounded
-                    w-1/2
-                  "
-                />
-
-                <div
-                  className="
-                    h-9
-                    bg-[#F1F5F9]
-                    rounded-xl
-                  "
-                />
-
-                <div className="grid grid-cols-2 gap-2">
-                  <div
-                    className="
-                      h-10
-                      bg-[#E2E8F0]
-                      rounded-xl
-                    "
-                  />
-
-                  <div
-                    className="
-                      h-10
-                      bg-[#E2E8F0]
-                      rounded-xl
-                    "
-                  />
-                </div>
-              </div>
-            ))}
+              {/* Next */}
+              <button
+                type="button"
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === lastPage}
+                className={`
+                      w-9 h-9
+                      rounded-lg
+                      border
+                      flex items-center
+                      justify-center
+                      transition-all
+                      ${
+                        currentPage === lastPage
+                          ? `
+                            border-[#E2E8F0]
+                            text-[#CBD5E1]
+                            cursor-not-allowed
+                          `
+                          : `
+                            border-[#E2E8F0]
+                            text-[#475569]
+                            hover:text-[#3F38CA]
+                            hover:bg-[#F8FAFC]
+                            hover:border-[#C7D2FE]
+                          `
+                      }
+                    `}
+              >
+                <ChevronRight className="w-4 h-4" />
+              </button>
+            </div>
           </div>
         )}
 
@@ -504,7 +540,6 @@ export default function DoctorsSection() {
               "
             >
               <RefreshCw className="w-4 h-4" />
-
               Retry
             </button>
           </div>
@@ -514,96 +549,72 @@ export default function DoctorsSection() {
             DOCTORS
         ========================================== */}
 
-        {!loading &&
-          !error &&
-          filteredDoctors.length > 0 && (
-            <div
-              className="
+        {!loading && !error && filteredDoctors.length > 0 && (
+          <div
+            className="
                 grid grid-cols-1
                 sm:grid-cols-2
                 lg:grid-cols-3
                 gap-6
               "
-            >
-              {filteredDoctors.map((doc) => {
+          >
+            {filteredDoctors.map((doc) => {
+              // Debug
+              console.log(`Doctor ${doc.id} - ${doc.name}:`, doc.image);
 
-                // Debug
-                console.log(
-                  `Doctor ${doc.id} - ${doc.name}:`,
-                  doc.image
-                );
+              const formattedDoctor = {
+                id: doc.id,
 
-                const formattedDoctor = {
-                  id: doc.id,
+                name:
+                  doc.name ||
+                  (doc.user
+                    ? `Dr. ${doc.user.first_name || ""} ${
+                        doc.user.last_name || ""
+                      }`
+                    : "Dr. Medical Expert"),
 
-                  name:
-                    doc.name ||
-                    (doc.user
-                      ? `Dr. ${
-                          doc.user.first_name || ""
-                        } ${
-                          doc.user.last_name || ""
-                        }`
-                      : "Dr. Medical Expert"),
+                specialty:
+                  doc.specialty?.name ||
+                  doc.specialty_name ||
+                  doc.specialty ||
+                  "General Practitioner",
 
-                  specialty:
-                    doc.specialty?.name ||
-                    doc.specialty_name ||
-                    doc.specialty ||
-                    "General Practitioner",
+                city:
+                  doc.city ||
+                  doc.location ||
+                  doc.address ||
+                  "Consultation Center",
 
-                  city:
-                    doc.city ||
-                    doc.location ||
-                    doc.address ||
-                    "Consultation Center",
+                rating: doc.rating || 4.9,
 
-                  rating:
-                    doc.rating || 4.9,
+                reviews: doc.reviews_count || doc.reviews || 120,
 
-                  reviews:
-                    doc.reviews_count ||
-                    doc.reviews ||
-                    120,
+                experience: doc.experience_years
+                  ? `${doc.experience_years} yrs`
+                  : doc.experience || "5+ yrs",
 
-                  experience:
-                    doc.experience_years
-                      ? `${doc.experience_years} yrs`
-                      : doc.experience ||
-                        "5+ yrs",
+                nextAvailable:
+                  doc.next_available || doc.nextAvailable || "Today Available",
 
-                  nextAvailable:
-                    doc.next_available ||
-                    doc.nextAvailable ||
-                    "Today Available",
+                teleconsult: doc.teleconsult ?? true,
 
-                  teleconsult:
-                    doc.teleconsult ?? true,
+                // IMPORTANT:
+                // Image returned directly by Laravel
+                image: doc.image || null,
+              };
 
-                  // IMPORTANT:
-                  // Image returned directly by Laravel
-                  image: doc.image || null,
-                };
-
-                return (
-                  <DoctorCard
-                    key={doc.id}
-                    doctor={formattedDoctor}
-                  />
-                );
-              })}
-            </div>
-          )}
+              return <DoctorCard key={doc.id} doctor={formattedDoctor} />;
+            })}
+          </div>
+        )}
 
         {/* ==========================================
             NO DOCTORS
         ========================================== */}
 
-        {!loading &&
-          !error &&
-          filteredDoctors.length === 0 && (
-            <div
-              className="
+        {!loading && !error && filteredDoctors.length === 0 && (
+          <div
+            className="
                 bg-white
                 rounded-2xl
                 p-12
@@ -611,39 +622,37 @@ export default function DoctorsSection() {
                 border border-[#E2E8F0]
                 shadow-sm
               "
-            >
-              <h3
-                className="
+          >
+            <h3
+              className="
                   text-lg
                   font-bold
                   text-[#0F172A]
                 "
-              >
-                No doctors found
-              </h3>
+            >
+              No doctors found
+            </h3>
 
-              <p
-                className="
+            <p
+              className="
                   text-[#64748B]
                   text-sm
                   mt-1
                 "
-              >
-                Try adjusting your search terms or
-                selecting a different specialty.
-              </p>
-            </div>
-          )}
+            >
+              Try adjusting your search terms or selecting a different
+              specialty.
+            </p>
+          </div>
+        )}
 
         {/* ==========================================
             PAGINATION
         ========================================== */}
 
-        {!loading &&
-          !error &&
-          doctors.length > 0 && (
-            <div
-              className="
+        {!loading && !error && doctors.length > 0 && (
+          <div
+            className="
                 mt-10
                 flex flex-col
                 sm:flex-row
@@ -656,26 +665,22 @@ export default function DoctorsSection() {
                 border border-[#E2E8F0]
                 shadow-sm
               "
-            >
-              <span className="text-xs text-[#64748B]">
-                Showing{" "}
-                <strong className="text-[#0F172A]">
-                  {filteredDoctors.length}
-                </strong>{" "}
-                of{" "}
-                <strong className="text-[#0F172A]">
-                  {doctors.length}
-                </strong>{" "}
-                doctors
-              </span>
+          >
+            <span className="text-xs text-[#64748B]">
+              Showing{" "}
+              <strong className="text-[#0F172A]">
+                {filteredDoctors.length}
+              </strong>{" "}
+              of <strong className="text-[#0F172A]">{doctors.length}</strong>{" "}
+              doctors
+            </span>
 
-              <div className="flex items-center gap-2">
-
-                {/* Previous */}
-                <button
-                  type="button"
-                  disabled
-                  className="
+            <div className="flex items-center gap-2">
+              {/* Previous */}
+              <button
+                type="button"
+                disabled
+                className="
                     w-9 h-9
                     rounded-lg
                     border border-[#E2E8F0]
@@ -684,14 +689,14 @@ export default function DoctorsSection() {
                     justify-center
                     cursor-not-allowed
                   "
-                >
-                  <ChevronLeft className="w-4 h-4" />
-                </button>
+              >
+                <ChevronLeft className="w-4 h-4" />
+              </button>
 
-                {/* Current Page */}
-                <button
-                  type="button"
-                  className="
+              {/* Current Page */}
+              <button
+                type="button"
+                className="
                     w-9 h-9
                     rounded-lg
                     bg-[#3F38CA]
@@ -701,14 +706,14 @@ export default function DoctorsSection() {
                     justify-center
                     shadow-sm
                   "
-                >
-                  1
-                </button>
+              >
+                1
+              </button>
 
-                {/* Next */}
-                <button
-                  type="button"
-                  className="
+              {/* Next */}
+              <button
+                type="button"
+                className="
                     w-9 h-9
                     rounded-lg
                     border border-[#E2E8F0]
@@ -719,12 +724,12 @@ export default function DoctorsSection() {
                     justify-center
                     transition-all
                   "
-                >
-                  <ChevronRight className="w-4 h-4" />
-                </button>
-              </div>
+              >
+                <ChevronRight className="w-4 h-4" />
+              </button>
             </div>
-          )}
+          </div>
+        )}
       </div>
     </section>
   );
