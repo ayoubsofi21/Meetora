@@ -360,138 +360,7 @@ export default function DoctorsSection() {
           </div>
         </div>
 
-        {/* ==========================================
-            LOADING
-        ========================================== */}
-
-        {!loading && !error && totalDoctors > 0 && (
-          <div
-            className="
-                  mt-10
-                  flex flex-col
-                  sm:flex-row
-                  sm:items-center
-                  sm:justify-between
-                  gap-4
-                  bg-white
-                  px-5 py-4
-                  rounded-2xl
-                  border border-[#E2E8F0]
-                  shadow-sm
-                "
-          >
-            {/* Info */}
-            <span className="text-xs text-[#64748B]">
-              Showing{" "}
-              <strong className="text-[#0F172A]">{doctors.length}</strong> of{" "}
-              <strong className="text-[#0F172A]">{totalDoctors}</strong> doctors
-            </span>
-
-            {/* Pagination */}
-            <div className="flex items-center gap-2">
-              {/* Previous */}
-              <button
-                type="button"
-                onClick={() => handlePageChange(currentPage - 1)}
-                disabled={currentPage === 1}
-                className={`
-                      w-9 h-9
-                      rounded-lg
-                      border
-                      flex items-center
-                      justify-center
-                      transition-all
-                      ${
-                        currentPage === 1
-                          ? `
-                            border-[#E2E8F0]
-                            text-[#CBD5E1]
-                            cursor-not-allowed
-                          `
-                          : `
-                            border-[#E2E8F0]
-                            text-[#475569]
-                            hover:text-[#3F38CA]
-                            hover:bg-[#F8FAFC]
-                            hover:border-[#C7D2FE]
-                          `
-                      }
-                    `}
-              >
-                <ChevronLeft className="w-4 h-4" />
-              </button>
-
-              {/* Page Numbers */}
-              {Array.from({ length: lastPage }, (_, index) => index + 1).map(
-                (page) => (
-                  <button
-                    key={page}
-                    type="button"
-                    onClick={() => handlePageChange(page)}
-                    className={`
-                        min-w-9 h-9 px-2
-                        rounded-lg
-                        font-semibold
-                        text-sm
-                        flex items-center
-                        justify-center
-                        transition-all
-                        ${
-                          currentPage === page
-                            ? `
-                              bg-[#3F38CA]
-                              text-white
-                              shadow-sm
-                            `
-                            : `
-                              border border-[#E2E8F0]
-                              text-[#475569]
-                              hover:text-[#3F38CA]
-                              hover:bg-[#F8FAFC]
-                              hover:border-[#C7D2FE]
-                            `
-                        }
-                      `}
-                  >
-                    {page}
-                  </button>
-                ),
-              )}
-
-              {/* Next */}
-              <button
-                type="button"
-                onClick={() => handlePageChange(currentPage + 1)}
-                disabled={currentPage === lastPage}
-                className={`
-                      w-9 h-9
-                      rounded-lg
-                      border
-                      flex items-center
-                      justify-center
-                      transition-all
-                      ${
-                        currentPage === lastPage
-                          ? `
-                            border-[#E2E8F0]
-                            text-[#CBD5E1]
-                            cursor-not-allowed
-                          `
-                          : `
-                            border-[#E2E8F0]
-                            text-[#475569]
-                            hover:text-[#3F38CA]
-                            hover:bg-[#F8FAFC]
-                            hover:border-[#C7D2FE]
-                          `
-                      }
-                    `}
-              >
-                <ChevronRight className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
-        )}
+        
 
         {/* ==========================================
             ERROR
@@ -645,85 +514,132 @@ export default function DoctorsSection() {
             </p>
           </div>
         )}
-
         {/* ==========================================
-            PAGINATION
+            LOADING
         ========================================== */}
 
-        {!loading && !error && doctors.length > 0 && (
+        {!loading && !error && totalDoctors > 0 && (
           <div
             className="
-                mt-10
-                flex flex-col
-                sm:flex-row
-                sm:items-center
-                sm:justify-between
-                gap-4
-                bg-white
-                px-5 py-4
-                rounded-2xl
-                border border-[#E2E8F0]
-                shadow-sm
-              "
+                  mt-10
+                  flex flex-col
+                  sm:flex-row
+                  sm:items-center
+                  sm:justify-between
+                  gap-4
+                  bg-white
+                  px-5 py-4
+                  rounded-2xl
+                  border border-[#E2E8F0]
+                  shadow-sm
+                "
           >
+            {/* Info */}
             <span className="text-xs text-[#64748B]">
               Showing{" "}
-              <strong className="text-[#0F172A]">
-                {filteredDoctors.length}
-              </strong>{" "}
-              of <strong className="text-[#0F172A]">{doctors.length}</strong>{" "}
-              doctors
+              <strong className="text-[#0F172A]">{doctors.length}</strong> of{" "}
+              <strong className="text-[#0F172A]">{totalDoctors}</strong> doctors
             </span>
 
+            {/* Pagination */}
             <div className="flex items-center gap-2">
               {/* Previous */}
               <button
                 type="button"
-                disabled
-                className="
-                    w-9 h-9
-                    rounded-lg
-                    border border-[#E2E8F0]
-                    text-[#CBD5E1]
-                    flex items-center
-                    justify-center
-                    cursor-not-allowed
-                  "
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+                className={`
+                      w-9 h-9
+                      rounded-lg
+                      border
+                      flex items-center
+                      justify-center
+                      transition-all
+                      ${
+                        currentPage === 1
+                          ? `
+                            border-[#E2E8F0]
+                            text-[#CBD5E1]
+                            cursor-not-allowed
+                          `
+                          : `
+                            border-[#E2E8F0]
+                            text-[#475569]
+                            hover:text-[#3F38CA]
+                            hover:bg-[#F8FAFC]
+                            hover:border-[#C7D2FE]
+                          `
+                      }
+                    `}
               >
                 <ChevronLeft className="w-4 h-4" />
               </button>
 
-              {/* Current Page */}
-              <button
-                type="button"
-                className="
-                    w-9 h-9
-                    rounded-lg
-                    bg-[#3F38CA]
-                    text-white
-                    font-semibold
-                    flex items-center
-                    justify-center
-                    shadow-sm
-                  "
-              >
-                1
-              </button>
+              {/* Page Numbers */}
+              {Array.from({ length: lastPage }, (_, index) => index + 1).map(
+                (page) => (
+                  <button
+                    key={page}
+                    type="button"
+                    onClick={() => handlePageChange(page)}
+                    className={`
+                        min-w-9 h-9 px-2
+                        rounded-lg
+                        font-semibold
+                        text-sm
+                        flex items-center
+                        justify-center
+                        transition-all
+                        ${
+                          currentPage === page
+                            ? `
+                              bg-[#3F38CA]
+                              text-white
+                              shadow-sm
+                            `
+                            : `
+                              border border-[#E2E8F0]
+                              text-[#475569]
+                              hover:text-[#3F38CA]
+                              hover:bg-[#F8FAFC]
+                              hover:border-[#C7D2FE]
+                            `
+                        }
+                      `}
+                  >
+                    {page}
+                  </button>
+                ),
+              )}
 
               {/* Next */}
               <button
                 type="button"
-                className="
-                    w-9 h-9
-                    rounded-lg
-                    border border-[#E2E8F0]
-                    text-[#475569]
-                    hover:text-[#3F38CA]
-                    hover:bg-[#F8FAFC]
-                    flex items-center
-                    justify-center
-                    transition-all
-                  "
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === lastPage}
+                className={`
+                      w-9 h-9
+                      rounded-lg
+                      border
+                      flex items-center
+                      justify-center
+                      transition-all
+                      ${
+                        currentPage === lastPage
+                          ? `
+                            border-[#E2E8F0]
+                            text-[#CBD5E1]
+                            cursor-not-allowed
+                          `
+                          : `
+                            border-[#E2E8F0]
+                            text-[#475569]
+                            hover:text-[#3F38CA]
+                            hover:bg-[#F8FAFC]
+                            hover:border-[#C7D2FE]
+                          `
+                      }
+                    `}
               >
                 <ChevronRight className="w-4 h-4" />
               </button>
