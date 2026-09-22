@@ -476,11 +476,6 @@ export default function DoctorsSection() {
             })}
           </div>
         )}
-
-        {/* ==========================================
-            NO DOCTORS
-        ========================================== */}
-
         {!loading && !error && filteredDoctors.length === 0 && (
           <div
             className="
@@ -517,7 +512,6 @@ export default function DoctorsSection() {
         {/* ==========================================
             LOADING
         ========================================== */}
-
         {!loading && !error && totalDoctors > 0 && (
           <div
             className="
@@ -534,7 +528,6 @@ export default function DoctorsSection() {
                   shadow-sm
                 "
           >
-            {/* Info */}
             <span className="text-xs text-[#64748B]">
               Showing{" "}
               <strong className="text-[#0F172A]">{doctors.length}</strong> of{" "}
