@@ -19,6 +19,7 @@ class UpdateDoctorRequest extends FormRequest
             'address' => ['nullable', 'string', 'max:255'],
             'bio' => ['nullable', 'string'],
             'license_number' => ['nullable', 'string', 'max:100'],
+            'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
             'is_active' => ['sometimes', 'boolean'],
         ];
     }
