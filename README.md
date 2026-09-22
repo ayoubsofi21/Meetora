@@ -149,9 +149,46 @@ Meetora résout ces défis en fournissant une solution web centralisée et intui
 
 ## 🏗️ Architecture
 
-┌─────────────────────────────────────────────────────────────┐│                       React 18 SPA                          ││                   (Frontend Client)                         │└──────────────────────────────┬──────────────────────────────┘││ HTTP / JSON (REST API)│ Authorization: Bearer <Sanctum_Token>▼┌─────────────────────────────────────────────────────────────┐│                      Laravel 12 API                         ││                    (Backend Engine)                         ││                                                             ││  [ Routes API ] ──► [ Middlewares / Auth Sanctum ]          ││                               │                             ││                               ▼                             ││  [ Controllers ] ──► [ Form Requests Validation ]           ││        │                                                    ││        ├───────────► [ Services / Business Logic ]          ││        │                                                    ││        ▼                                                    ││  [ Eloquent Models / Policies ] ──► [ API Resources ]       │└──────────────────────────────┬──────────────────────────────┘││ Eloquent ORM▼┌─────────────────────────────────────────────────────────────┐│                        MySQL DB                             ││                  (Relational Database)                      │└─────────────────────────────────────────────────────────────┘
----
+┌─────────────────────────────────────────────────────────────┐
+│                        React 18 SPA                         │
+│                     (Frontend Client)                       │
+└──────────────────────────────┬──────────────────────────────┘
+                               │
+                               │ HTTP / JSON (REST API)
+                               │ Authorization: Bearer <Sanctum_Token>
+                               ▼
+┌─────────────────────────────────────────────────────────────┐
+│                       Laravel 12 API                        │
+│                      (Backend Engine)                       │
+│                                                             │
+│  [ API Routes ] ──► [ Middleware / Sanctum Authentication ] │
+│                               │                             │
+│                               ▼                             │
+│                       [ Controllers ]                       │
+│                         │         │                         │
+│                         │         └──► [ Form Requests ]    │
+│                         │              (Validation)         │
+│                         │                                   │
+│                         ├────────────► [ Services ]         │
+│                         │              (Business Logic)     │
+│                         │                                   │
+│                         ▼                                   │
+│                 [ Eloquent Models ]                         │
+│                         │                                   │
+│                         ├──► [ Policies / Authorization ]   │
+│                         │                                   │
+│                         └──► [ API Resources ]              │
+│                              (JSON Response)                │
+└──────────────────────────────┬──────────────────────────────┘
+                               │
+                               │ Eloquent ORM
+                               ▼
+┌─────────────────────────────────────────────────────────────┐
+│                         MySQL DB                            │
+│                    (Relational Database)                    │
+└─────────────────────────────────────────────────────────────┘
 
+---
 ## 🛠️ Stack technique
 
 | Composant | Technologie | Description |
@@ -170,7 +207,56 @@ Meetora résout ces défis en fournissant une solution web centralisée et intui
 
 ## 📂 Structure du projet
 
-Meetora/├── backend/                  # Application Laravel 12 (API Backend)│   ├── app/│   │   ├── Http/│   │   │   ├── Controllers/  # Contrôleurs API│   │   │   ├── Middleware/   # Middlewares d'authentification/rôles│   │   │   ├── Requests/     # Validation des requêtes HTTP│   │   │   └── Resources/    # Transformation JSON des modèles│   │   ├── Models/           # Modèles Eloquent (User, Appointment, etc.)│   │   └── Policies/         # Règles d'autorisation/sécurité│   ├── config/               # Configuration de l'application Laravel│   ├── database/│   │   ├── factories/        # Générateurs de données de test│   │   ├── migrations/       # Structure de la base de données│   │   └── seeders/          # Données initiales et jeu de démonstration│   ├── routes/│   │   └── api.php           # Définition complète des routes REST API│   ├── tests/                # Tests automatisés PHPUnit / Pest│   ├── .env.example          # Modèle de variables d'environnement backend│   └── composer.json         # Dépendances PHP backend│├── frontend/                 # Application React 18 (Frontend SPA)│   ├── src/│   │   ├── components/       # Composants UI réutilisables (Navbar, Cards, Modals)│   │   ├── context/          # Contextes React (AuthContext, ThemeContext)│   │   ├── pages/            # Pages selon les rôles (Public, Patient, Doctor, Admin)│   │   ├── services/         # Modules d'appel API Axios│   │   ├── App.jsx           # Composant racine et configuration des routes│   │   └── main.jsx          # Point d'entrée React DOM│   ├── public/               # Fichiers statiques publics│   ├── package.json          # Dépendances Node.js / Scripts npm│   └── vite.config.js        # Configuration du bundler Vite│├── docs/                     # Documentation du projet (UML, ERD, API)│   ├── uml/                  # Diagrammes Use Case, Classe, Séquence│   └── database/             # Diagrammes ERD└── README.md                 # Documentation globale du projet
+Meetora/
+│
+├── backend/                         # Laravel 12 - REST API
+│   ├── app/
+│   │   ├── Http/
+│   │   │   ├── Controllers/        # Contrôleurs API
+│   │   │   ├── Middleware/         # Authentification et gestion des rôles
+│   │   │   ├── Requests/           # Validation des requêtes HTTP
+│   │   │   └── Resources/          # Transformation des données en JSON
+│   │   │
+│   │   ├── Models/                 # Modèles Eloquent
+│   │   │                            # User, Doctor, Patient, Appointment, etc.
+│   │   ├── Policies/               # Autorisation et règles d'accès
+│   │   └── Services/               # Logique métier
+│   │
+│   ├── config/                      # Configuration Laravel
+│   │
+│   ├── database/
+│   │   ├── factories/              # Génération de données de test
+│   │   ├── migrations/             # Structure de la base de données
+│   │   └── seeders/                # Données initiales / démonstration
+│   │
+│   ├── routes/
+│   │   └── api.php                 # Routes REST API
+│   │
+│   ├── tests/                       # Tests automatisés PHPUnit
+│   ├── .env.example                # Variables d'environnement
+│   └── composer.json               # Dépendances PHP
+│
+├── frontend/                        # React 18 - SPA
+│   ├── src/
+│   │   ├── assets/                 # Images, logos et ressources statiques
+│   │   ├── components/             # Composants UI réutilisables
+│   │   ├── context/                # Contextes React (AuthContext, etc.)
+│   │   ├── pages/                  # Pages Public / Patient / Doctor / Admin
+│   │   ├── services/               # Communication avec l'API
+│   │   ├── App.jsx                 # Routes et composant principal
+│   │   └── main.jsx                # Point d'entrée React
+│   │
+│   ├── public/                      # Fichiers statiques publics
+│   ├── package.json                 # Dépendances et scripts npm
+│   └── vite.config.js               # Configuration Vite
+│
+├── docs/                            # Documentation technique
+│   ├── uml/                         # Use Case, Classes, Séquences
+│   └── database/                    # Diagrammes ERD
+│
+├── docker-compose.yml               # Orchestration Docker
+└── README.md                        # Documentation globale du projet
+
 ---
 
 ## 🚀 Installation
