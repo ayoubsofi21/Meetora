@@ -1,6 +1,7 @@
-import apiClient from './axios';
-export const publicApi={
-    getSpecialities: ()=>apiClient.get('/specialities'),
-    getDoctors: (params = {}) =>apiClient.get('/doctors', { params }),
-    getDoctor: (specialityId)=>apiClient.get(`/doctors/${specialityId}`),
-}
+import apiClient from "./axios";
+
+export const publicApi = {
+  getDoctors: (page = 1) => apiClient.get("/doctors", { params: {page: page,},}),
+  getDoctor: (id) => apiClient.get(`/doctors/${id}`),
+  getSpecialties: () => apiClient.get("/specialties"),
+};

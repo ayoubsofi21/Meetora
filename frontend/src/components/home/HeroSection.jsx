@@ -127,35 +127,6 @@ export default function HeroSection() {
                   pointer-events-none"
               />
             </div>
-            <div
-              className="absolute bottom-5 left-5 sm:bottom-6 sm:left-6
-                bg-white/95 backdrop-blur-md
-                border border-white
-                rounded-xl shadow-lg
-                px-4 py-3
-                flex items-center gap-3"
-            >
-              <div
-                className="w-10 h-10 rounded-xl
-                  bg-[#EEF2FF]
-                  flex items-center justify-center"
-              >
-                <span
-                  className="w-2.5 h-2.5 rounded-full
-                    bg-[#059669]"
-                />
-              </div>
-
-              <div>
-                <p className="text-xs font-bold text-[#0F172A]">
-                  Practice Connected
-                </p>
-
-                <p className="text-[11px] text-[#64748B] mt-0.5">
-                  Secure healthcare management
-                </p>
-              </div>
-            </div>
           </div>
         </div>
       </div>

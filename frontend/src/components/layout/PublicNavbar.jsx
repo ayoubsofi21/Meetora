@@ -6,12 +6,12 @@ import logo from '../../assets/images/logo.png';
 export default function PublicNavbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  const navLinks = [
-    { name: 'Platform', path: '#platform' },
-    { name: 'Solutions', path: '#solutions' },
-    { name: 'Resources', path: '#resources' },
-    { name: 'Pricing', path: '#pricing' },
-  ];
+const navLinks = [
+  { name: 'Platform', path: '/' },
+  { name: 'Solutions', path: '/solutions' },
+  { name: 'Resources', path: '/resources' },
+  { name: 'Pricing', path: '/pricing' },
+];
 
   return (
     <header className="w-full h-20 bg-white border-b border-[#E2E8F0] sticky top-0 z-50">
@@ -24,7 +24,7 @@ export default function PublicNavbar() {
           <img
             src={logo}
             alt="Meetora"
-            className="h-11 w-11 object-contain transition-transform duration-300 group-hover:scale-105"
+            className="h-11 w-11 object-contain transition-transform duration-300 "
           />
 
           <span className="-ml-1 text-xl font-extrabold tracking-tight text-[#3F38CA]">
@@ -32,22 +32,32 @@ export default function PublicNavbar() {
           </span>
         </Link>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-8">
-          {navLinks.map((link) => (
-            <a
-              key={link.name}
-              href={link.path}
-              className="relative py-2 text-sm font-medium text-[#475569]
-                hover:text-[#3F38CA] transition-colors
-                after:absolute after:left-0 after:bottom-0 after:h-0.5
-                after:w-0 after:bg-[#3F38CA] after:rounded-full
-                after:transition-all hover:after:w-full"
-            >
-              {link.name}
-            </a>
-          ))}
-        </nav>
+       <nav className="hidden md:flex items-center gap-8">
+        {navLinks.map((link) => (
+          <Link
+            key={link.name}
+            to={link.path}
+            className="
+              relative py-2
+              text-sm font-medium text-[#475569]
+              hover:text-[#3F38CA]
+              transition-colors
+
+              after:absolute
+              after:left-0
+              after:bottom-0
+              after:h-0.5
+              after:w-0
+              after:bg-[#3F38CA]
+              after:rounded-full
+              after:transition-all
+              hover:after:w-full
+            "
+          >
+            {link.name}
+          </Link>
+        ))}
+      </nav>
 
         {/* Desktop Actions */}
         <div className="hidden md:flex items-center gap-4">
@@ -90,19 +100,18 @@ export default function PublicNavbar() {
         <div className="md:hidden bg-white border-t border-[#E2E8F0] px-6 py-5 shadow-sm">
           <nav className="flex flex-col gap-1">
             {navLinks.map((link) => (
-              <a
+              <Link
                 key={link.name}
-                href={link.path}
+                to={link.path}
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="px-3 py-2.5 rounded-lg text-sm font-medium
                   text-[#475569] hover:text-[#3F38CA]
                   hover:bg-[#F8FAFC] transition-all"
               >
                 {link.name}
-              </a>
+              </Link>
             ))}
           </nav>
-
           <div className="mt-4 pt-4 border-t border-[#E2E8F0] flex flex-col gap-3">
             <Link
               to="/login"
