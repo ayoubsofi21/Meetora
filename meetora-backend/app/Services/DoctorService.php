@@ -27,6 +27,7 @@ class DoctorService
                 'address' => $data['address'] ?? null,
                 'bio' => $data['bio'] ?? null,
                 'license_number' => $data['license_number'] ?? null,
+                'image' => $data['image'] ?? null,
             ]);
         });
     }

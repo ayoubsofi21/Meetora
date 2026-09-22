@@ -15,23 +15,32 @@ export default function AdminDoctors() {
   const [password, setPassword] = useState('');
   const [specialtyId, setSpecialtyId] = useState('');
   const [licenseNumber, setLicenseNumber] = useState('');
+  const [image, setImage] = useState(null);
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isFormOpen, setIsFormOpen] = useState(false);
 
-  // Fetch doctors and specialties
-  const fetchData = async () => {
+const fetchData = async () => {
     try {
       setLoading(true);
       setError('');
+
       const [doctorsRes, specialtiesRes] = await Promise.all([
         adminApi.getDoctors(),
         adminApi.getSpecialties(),
       ]);
 
+      console.log('DOCTORS API:', doctorsRes.data);
+
       setDoctors(doctorsRes.data.data || doctorsRes.data || []);
-      setSpecialties(specialtiesRes.data.data || specialtiesRes.data || []);
+      setSpecialties(
+        specialtiesRes.data.data || specialtiesRes.data || []
+      );
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to load doctors or specialties.');
+      setError(
+        err.response?.data?.message ||
+        'Failed to load doctors or specialties.'
+      );
     } finally {
       setLoading(false);
     }
@@ -40,45 +49,47 @@ export default function AdminDoctors() {
   useEffect(() => {
     fetchData();
   }, []);
-
-  // Handle Doctor Registration
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!name || !email || !password || !specialtyId || !licenseNumber) {
       setError('Please fill in all required fields.');
       return;
     }
-
     setIsSubmitting(true);
     setError('');
-
     try {
-      await adminApi.createDoctor({
-        name,
-        email,
-        password,
-        role: 'doctor',
-        specialty_id: specialtyId,
-        license_number: licenseNumber,
-      });
+      const formData = new FormData();
+      formData.append('name', name);
+      formData.append('email', email);
+      formData.append('password', password);
+      formData.append('role', 'doctor');
+      formData.append('specialty_id', specialtyId);
+      formData.append('license_number', licenseNumber);
 
-      // Reset Form
+      if (image) {
+        formData.append('image', image);
+      }
+
+      await adminApi.createDoctor(formData);
       setName('');
       setEmail('');
       setPassword('');
       setSpecialtyId('');
       setLicenseNumber('');
+      setImage(null);
       setIsFormOpen(false);
-
-      // Refresh Doctor List
-      fetchData();
+      await fetchData();
     } catch (err) {
-      setError(err.response?.data?.message || 'Error registering doctor.');
+      console.error(err.response?.data);
+      setError(
+        err.response?.data?.message ||
+        'Error registering doctor.'
+      );
     } finally {
       setIsSubmitting(false);
     }
   };
-  //Handle Doctor Update
+
   const handleUpdateDoctor=async(id)=>{
     const doctorToUpdate=doctors.find((doc)=>doc.id===id);
     console.log('Doctor to update:',doctorToUpdate);
@@ -96,7 +107,6 @@ export default function AdminDoctors() {
       }
     }
   }
-  // Handle Doctor Deletion
   const handleDeleteDoctor=async(id)=>{
     if(!window.confirm('are you sure you want to delete this doctor?')) return;
     try{
@@ -106,7 +116,6 @@ export default function AdminDoctors() {
       setError(err.response?.data?.message || 'Error deleting doctor.');
     }
   }
-  // Filtered doctors list
   const filteredDoctors = doctors.filter(
     (doc) =>
       doc.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -219,6 +228,59 @@ export default function AdminDoctors() {
                 required
               />
             </div>
+            <div className="md:col-span-2">
+              <label className="block text-sm font-semibold text-[#475569] mb-2">
+                Doctor Photo
+              </label>
+
+              <input
+                type="file"
+                accept="image/png,image/jpeg,image/jpg,image/webp"
+                onChange={(e) => setImage(e.target.files?.[0] || null)}
+                className="
+                  block w-full text-sm text-[#475569]
+                  border border-[#E2E8F0]
+                  rounded-xl
+                  bg-[#F8FAFC]
+                  file:mr-4
+                  file:border-0
+                  file:bg-[#EEF2FF]
+                  file:text-[#3F38CA]
+                  file:font-semibold
+                  file:px-4
+                  file:py-3
+                  hover:file:bg-[#E0E7FF]
+                  cursor-pointer
+                "
+              />
+
+              <p className="mt-1.5 text-xs text-[#94A3B8]">
+                JPG, PNG or WEBP. Maximum 2 MB.
+              </p>
+              {image && (
+                  <div className="mt-3 flex items-center gap-3">
+                    <img
+                      src={URL.createObjectURL(image)}
+                      alt="Doctor preview"
+                      className="w-16 h-16 rounded-xl object-cover border border-[#E2E8F0]"
+                    />
+
+                    <div>
+                      <p className="text-sm font-medium text-[#0F172A]">
+                        {image.name}
+                      </p>
+
+                      <button
+                        type="button"
+                        onClick={() => setImage(null)}
+                        className="text-xs text-[#EF4444] mt-1"
+                      >
+                        Remove photo
+                      </button>
+                    </div>
+                  </div>
+                )}
+            </div>
             <div className="md:col-span-2 flex justify-end gap-3 mt-3">
               <button
                 type="button"
@@ -280,19 +342,33 @@ export default function AdminDoctors() {
                     key={doc.id}
                     className="hover:bg-[#F8FAFC] transition-colors duration-200"
                   >
-                    {/* Doctor */}
-                    <td className="py-4">
+                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-[#DBEAFE] text-[#3F38CA] font-bold flex items-center justify-center text-sm shrink-0">
-                          {doc.name?.charAt(0) || 'D'}
-                        </div>
+                        {doc.image ? (
+                          <img
+                            src={doc.image}
+                            alt={doc.name}
+                            width="48"
+                            height="48"
+                            className="w-12 h-12 rounded-full object-cover"
+                            onLoad={() => console.log("IMAGE LOADED:", doc.image)}
+                            onError={(e) => {
+                              console.error("IMAGE ERROR:", doc.image);
+                              console.error(e);
+                            }}
+                          />
+                        ) : (
+                          <div className="w-12 h-12 rounded-full bg-[#DBEAFE] text-[#3F38CA] flex items-center justify-center font-bold">
+                            {doc.name?.charAt(0)?.toUpperCase() || "D"}
+                          </div>
+                        )}
 
                         <div>
-                          <p className="font-semibold text-sm text-[#0F172A]">
+                          <p className="font-semibold text-[#0F172A]">
                             {doc.name}
                           </p>
 
-                          <p className="text-xs text-[#94A3B8] mt-0.5">
+                          <p className="text-xs text-[#64748B]">
                             ID: #{doc.id}
                           </p>
                         </div>

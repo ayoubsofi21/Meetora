@@ -19,6 +19,7 @@ class Doctor extends Model
         'address',
         'bio',
         'license_number',
+        'image',
         'is_active',
     ];
 
