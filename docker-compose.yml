@@ -22,7 +22,8 @@ services:
         condition: service_healthy
     networks:
       - meetora
-
+    volumes:
+      - meetora_storage:/var/www/html/storage/app/public
   mysql:
     image: mysql:8.0
     container_name: meetora_mysql
@@ -77,3 +78,4 @@ networks:
 
 volumes:
   meetora_db_data:
+  meetora_storage:
