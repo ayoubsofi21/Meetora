@@ -16,12 +16,18 @@ import Prescriptions from "../pages/patient/Prescriptions";
 import HomePage from "../pages/public/HomePage";
 import AdminPatients from "../pages/admin/AdminPatients";
 import DoctorMedicalRecord from "../pages/doctor/DoctorMedicalRecord";
+import SolutionsPage from "../components/home/SolutionsPage";
+import ResourcesPage from "../components/home/ResourcesPage";
+import PricingPage from "../components/home/PricingPage";
 export default function AppRoutes() {
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/" element={<HomePage />} /> 
+      <Route path="/solutions" element={<SolutionsPage />} />
+      <Route path="/resources" element={<ResourcesPage />} />
+      <Route path="/pricing" element={<PricingPage />} />
       <Route element={<ProtectedRoute />}>
         <Route path="/" element={<AppShell />}>
           <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>

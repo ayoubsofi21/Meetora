@@ -17,9 +17,17 @@ class DoctorResource extends JsonResource
             'address' => $this->address,
             'bio' => $this->bio,
             'license_number' => $this->license_number,
-            'image' => $this->image?asset('storage/' . $this->image): null,
+
+            'image' => $this->image
+                ? asset('storage/' . $this->image)
+                : null,
+
             'is_active' => $this->is_active,
-            'specialty' => new SpecialtyResource($this->whenLoaded('specialty')),
+
+            'specialty' => new SpecialtyResource(
+                $this->whenLoaded('specialty')
+            ),
+
             'created_at' => $this->created_at,
         ];
     }
