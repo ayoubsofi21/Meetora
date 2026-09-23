@@ -9,7 +9,7 @@ use App\Models\Consultation;
 use App\Models\Prescription;
 use App\Services\PrescriptionService;
 use Illuminate\Http\Request;
-
+use Barryvdh\DomPDF\Facade\Pdf;
 class PrescriptionController extends Controller
 {
     public function __construct(private readonly PrescriptionService $prescriptionService)
@@ -44,11 +44,17 @@ class PrescriptionController extends Controller
 
     public function patientIndex(Request $request)
     {
-        $prescriptions = $request->user()->patient->prescriptions()
-            ->with(['doctor.user', 'items'])
+        $patient = $request->user()->patient;
+        abort_if(!$patient, 404, 'Patient profile not found.');
+        $prescriptions = $patient->prescriptions()
+            ->with([
+                'doctor.user',
+                'doctor.specialty',
+                'patient.user',
+                'items',
+            ])
             ->orderByDesc('prescribed_at')
             ->paginate($request->integer('per_page', 10));
-
         return response()->json([
             'success' => true,
             'data' => PrescriptionResource::collection($prescriptions),
@@ -71,5 +77,29 @@ class PrescriptionController extends Controller
             'success' => true,
             'data' => new PrescriptionResource($prescription),
         ]);
+    }
+    public function download(Request $request, Prescription $prescription)
+    {
+        $patient = $request->user()->patient;
+        abort_if(
+            !$patient || $prescription->patient_id !== $patient->id,
+            403,
+            'Unauthorized'
+        );
+        $prescription->load([
+            'doctor.user',
+            'doctor.specialty',
+            'patient.user',
+            'items',
+        ]);
+        $pdf = Pdf::loadView(
+            'pdf.prescription',
+            [
+                'prescription' => $prescription,
+            ]
+        );
+        return $pdf->download(
+            'prescription-' . $prescription->id . '.pdf'
+        );
     }
 }
