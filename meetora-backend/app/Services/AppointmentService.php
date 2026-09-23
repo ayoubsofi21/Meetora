@@ -25,14 +25,11 @@ class AppointmentService
                 ]);
             }
 
-            /*
-             * Check availability
-             */
             $date = \Carbon\Carbon::parse($data['appointment_date']);
-
             $availability = Availability::query()
                 ->where('doctor_id', $doctor->id)
                 ->where('day_of_week', $date->dayOfWeek)
+                ->where('is_active', true)
                 ->where('start_time', '<=', $data['start_time'])
                 ->where('end_time', '>=', $data['end_time'])
                 ->exists();
