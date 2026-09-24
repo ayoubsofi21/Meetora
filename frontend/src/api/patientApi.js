@@ -15,5 +15,8 @@ export const patientApi = {
   // Prescriptions
   getPrescriptions: () => apiClient.get("/patient/prescriptions"),
   reissuePrescription: (id) =>apiClient.post(`/patient/prescriptions/${id}/reissue`),
-  
+  downloadPrescription: (id) =>
+    apiClient.get(`/patient/prescriptions/${id}/download`, {
+      responseType: 'blob',
+    }),
 };

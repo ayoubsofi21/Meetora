@@ -71,12 +71,14 @@ Route::middleware(['auth:sanctum', 'role:patient'])->prefix('patient')->group(fu
     Route::patch('/appointments/{appointment}/cancel', [AppointmentController::class, 'patientCancel']);
 
     Route::get('/prescriptions', [PrescriptionController::class, 'patientIndex']);
+    Route::get('/prescriptions/{prescription}/download',[PrescriptionController::class, 'download']);
     Route::get('/prescriptions/{prescription}', [PrescriptionController::class, 'patientShow']);
 
     Route::get('/medical-record', [MedicalRecordController::class, 'myRecord']);
     Route::put('/medical-record', [MedicalRecordController::class, 'updateMyRecord']);
     Route::get('/medical-history', [MedicalRecordController::class, 'myHistory']);
     Route::get('/dashboard', [DashboardController::class, 'patient']);
+    
 });
 Route::middleware(['auth:sanctum', 'role:doctor'])->prefix('doctor')->group(function () {
     Route::get('/patients', [PatientController::class, 'doctorIndex']);

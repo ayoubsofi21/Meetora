@@ -40,6 +40,39 @@ export default function Prescriptions() {
       setReissuingId(null);
     }
   };
+ const handleDownload = async (id) => {
+  try {
+    setError('');
+
+    const response = await patientApi.downloadPrescription(id);
+
+    const blob = new Blob([response.data], {
+      type: 'application/pdf',
+    });
+
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+
+    link.href = url;
+    link.setAttribute('download', `prescription-${id}.pdf`);
+
+    document.body.appendChild(link);
+    link.click();
+
+    link.remove();
+    window.URL.revokeObjectURL(url);
+  } catch (err) {
+    console.error('DOWNLOAD ERROR:', err);
+    console.error('STATUS:', err.response?.status);
+    console.error('DATA:', err.response?.data);
+
+    setError(
+      `Failed to download prescription. ${
+        err.response?.status ? `Error ${err.response.status}` : ''
+      }`
+    );
+  }
+};
 
   return (
     <div className="space-y-6">
@@ -76,50 +109,103 @@ export default function Prescriptions() {
           {prescriptions.map((script) => (
             <div
               key={script.id}
-              className="bg-white rounded-2xl border border-[#E2E8F0] p-6 shadow-sm space-y-4 flex flex-col justify-between"
+              className="bg-white rounded-2xl border border-[#E2E8F0] p-6 shadow-sm space-y-4"
             >
-              <div className="space-y-3">
-                <div className="flex items-start justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-[#DBEAFE] text-[#2563EB] flex items-center justify-center shrink-0">
-                      <Pill className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <h3 className="font-bold text-[#0F172A] text-base">
-                        {script.medication_name || script.title || `Prescription #${script.id}`}
-                      </h3>
-                      <p className="text-xs text-[#64748B]">
-                        Prescribed by {script.doctor?.name || script.doctor_name || 'Practitioner'}
-                      </p>
-                    </div>
+              <div className="flex items-start justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-[#DBEAFE] text-[#2563EB] flex items-center justify-center">
+                    <Pill className="w-5 h-5" />
                   </div>
-                  <span className="text-xs px-2.5 py-1 rounded-full font-semibold bg-[#F8FAFC] border border-[#E2E8F0] text-[#475569]">
-                    {script.created_at || script.date || 'Recent'}
-                  </span>
+                  <div>
+                    <h3 className="font-bold text-[#0F172A]">
+                      Prescription #{script.id}
+                    </h3>
+                    <p className="text-xs text-[#64748B]">
+                      Prescribed by {script.doctor?.name || 'Practitioner'}
+                    </p>
+                  </div>
                 </div>
-
-                <div className="bg-[#F8FAFC] p-3 rounded-xl text-xs space-y-1 text-[#475569]">
-                  <p>
-                    <strong className="text-[#0F172A]">Dosage:</strong> {script.dosage || 'As directed'}
-                  </p>
-                  <p>
-                    <strong className="text-[#0F172A]">Instructions:</strong> {script.instructions || 'Follow doctor advice'}
-                  </p>
-                </div>
+                <span className="text-xs px-2.5 py-1 rounded-full font-semibold bg-[#F8FAFC] border border-[#E2E8F0] text-[#475569]">
+                  {script.prescribed_at
+                    ? new Date(script.prescribed_at).toLocaleDateString()
+                    : 'Recent'}
+                </span>
               </div>
+              <div className="space-y-3">
+                {script.items?.length > 0 ? (
+                  script.items.map((item) => (
+                    <div
+                      key={item.id}
+                      className="bg-[#F8FAFC] p-4 rounded-xl"
+                    >
+                      <div className="flex items-center gap-2 mb-3">
+                        <Pill className="w-4 h-4 text-[#2563EB]" />
 
-              <div className="pt-2 border-t border-[#E2E8F0] flex justify-end">
+                        <h4 className="font-bold text-sm text-[#0F172A]">
+                          {item.medication_name}
+                        </h4>
+                      </div>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-[#475569]">
+                        <p>
+                          <strong className="text-[#0F172A]">
+                            Dosage:
+                          </strong>{' '}
+                          {item.dosage || 'Not specified'}
+                        </p>
+                        <p>
+                          <strong className="text-[#0F172A]">
+                            Frequency:
+                          </strong>{' '}
+                          {item.frequency || 'Not specified'}
+                        </p>
+                        <p>
+                          <strong className="text-[#0F172A]">
+                            Duration:
+                          </strong>{' '}
+                          {item.duration || 'Not specified'}
+                        </p>
+                        <p>
+                          <strong className="text-[#0F172A]">
+                            Instructions:
+                          </strong>{' '}
+                          {item.instructions || 'No instructions'}
+                        </p>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <p className="text-sm text-[#94A3B8]">
+                    No medication items found.
+                  </p>
+                )}
+              </div>
+              {script.notes && (
+                <div className="text-xs text-[#475569]">
+                  <strong className="text-[#0F172A]">
+                    Doctor Notes:
+                  </strong>{' '}
+                  {script.notes}
+                </div>
+              )}
+              <div className="pt-3 border-t border-[#E2E8F0] flex justify-end gap-2">
+                <button
+                  onClick={() => handleDownload(script.id)}
+                  className="h-9 px-4 border border-[#2563EB] text-[#2563EB] hover:bg-[#EFF6FF] font-semibold rounded-xl text-xs flex items-center gap-2"
+                >
+                  <FileText className="w-3.5 h-3.5" />
+                  Download PDF
+                </button>
                 <button
                   onClick={() => handleReissue(script.id)}
                   disabled={reissuingId === script.id}
-                  className="h-9 px-4 bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-semibold rounded-xl text-xs transition-all flex items-center gap-2 disabled:opacity-50"
+                  className="h-9 px-4 bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-semibold rounded-xl text-xs flex items-center gap-2 disabled:opacity-50"
                 >
                   {reissuingId === script.id ? (
                     <Loader2 className="w-3.5 h-3.5 animate-spin" />
                   ) : (
                     <RotateCcw className="w-3.5 h-3.5" />
                   )}
-                  <span>Request Reissue</span>
+                  Request Reissue
                 </button>
               </div>
             </div>
