@@ -12,9 +12,7 @@ export default function DoctorCard({ doctor }) {
   const [imageError, setImageError] = useState(false);
 
   const hasImage = doctor.image && !imageError;
-
-  const initial =
-    doctor.name?.charAt(0)?.toUpperCase() || 'D';
+  const initial = doctor.name?.charAt(0)?.toUpperCase() || 'D';
 
   return (
     <div
@@ -30,7 +28,6 @@ export default function DoctorCard({ doctor }) {
         transition-all duration-300
       "
     >
-      {/* Doctor Image */}
       <div
         className="
           relative mb-4
@@ -71,7 +68,6 @@ export default function DoctorCard({ doctor }) {
             "
           />
         ) : (
-          /* Fallback Avatar */
           <div
             className="
               w-full h-full
@@ -105,7 +101,6 @@ export default function DoctorCard({ doctor }) {
           </div>
         )}
 
-        {/* Experience */}
         <div
           className="
             absolute top-3
@@ -131,8 +126,6 @@ export default function DoctorCard({ doctor }) {
             {doctor.experience || 'Experience N/A'}
           </span>
         </div>
-
-        {/* Bottom Gradient */}
         {hasImage && (
           <div
             className="
@@ -145,8 +138,6 @@ export default function DoctorCard({ doctor }) {
             "
           />
         )}
-
-        {/* Rating */}
         <div
           className="
             absolute bottom-3 left-3
@@ -174,8 +165,6 @@ export default function DoctorCard({ doctor }) {
           )}
         </div>
       </div>
-
-      {/* Doctor Information */}
       <div>
         <div className="space-y-1">
           <h3
@@ -223,8 +212,6 @@ export default function DoctorCard({ doctor }) {
           </div>
         </div>
       </div>
-
-      {/* Actions */}
       <div
         className="
           mt-5 pt-4
@@ -233,9 +220,8 @@ export default function DoctorCard({ doctor }) {
           gap-2.5
         "
       >
-        {/* View Profile */}
         <Link
-          to={`/doctors/${doctor.id}`}
+          to={`/login`}
           className="
             h-11
             rounded-xl
@@ -253,10 +239,8 @@ export default function DoctorCard({ doctor }) {
         >
           View Profile
         </Link>
-
-        {/* Book Visit */}
         <Link
-          to={`/doctors/${doctor.id}`}
+          to={`/login`}
           className="
             group/btn
             h-11
