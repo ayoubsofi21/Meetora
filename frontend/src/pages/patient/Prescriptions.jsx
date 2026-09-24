@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { patientApi } from '../../api/patientApi';
-import { Pill, RotateCcw, Loader2, AlertCircle, FileText, CheckCircle2 } from 'lucide-react';
-
+import {  Pill,  Loader2,  AlertCircle,  FileText,  CheckCircle2,  CalendarDays,} from "lucide-react";
 export default function Prescriptions() {
   const [prescriptions, setPrescriptions] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -78,7 +77,7 @@ export default function Prescriptions() {
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-bold text-[#0F172A]">My Prescriptions</h1>
-        <p className="text-sm text-[#475569]">View and request reissues for active medications</p>
+        <p className="text-sm text-[#475569]">View your active medications</p>
       </div>
 
       {error && (
@@ -105,107 +104,107 @@ export default function Prescriptions() {
           <p className="text-sm text-[#94A3B8]">No active prescriptions found.</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="space-y-4">
           {prescriptions.map((script) => (
             <div
               key={script.id}
-              className="bg-white rounded-2xl border border-[#E2E8F0] p-6 shadow-sm space-y-4"
+              className="bg-white border border-[#E2E8F0] rounded-xl overflow-hidden"
             >
-              <div className="flex items-start justify-between">
+              <div className="flex items-center justify-between gap-4 px-5 py-4 border-b border-[#E2E8F0]">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-[#DBEAFE] text-[#2563EB] flex items-center justify-center">
-                    <Pill className="w-5 h-5" />
+                  <div className="w-9 h-9 rounded-lg bg-[#EEF2FF] text-[#3F38CA] flex items-center justify-center">
+                    <FileText className="w-4 h-4" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-[#0F172A]">
-                      Prescription #{script.id}
+                    <h3 className="text-sm font-semibold text-[#0F172A]">
+                      Prescription
                     </h3>
-                    <p className="text-xs text-[#64748B]">
-                      Prescribed by {script.doctor?.name || 'Practitioner'}
+                    <p className="text-xs text-[#64748B] mt-0.5">
+                      Dr. {script.doctor?.name || "Practitioner"}
+                      {script.doctor?.specialty && (
+                        <> · {script.doctor.specialty}</>
+                      )}
                     </p>
                   </div>
                 </div>
-                <span className="text-xs px-2.5 py-1 rounded-full font-semibold bg-[#F8FAFC] border border-[#E2E8F0] text-[#475569]">
+                <div className="flex items-center gap-1.5 text-xs text-[#64748B]">
+                  <CalendarDays className="w-3.5 h-3.5" />
+
                   {script.prescribed_at
                     ? new Date(script.prescribed_at).toLocaleDateString()
-                    : 'Recent'}
-                </span>
+                    : "Recent"}
+                </div>
               </div>
-              <div className="space-y-3">
+              <div className="px-5 py-4">
                 {script.items?.length > 0 ? (
-                  script.items.map((item) => (
-                    <div
-                      key={item.id}
-                      className="bg-[#F8FAFC] p-4 rounded-xl"
-                    >
-                      <div className="flex items-center gap-2 mb-3">
-                        <Pill className="w-4 h-4 text-[#2563EB]" />
+                  <div className="divide-y divide-[#E2E8F0]">
+                    {script.items.map((item) => (
+                      <div
+                        key={item.id}
+                        className="py-4 first:pt-0 last:pb-0"
+                      >
+                        <div className="flex items-center gap-2 mb-2">
+                          <Pill className="w-4 h-4 text-[#3F38CA]" />
 
-                        <h4 className="font-bold text-sm text-[#0F172A]">
-                          {item.medication_name}
-                        </h4>
+                          <h4 className="text-sm font-semibold text-[#0F172A]">
+                            {item.medication_name}
+                          </h4>
+                        </div>
+                        <div className="flex flex-wrap gap-x-5 gap-y-2 text-xs text-[#64748B]">
+                          <span>
+                            <strong className="text-[#334155]">Dosage:</strong>{" "}
+                            {item.dosage || "—"}
+                          </span>
+                          <span>
+                            <strong className="text-[#334155]">Frequency:</strong>{" "}
+                            {item.frequency || "—"}
+                          </span>
+                          <span>
+                            <strong className="text-[#334155]">Duration:</strong>{" "}
+                            {item.duration || "—"}
+                          </span>
+                        </div>
+                        {item.instructions && (
+                          <p className="mt-3 text-sm text-[#475569]">
+                            {item.instructions}
+                          </p>
+                        )}
                       </div>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-[#475569]">
-                        <p>
-                          <strong className="text-[#0F172A]">
-                            Dosage:
-                          </strong>{' '}
-                          {item.dosage || 'Not specified'}
-                        </p>
-                        <p>
-                          <strong className="text-[#0F172A]">
-                            Frequency:
-                          </strong>{' '}
-                          {item.frequency || 'Not specified'}
-                        </p>
-                        <p>
-                          <strong className="text-[#0F172A]">
-                            Duration:
-                          </strong>{' '}
-                          {item.duration || 'Not specified'}
-                        </p>
-                        <p>
-                          <strong className="text-[#0F172A]">
-                            Instructions:
-                          </strong>{' '}
-                          {item.instructions || 'No instructions'}
-                        </p>
-                      </div>
-                    </div>
-                  ))
+                    ))}
+                  </div>
                 ) : (
                   <p className="text-sm text-[#94A3B8]">
-                    No medication items found.
+                    No medication information available.
                   </p>
                 )}
+                {script.notes && (
+                  <div className="mt-4 pt-4 border-t border-[#E2E8F0]">
+                    <p className="text-xs font-semibold text-[#64748B] mb-1">
+                      Doctor notes
+                    </p>
+
+                    <p className="text-sm text-[#475569]">
+                      {script.notes}
+                    </p>
+                  </div>
+                )}
               </div>
-              {script.notes && (
-                <div className="text-xs text-[#475569]">
-                  <strong className="text-[#0F172A]">
-                    Doctor Notes:
-                  </strong>{' '}
-                  {script.notes}
-                </div>
-              )}
-              <div className="pt-3 border-t border-[#E2E8F0] flex justify-end gap-2">
+              <div className="px-5 py-3 bg-[#F8FAFC] border-t border-[#E2E8F0] flex justify-end">
                 <button
                   onClick={() => handleDownload(script.id)}
-                  className="h-9 px-4 border border-[#2563EB] text-[#2563EB] hover:bg-[#EFF6FF] font-semibold rounded-xl text-xs flex items-center gap-2"
+                  className="
+                    h-9 px-4
+                    bg-[#3F38CA]
+                    hover:bg-[#3730A3]
+                    text-white
+                    rounded-lg
+                    text-xs font-semibold
+                    flex items-center gap-2
+                    transition-colors
+                  "
                 >
                   <FileText className="w-3.5 h-3.5" />
                   Download PDF
-                </button>
-                <button
-                  onClick={() => handleReissue(script.id)}
-                  disabled={reissuingId === script.id}
-                  className="h-9 px-4 bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-semibold rounded-xl text-xs flex items-center gap-2 disabled:opacity-50"
-                >
-                  {reissuingId === script.id ? (
-                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                  ) : (
-                    <RotateCcw className="w-3.5 h-3.5" />
-                  )}
-                  Request Reissue
                 </button>
               </div>
             </div>

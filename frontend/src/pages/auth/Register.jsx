@@ -1,19 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { authApi } from "../../api/authApi";
-
-import {
-  Lock,
-  Mail,
-  User,
-  AlertCircle,
-  Loader2,
-  CheckCircle2,
-  Eye,
-  EyeOff,
-  ShieldCheck,
-} from "lucide-react";
-
+import {  Lock,  Mail,  User,  AlertCircle,  Loader2,  CheckCircle2,  Eye,  EyeOff,  ShieldCheck,} from "lucide-react";
 import hospitalImage from "../../assets/images/hospital-register.png";
 
 export default function Register() {
@@ -88,7 +76,6 @@ export default function Register() {
 
   return (
     <div className="min-h-screen w-full bg-[#F8FAFC] grid grid-cols-1 lg:grid-cols-2">
-      {/* LEFT SIDE */}
       <div className="relative hidden lg:block min-h-screen overflow-hidden select-none bg-[#0F172A]">
         <img
           src={hospitalImage}
@@ -102,24 +89,6 @@ export default function Register() {
             via-[#0F172A]/45
             to-[#0F172A]/10"
         />
-        <Link
-          to="/"
-          className="absolute top-10 left-12 xl:left-16 z-10
-            inline-flex items-center gap-2"
-        >
-          <div
-            className="w-10 h-10 rounded-xl
-              bg-white/15 backdrop-blur-md
-              border border-white/20
-              flex items-center justify-center"
-          >
-            <ShieldCheck className="w-5 h-5 text-white" />
-          </div>
-
-          <span className="text-xl font-extrabold text-white tracking-tight">
-            Meetora
-          </span>
-        </Link>
         <div
           className="absolute left-12 xl:left-16 bottom-16
             max-w-[500px] z-10 text-white pr-6"
@@ -217,10 +186,7 @@ export default function Register() {
               <span>{error}</span>
             </div>
           )}
-
-          {/* FORM */}
           <form onSubmit={handleSubmit} className="space-y-4">
-            {/* Full Name */}
             <div>
               <label
                 htmlFor="name"
@@ -235,7 +201,6 @@ export default function Register() {
                   className="absolute left-4 top-1/2 -translate-y-1/2
                     w-5 h-5 text-[#94A3B8]"
                 />
-
                 <input
                   id="name"
                   type="text"
@@ -260,8 +225,6 @@ export default function Register() {
                 />
               </div>
             </div>
-
-            {/* Email */}
             <div>
               <label
                 htmlFor="email"
@@ -276,7 +239,6 @@ export default function Register() {
                   className="absolute left-4 top-1/2 -translate-y-1/2
                     w-5 h-5 text-[#94A3B8]"
                 />
-
                 <input
                   id="email"
                   type="email"
@@ -301,8 +263,6 @@ export default function Register() {
                 />
               </div>
             </div>
-
-            {/* Password */}
             <div>
               <label
                 htmlFor="password"
@@ -317,7 +277,6 @@ export default function Register() {
                   className="absolute left-4 top-1/2 -translate-y-1/2
                     w-5 h-5 text-[#94A3B8]"
                 />
-
                 <input
                   id="password"
                   type={showPassword ? "text" : "password"}
@@ -340,7 +299,6 @@ export default function Register() {
                     transition-all"
                   required
                 />
-
                 <button
                   type="button"
                   aria-label={showPassword ? "Hide password" : "Show password"}
@@ -362,8 +320,6 @@ export default function Register() {
                 Minimum 8 characters
               </p>
             </div>
-
-            {/* Confirm Password */}
             <div>
               <label
                 htmlFor="password_confirmation"
@@ -372,13 +328,11 @@ export default function Register() {
               >
                 Confirm Password
               </label>
-
               <div className="relative">
                 <Lock
                   className="absolute left-4 top-1/2 -translate-y-1/2
                     w-5 h-5 text-[#94A3B8]"
                 />
-
                 <input
                   id="password_confirmation"
                   type={showConfirmation ? "text" : "password"}
@@ -401,7 +355,6 @@ export default function Register() {
                     transition-all"
                   required
                 />
-
                 <button
                   type="button"
                   aria-label={
@@ -421,8 +374,6 @@ export default function Register() {
                 </button>
               </div>
             </div>
-
-            {/* Terms */}
             <div className="pt-1">
               <label className="flex items-start gap-3 cursor-pointer select-none">
                 <input
@@ -434,7 +385,6 @@ export default function Register() {
                     text-[#3F38CA]
                     focus:ring-[#3F38CA]"
                 />
-
                 <span className="text-xs sm:text-sm text-[#475569] leading-relaxed">
                   I agree to the{" "}
                   <Link
@@ -454,8 +404,6 @@ export default function Register() {
                 </span>
               </label>
             </div>
-
-            {/* Submit */}
             <button
               type="submit"
               disabled={isSubmitting || success}
@@ -486,19 +434,13 @@ export default function Register() {
               )}
             </button>
           </form>
-
-          {/* Divider */}
           <div className="my-6 flex items-center">
             <div className="flex-1 h-px bg-[#E2E8F0]" />
-
             <span className="px-4 text-xs text-[#94A3B8]">
               Or continue with
             </span>
-
             <div className="flex-1 h-px bg-[#E2E8F0]" />
           </div>
-
-          {/* Social */}
           <div className="grid grid-cols-2 gap-3">
             <button
               type="button"
@@ -531,7 +473,6 @@ export default function Register() {
               </svg>
               Google
             </button>
-
             <button
               type="button"
               className="h-11
@@ -552,8 +493,6 @@ export default function Register() {
               Apple
             </button>
           </div>
-
-          {/* Login */}
           <p className="mt-7 text-center text-sm text-[#64748B]">
             Already have an account?{" "}
             <Link
@@ -565,8 +504,6 @@ export default function Register() {
               Log In
             </Link>
           </p>
-
-          {/* Security */}
           <div
             className="mt-6 flex items-center justify-center gap-2
               text-xs text-[#64748B]"

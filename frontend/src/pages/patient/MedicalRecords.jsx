@@ -11,7 +11,6 @@ export default function MedicalRecords() {
     try {
       setLoading(true);
       setError("");
-
       const [recordRes, historyRes] = await Promise.all([
         patientApi.getMedicalRecord(),
         patientApi.getMedicalHistory(),
@@ -20,17 +19,14 @@ export default function MedicalRecords() {
       console.log("MEDICAL HISTORY RESPONSE:", historyRes.data);
       const recordData = recordRes.data?.data ?? recordRes.data ?? null;
       setRecord(recordData);
-      const historyData = historyRes.data?.data ?? historyRes.data ?? [];
-      if (Array.isArray(historyData)) {
-        setHistory(historyData);
-      } else if (Array.isArray(historyData?.data)) {
-        setHistory(historyData.data);
-      } else {
-        setHistory([]);
-      }
-
+      const consultations =historyRes.data?.data?.consultations ?? [];
+      setHistory(
+        Array.isArray(consultations)
+          ? consultations
+          : []
+      );
       console.log("RECORD DATA:", recordData);
-      console.log("HISTORY DATA:", historyData);
+      console.log("CONSULTATIONS:", consultations);
     } catch (err) {
       console.error(
         "MEDICAL RECORD ERROR:",
@@ -45,7 +41,6 @@ export default function MedicalRecords() {
       setLoading(false);
     }
   };
-  
   useEffect(() => {
     fetchMedicalData();
   }, []);
@@ -61,12 +56,10 @@ export default function MedicalRecords() {
       </div>
     );
   }
-
   return (
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-bold text-[#0F172A]">Medical Records</h1>
-      
       </div>
       {error && (
         <div className="p-3 rounded-xl bg-[#FEE2E2] border border-[#FCA5A5] flex items-center gap-2 text-[#DC2626] text-sm">
@@ -75,11 +68,6 @@ export default function MedicalRecords() {
           <span>{error}</span>
         </div>
       )}
-
-      {/* =====================================================
-          MEDICAL CONDITIONS
-      ===================================================== */}
-
       <div className="bg-white rounded-2xl border border-[#E2E8F0] p-6 shadow-sm">
         <div className="flex items-center gap-3 mb-6">
           <div className="w-10 h-10 rounded-xl bg-[#EEF2FF] text-[#3F38CA] flex items-center justify-center">

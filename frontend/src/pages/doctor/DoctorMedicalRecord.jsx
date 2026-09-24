@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import { doctorApi } from '../../api/doctorApi';
 import {  FileHeart,  Save,  Loader2,  AlertCircle,  CheckCircle2,  User,  Droplets,  AlertTriangle,  HeartPulse,  ClipboardList,} from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 export default function DoctorMedicalRecords() {
   const [patients, setPatients] = useState([]);
   const [selectedPatientId, setSelectedPatientId] = useState('');
-
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     blood_type: '',
     allergies: '',
@@ -92,7 +93,6 @@ export default function DoctorMedicalRecords() {
         });
       } catch (err) {
         console.error(err);
-
         setError(
           err.response?.data?.message ||
           'Failed to load medical record.'
@@ -101,41 +101,34 @@ export default function DoctorMedicalRecords() {
         setLoadingRecord(false);
       }
     };
-
     fetchRecord();
   }, [selectedPatientId]);
-
   const handleChange = (e) => {
     setFormData((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
     }));
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (!selectedPatientId) {
       setError('Please select a patient first.');
       return;
     }
-
     try {
       setSaving(true);
       setError('');
       setSuccess('');
-
       await doctorApi.updatePatientMedicalRecord(
         selectedPatientId,
         formData
       );
-
+      navigate("/doctor");
       setSuccess(
         'Medical record updated successfully.'
       );
     } catch (err) {
       console.error(err);
-
       setError(
         err.response?.data?.message ||
         'Failed to update medical record.'
@@ -144,12 +137,10 @@ export default function DoctorMedicalRecords() {
       setSaving(false);
     }
   };
-
   const selectedPatient = patients.find(
     (patient) =>
       String(patient.id) === String(selectedPatientId)
   );
-
   return (
   <div className="space-y-6">
     <div>
