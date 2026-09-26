@@ -7,9 +7,6 @@ use Illuminate\Http\Request;
 
 class RoleMiddleware
 {
-    /**
-     * Handle an incoming request.
-     */
     public function handle(Request $request, Closure $next)
     {
         return $next($request);
