@@ -10,6 +10,8 @@ use App\Models\Patient;
 use App\Http\Requests\Patient\CreatePatientRequest;
 use App\Http\Requests\Patient\UpdatePatientRequest;
 use App\Services\PatientService;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 class PatientController extends Controller
 {   
       public function __construct(
@@ -124,6 +126,24 @@ class PatientController extends Controller
         return response()->json([
             'success' => true,
             'data' => new PatientResource($patient),
+        ]);
+    }
+    public function acountSummary(Request $request){
+        // $user=auth()->user();
+        // $user=$request->user();
+        $user=DB::table('users')->join('patients','users.id','=','patients.user_id')
+        ->where('users.id',Auth::id())->select(
+            'users.id',
+            'users.name',
+            'users.email',
+            'users.role',
+            'patients.date_of_birth',
+            'patients.phone'
+        )->first();
+        
+        return response()->json([
+            'success'=>true,
+            'data'=>$user
         ]);
     }
 }

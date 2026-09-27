@@ -1,14 +1,10 @@
 import { NavLink } from 'react-router-dom';
 import { Search, Bell, CircleHelp } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
+import { Link } from 'react-router-dom';
 
 function initials(name = '') {
-  return name
-    .split(' ')
-    .map((part) => part[0])
-    .slice(0, 2)
-    .join('')
-    .toUpperCase();
+  return name.split(' ').map((part) => part[0]).slice(0, 2).join('').toUpperCase();
 }
 
 export default function TopBar() {
@@ -37,12 +33,9 @@ export default function TopBar() {
         />
       </div>
 
-      {/* Mobile Brand */}
       <p className="sm:hidden text-lg font-extrabold text-[#3F38CA]">
         Meetora
       </p>
-
-      {/* Right */}
       <div className="flex items-center gap-3 lg:gap-4">
 
         <NavLink
@@ -111,15 +104,16 @@ export default function TopBar() {
                 : 'System Admin'}
             </p>
           </div>
-
-          <div className="w-11 h-11 rounded-full
-            bg-[#EEF2FF] text-[#3F38CA]
-            border border-[#E0E7FF]
-            font-bold text-sm
-            flex items-center justify-center shrink-0"
-          >
-            {initials(user?.name) || 'A'}
-          </div>
+          <Link to={"/acount-summary"}>
+            <div className="w-11 h-11 rounded-full
+                bg-[#EEF2FF] text-[#3F38CA]
+                border border-[#E0E7FF]
+                font-bold text-sm
+                flex items-center justify-center shrink-0"
+              >
+                {initials(user?.name) || 'A'}
+              </div>
+          </Link>
         </div>
       </div>
     </header>

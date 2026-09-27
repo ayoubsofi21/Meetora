@@ -19,4 +19,5 @@ export const patientApi = {
     apiClient.get(`/patient/prescriptions/${id}/download`, {
       responseType: 'blob',
     }),
+  acountSummary: ()=>apiClient.get("/acount-summary")
 };

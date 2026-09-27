@@ -80,6 +80,7 @@ Route::middleware(['auth:sanctum', 'role:patient'])->prefix('patient')->group(fu
     Route::get('/dashboard', [DashboardController::class, 'patient']);
     
 });
+
 Route::middleware(['auth:sanctum', 'role:doctor'])->prefix('doctor')->group(function () {
     Route::get('/patients', [PatientController::class, 'doctorIndex']);
     Route::get('/patients/{patient}', [PatientController::class, 'doctorShow']);
@@ -111,3 +112,6 @@ Route::get('/doctors', [DoctorController::class, 'index']);
 Route::get('/doctors/{doctor}', [DoctorController::class, 'show']);
 Route::get('/doctors/{doctor}/profile', [DoctorController::class, 'profile']);
 Route::get('/doctors/{doctor}/availabilities', [AvailabilityController::class, 'forDoctor']);
+Route::middleware(['auth:sanctum','role:patient'])->group(function(){
+    Route::get('/acount-summary',[PatientController::class,'acountSummary']);
+});

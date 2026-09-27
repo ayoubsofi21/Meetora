@@ -19,6 +19,7 @@ import DoctorMedicalRecord from "../pages/doctor/DoctorMedicalRecord";
 import SolutionsPage from "../components/home/SolutionsPage";
 import ResourcesPage from "../components/home/ResourcesPage";
 import PricingPage from "../components/home/PricingPage";
+import AcountSummary from "../pages/patient/AcountSummary";
 export default function AppRoutes() {
   return (
     <Routes>
@@ -47,6 +48,7 @@ export default function AppRoutes() {
             <Route path="patient" element={<PatientDashboard />} />
             <Route path="patient/records" element={<MedicalRecords />} />
             <Route path="patient/prescriptions" element={<Prescriptions />} />
+            <Route path="/acount-summary" element={<AcountSummary/>}/>
           </Route>
         </Route>
       </Route>
