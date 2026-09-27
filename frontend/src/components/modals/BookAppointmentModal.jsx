@@ -1,12 +1,6 @@
 import { useEffect, useState } from 'react';
 import { patientApi } from '../../api/patientApi';
-import {
-  X,
-  Loader2,
-  AlertCircle,
-  CheckCircle2,
-} from 'lucide-react';
-
+import {  X,  Loader2,  AlertCircle,  CheckCircle2,} from 'lucide-react';
 export default function BookAppointmentModal({
   isOpen,
   onClose,
@@ -25,10 +19,6 @@ export default function BookAppointmentModal({
 
   const [error, setError] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
-
-  /*
-   * Fetch doctors when modal opens
-   */
   useEffect(() => {
     if (!isOpen) return;
 
@@ -36,15 +26,11 @@ export default function BookAppointmentModal({
       try {
         setLoadingDoctors(true);
         setError('');
-
         const res = await patientApi.getPublicDoctors();
-
         const data = res.data?.data || res.data || [];
-
         setDoctors(Array.isArray(data) ? data : []);
       } catch (err) {
         console.error('Doctors error:', err);
-
         setError(
           err.response?.data?.message ||
             'Failed to load doctors.'
@@ -53,13 +39,9 @@ export default function BookAppointmentModal({
         setLoadingDoctors(false);
       }
     };
-
     fetchDoctors();
   }, [isOpen]);
 
-  /*
-   * Fetch selected doctor's availabilities
-   */
   useEffect(() => {
     if (!selectedDoctor) {
       setAvailabilities([]);
@@ -138,9 +120,6 @@ export default function BookAppointmentModal({
       ).getDay()
     : null;
 
-  /*
-   * Only show availability matching selected date.
-   */
   const availableSlotsForDate =
     appointmentDate && selectedDoctor
       ? availabilities.filter((slot) => {
@@ -151,42 +130,23 @@ export default function BookAppointmentModal({
         })
       : [];
 
-  /*
-   * Doctor selection
-   */
   const handleDoctorChange = (e) => {
     const doctorId = e.target.value;
-
     setSelectedDoctor(doctorId);
-
-    // Reset date/slot because they belonged
-    // to the previous doctor.
     setAppointmentDate('');
     setSelectedSlot('');
     setAvailabilities([]);
     setError('');
     setSuccessMsg('');
   };
-
-  /*
-   * Date selection
-   */
   const handleDateChange = (e) => {
     setAppointmentDate(e.target.value);
-
-    // Previous slot may not belong to new date.
     setSelectedSlot('');
-
     setError('');
     setSuccessMsg('');
   };
-
-  /*
-   * Submit appointment
-   */
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     setError('');
     setSuccessMsg('');
 
@@ -251,17 +211,6 @@ export default function BookAppointmentModal({
         'Appointment booking error:',
         err.response?.data || err
       );
-
-      /*
-       * Laravel ValidationException usually:
-       *
-       * {
-       *   message: "...",
-       *   errors: {
-       *      start_time: ["..."]
-       *   }
-       * }
-       */
       const validationErrors =
         err.response?.data?.errors;
 

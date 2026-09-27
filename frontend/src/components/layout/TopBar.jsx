@@ -16,14 +16,11 @@ export default function TopBar() {
 
   return (
     <header className="h-20 bg-white border-b border-[#E2E8F0] px-4 lg:px-6 flex items-center justify-between gap-4">
-
-      {/* Search */}
       <div className="relative hidden sm:block w-full max-w-[420px]">
         <Search
           className="w-5 h-5 text-[#94A3B8] absolute left-4 top-1/2 -translate-y-1/2"
           strokeWidth={1.75}
         />
-
         <input
           type="search"
           placeholder="Search patients, events, or reports..."
@@ -36,15 +33,10 @@ export default function TopBar() {
             transition-all"
         />
       </div>
-
-      {/* Mobile Brand */}
       <p className="sm:hidden text-lg font-extrabold text-[#3F38CA]">
         Meetora
       </p>
-
-      {/* Right */}
       <div className="flex items-center gap-3 lg:gap-4">
-
         <NavLink
           to="/admin/patients"
           className={({ isActive }) =>
@@ -57,7 +49,6 @@ export default function TopBar() {
         >
           Patients
         </NavLink>
-
         <NavLink
           to="/admin/appointments"
           className={({ isActive }) =>
@@ -70,7 +61,6 @@ export default function TopBar() {
         >
           Schedule
         </NavLink>
-
         <button
           aria-label="Notifications"
           className="relative w-10 h-10 rounded-xl flex items-center justify-center
@@ -83,7 +73,6 @@ export default function TopBar() {
             bg-[#EF4444] rounded-full ring-2 ring-white"
           />
         </button>
-
         <button
           aria-label="Help"
           className="hidden sm:flex w-10 h-10 rounded-xl
@@ -93,16 +82,12 @@ export default function TopBar() {
         >
           <CircleHelp className="w-5 h-5" strokeWidth={1.75} />
         </button>
-
         <div className="hidden sm:block w-px h-9 bg-[#E2E8F0]" />
-
-        {/* User */}
         <div className="flex items-center gap-3">
           <div className="hidden sm:block text-right">
             <p className="text-sm font-semibold text-[#0F172A]">
               {user?.name || 'Administrator'}
             </p>
-
             <p className="text-xs font-medium text-[#94A3B8] mt-0.5">
               {user?.role === 'doctor'
                 ? 'Medical Practitioner'
@@ -111,7 +96,6 @@ export default function TopBar() {
                 : 'System Admin'}
             </p>
           </div>
-
           <div className="w-11 h-11 rounded-full
             bg-[#EEF2FF] text-[#3F38CA]
             border border-[#E0E7FF]

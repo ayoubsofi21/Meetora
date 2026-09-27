@@ -1,5 +1,3 @@
-// src/components/common/DoctorSearchBar.jsx
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, MapPin, ArrowRight } from 'lucide-react';
@@ -9,25 +7,18 @@ export default function DoctorSearchBar() {
 
   const [search, setSearch] = useState('');
   const [location, setLocation] = useState('');
-
   const handleSearch = (e) => {
     e.preventDefault();
-
     const params = new URLSearchParams();
-
     if (search.trim()) {
       params.append('search', search.trim());
     }
-
     if (location.trim()) {
       params.append('location', location.trim());
     }
-
     const queryString = params.toString();
-
     navigate(queryString ? `/doctors?${queryString}` : '/doctors');
   };
-
   return (
     <div
       className="w-full bg-white rounded-2xl p-3
@@ -37,7 +28,6 @@ export default function DoctorSearchBar() {
         onSubmit={handleSearch}
         className="grid grid-cols-1 md:grid-cols-12 gap-3 items-center"
       >
-        {/* Search */}
         <div
           className="md:col-span-5 h-12
             flex items-center
@@ -65,8 +55,6 @@ export default function DoctorSearchBar() {
               placeholder:text-[#94A3B8]"
           />
         </div>
-
-        {/* Location */}
         <div
           className="md:col-span-4 h-12
             flex items-center
@@ -94,8 +82,6 @@ export default function DoctorSearchBar() {
               placeholder:text-[#94A3B8]"
           />
         </div>
-
-        {/* Search Button */}
         <div className="md:col-span-3">
           <button
             type="submit"
@@ -115,9 +101,7 @@ export default function DoctorSearchBar() {
               focus:ring-offset-2"
           >
             <Search className="w-4 h-4" />
-
             <span>Find Care</span>
-
             <ArrowRight
               className="w-4 h-4 opacity-80
                 group-hover:translate-x-0.5

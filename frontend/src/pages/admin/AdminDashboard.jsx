@@ -1,14 +1,6 @@
 import { useState, useEffect } from 'react';
 import { adminApi } from '../../api/adminApi';
-import {
-  Users,
-  Stethoscope,
-  CalendarCheck,
-  TrendingUp,
-  Loader2,
-  AlertCircle,
-} from 'lucide-react';
-
+import {  Users,  Stethoscope,  CalendarCheck,  TrendingUp,  Loader2,  AlertCircle,} from 'lucide-react';
 import {
   AreaChart,
   Area,

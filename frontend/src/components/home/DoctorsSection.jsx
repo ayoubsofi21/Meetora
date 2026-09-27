@@ -1,14 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  Search,
-  MapPin,
-  Filter,
-  ArrowRight,
-  ChevronLeft,
-  ChevronRight,
-  RefreshCw,
-} from "lucide-react";
-
+import {  Search,  MapPin,  Filter,  ArrowRight,  ChevronLeft,  ChevronRight,  RefreshCw,} from "lucide-react";
 import { Link } from "react-router-dom";
 import DoctorCard from "./DoctorCard";
 import { publicApi } from "../../api/publicApi";
@@ -40,14 +31,10 @@ export default function DoctorsSection() {
     try {
         setLoading(true);
         setError(null);
-
         const response = await publicApi.getDoctors(page);
-
         console.log("DOCTORS RESPONSE:", response.data);
-
         const data = response.data?.data || [];
         const meta = response.data?.meta;
-
         setDoctors(data);
 
         if (meta) {
@@ -71,9 +58,6 @@ export default function DoctorsSection() {
     fetchDoctors();
   }, []);
 
-  // ==========================================
-  // Filter Doctors
-  // ==========================================
   const filteredDoctors = doctors.filter((doc) => {
     const docSpecialty =
       doc.specialty?.name || doc.specialty_name || doc.specialty || "";
@@ -100,10 +84,6 @@ export default function DoctorsSection() {
 
     return matchesSpecialty && matchesSearch && matchesLocation;
   });
-
-  // ==========================================
-  // Reset Filters
-  // ==========================================
   const resetFilters = () => {
     setSearchTerm("");
     setLocationTerm("");
@@ -124,10 +104,6 @@ export default function DoctorsSection() {
   return (
     <section id="doctors" className="bg-[#F8FAFC] py-16">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
-        {/* ==========================================
-            HEADER
-        ========================================== */}
-
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-5 mb-10">
           <div>
             <div
@@ -185,11 +161,6 @@ export default function DoctorsSection() {
             <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
-
-        {/* ==========================================
-            SEARCH & FILTERS
-        ========================================== */}
-
         <div
           className="
             bg-white
@@ -466,9 +437,6 @@ export default function DoctorsSection() {
                   doc.next_available || doc.nextAvailable || "Today Available",
 
                 teleconsult: doc.teleconsult ?? true,
-
-                // IMPORTANT:
-                // Image returned directly by Laravel
                 image: doc.image || null,
               };
 

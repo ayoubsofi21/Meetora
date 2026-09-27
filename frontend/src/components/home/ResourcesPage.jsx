@@ -64,7 +64,6 @@ export default function ResourcesPage() {
             administrators.
           </p>
         </div>
-
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-14">
           {resources.map(({ icon: Icon, title, description }) => (
             <div
@@ -76,11 +75,9 @@ export default function ResourcesPage() {
               <div className="w-11 h-11 rounded-xl bg-[#EEF2FF] text-[#3F38CA] flex items-center justify-center">
                 <Icon className="w-5 h-5" />
               </div>
-
               <h2 className="mt-5 font-bold text-lg">
                 {title}
               </h2>
-
               <p className="mt-2 text-sm text-[#64748B] leading-6">
                 {description}
               </p>
@@ -93,7 +90,6 @@ export default function ResourcesPage() {
           ))}
         </div>
       </main>
-
       <PublicFooter />
     </div>
   );

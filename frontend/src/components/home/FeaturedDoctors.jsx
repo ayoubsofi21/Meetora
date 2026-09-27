@@ -1,4 +1,3 @@
-// src/components/home/FeaturedDoctors.jsx
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
 import DoctorCard from './DoctorCard';
@@ -54,8 +53,6 @@ export default function FeaturedDoctors() {
   return (
     <section className="py-20 bg-[#F6FAFB]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-12">
           <div>
             <span className="text-[11px] font-extrabold uppercase tracking-wider text-[#134E5E]">
@@ -77,8 +74,6 @@ export default function FeaturedDoctors() {
             <ArrowRight className="w-4 h-4 ml-1" />
           </a>
         </div>
-
-        {/* Doctor Cards Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {doctors.map((doctor) => (
             <DoctorCard key={doctor.id} doctor={doctor} />

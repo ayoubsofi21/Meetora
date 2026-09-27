@@ -60,12 +60,10 @@ export default function PricingPage() {
           <h1 className="mt-4 text-4xl md:text-5xl font-extrabold tracking-tight">
             Choose the right plan for your healthcare needs
           </h1>
-
           <p className="mt-5 text-[#64748B] text-lg">
             Start simple and choose the plan that fits your practice.
           </p>
         </div>
-
         <div className="grid lg:grid-cols-3 gap-6 mt-16 items-stretch">
           {plans.map((plan) => (
             <div
@@ -81,27 +79,22 @@ export default function PricingPage() {
                   Most Popular
                 </span>
               )}
-
               <h2 className="text-xl font-bold">
                 {plan.name}
               </h2>
-
               <p className="mt-2 text-sm text-[#64748B] min-h-10">
                 {plan.description}
               </p>
-
               <div className="mt-6">
                 <span className="text-4xl font-extrabold">
                   {plan.price}
                 </span>
-
                 {plan.period && (
                   <span className="text-[#64748B]">
                     {plan.period}
                   </span>
                 )}
               </div>
-
               <Link
                 to="/register"
                 className={`mt-7 h-11 rounded-xl flex items-center justify-center
@@ -113,7 +106,6 @@ export default function PricingPage() {
               >
                 Get Started
               </Link>
-
               <div className="mt-7 pt-6 border-t border-[#E2E8F0] space-y-4">
                 {plan.features.map((feature) => (
                   <div
@@ -132,7 +124,6 @@ export default function PricingPage() {
           ))}
         </div>
       </main>
-
       <PublicFooter />
     </div>
   );

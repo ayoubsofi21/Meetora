@@ -1,20 +1,7 @@
 import { NavLink } from "react-router-dom";
-import {
-  LayoutDashboard,
-  Stethoscope,
-  Tags,
-  CalendarDays,
-  Users,
-  FileText,
-  BarChart3,
-  Settings,
-  Plus,
-  CircleHelp,
-  LogOut,
-} from "lucide-react";
+import {  LayoutDashboard,  Stethoscope,  Tags,  CalendarDays,  Users,  FileText,  BarChart3,  Settings,  Plus,  CircleHelp,  LogOut,} from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 import logo from "../../assets/images/logo.png";
-
 const NAV_ITEMS = [
   { to: "/admin", label: "Dashboard", icon: LayoutDashboard, end: true },
   { to: "/admin/doctors", label: "Doctors", icon: Stethoscope },
@@ -85,13 +72,11 @@ export default function Sidebar() {
             alt=""
             className="h-11 w-11 shrink-0 object-contain transition-transform duration-300 group-hover:scale-105"
           />
-
           <span className="text-xl font-extrabold tracking-tight text-[#1764E8]">
             eetora
           </span>
         </a>
       </div>
-
       <nav className="flex-1 flex flex-col gap-1 overflow-y-auto">
         {navItems.map(({ to, label, icon: Icon, end }) => (
           <NavLink key={to} to={to} end={end} className={linkClasses}>
@@ -100,13 +85,11 @@ export default function Sidebar() {
           </NavLink>
         ))}
       </nav>
-
       <div className="mt-4 space-y-1">
         <button className="flex items-center gap-3 w-full px-4 py-3 rounded-lg text-sm text-[#475569] hover:bg-[#F1F5F9] font-semibold">
           <CircleHelp className="w-5 h-5" strokeWidth={1.75} />
           Support
         </button>
-
         <button
           onClick={logout}
           className="flex items-center gap-3 w-full px-4 py-3 rounded-lg text-sm text-[#475569] hover:bg-[#F1F5F9] font-semibold"

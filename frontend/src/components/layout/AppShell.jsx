@@ -2,7 +2,6 @@ import { Outlet } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import TopBar from './TopBar';
 import BottomNav from './BottomNav';
-
 export default function AppShell() {
   return (
     <div className="min-h-screen bg-[#F8FAFC]">

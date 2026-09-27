@@ -12,7 +12,6 @@ const navLinks = [
   { name: 'Resources', path: '/resources' },
   { name: 'Pricing', path: '/pricing' },
 ];
-
   return (
     <header className="w-full h-20 bg-white border-b border-[#E2E8F0] sticky top-0 z-50">
       <div className="mx-auto h-full max-w-7xl px-6 lg:px-12 flex items-center justify-between">
@@ -26,7 +25,6 @@ const navLinks = [
             alt="Meetora"
             className="h-11 w-11 object-contain transition-transform duration-300 "
           />
-
           <span className="-ml-1 text-xl font-extrabold tracking-tight text-[#3F38CA]">
             eetora
           </span>
@@ -58,8 +56,6 @@ const navLinks = [
           </Link>
         ))}
       </nav>
-
-        {/* Desktop Actions */}
         <div className="hidden md:flex items-center gap-4">
           <Link
             to="/login"
@@ -67,7 +63,6 @@ const navLinks = [
           >
             Log In
           </Link>
-
           <Link
             to="/register"
             className="h-11 px-5 inline-flex items-center justify-center
@@ -77,8 +72,6 @@ const navLinks = [
             Get Started
           </Link>
         </div>
-
-        {/* Mobile Button */}
         <button
           type="button"
           onClick={() => setIsMobileMenuOpen((current) => !current)}
@@ -94,8 +87,6 @@ const navLinks = [
           )}
         </button>
       </div>
-
-      {/* Mobile Menu */}
       {isMobileMenuOpen && (
         <div className="md:hidden bg-white border-t border-[#E2E8F0] px-6 py-5 shadow-sm">
           <nav className="flex flex-col gap-1">
@@ -122,7 +113,6 @@ const navLinks = [
             >
               Log In
             </Link>
-
             <Link
               to="/register"
               onClick={() => setIsMobileMenuOpen(false)}

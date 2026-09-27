@@ -1,4 +1,3 @@
-// src/components/home/FeaturesSection.jsx
 import React from 'react';
 import { Clock, Sliders, HardDrive, BellRing } from 'lucide-react';
 
@@ -33,8 +32,6 @@ export default function FeaturesSection() {
   return (
     <section className="py-20 bg-[#0A2E38] text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {/* Header */}
         <div className="mb-14">
           <span className="text-[10px] font-extrabold uppercase tracking-widest text-[#00F2FE]">
             Technologie & Clinique
@@ -46,8 +43,6 @@ export default function FeaturesSection() {
             Des outils modernes conçus pour simplifier chaque étape de votre suivi de santé.
           </p>
         </div>
-
-        {/* Features Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {features.map((f, idx) => {
             const Icon = f.icon;
@@ -67,7 +62,6 @@ export default function FeaturesSection() {
             );
           })}
         </div>
-
       </div>
     </section>
   );
